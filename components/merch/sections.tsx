@@ -105,7 +105,7 @@ export function Collection() {
             <Reveal className="max-w-2xl">
               <p className="font-display text-[clamp(32px,5vw,64px)] leading-[0.98] text-form-bone">PRODUCT IMAGERY IS ON THE WAY.</p>
               <p className="mt-4 text-base leading-relaxed text-form-stone">
-                We only show the real thing. When Drop 001 photography is ready it will appear here, piece by piece. Join the waitlist to see it first.
+                We only show the real thing. When Drop 001 photography is ready it will appear here, piece by piece. Join the waitlist to be notified.
               </p>
             </Reveal>
           </>
@@ -138,7 +138,7 @@ export function EarlyAccess({ enabled }: { enabled: boolean }) {
             tone="form"
             cta="JOIN THE WAITLIST"
             success="YOU'RE ON THE LIST."
-            successNote="Thanks. We will be in touch about Drop 001."
+            successNote="Thanks. You are on the Drop 001 list."
             disabledTitle="WAITLIST OPENS SOON"
             disabledNote="The Drop 001 waitlist is not open yet. Check back shortly."
             consentLabel="Email me about Drop 001 and EZE // FORM releases."

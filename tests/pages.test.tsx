@@ -65,6 +65,7 @@ describe("/eze-fit", () => {
       "fit-mate", "fitmate", "ai coach", "ai coaching", "form feedback", "muscle visualization", "leaderboard", "challenge",
       "apple health", "health connect", "samsung", "photo analysis", "body fat", "usda", "supplement", "peptide", "diagnos", "app store badge",
       "guaranteed", "lose weight", "burn fat", "download now", "testimonial",
+      "in waves", "reach out", "be in touch", "one email", "hear first", "consistent",
     ]) {
       // "diagnos" is allowed only inside the negated disclaimer ("does not diagnose")
       if (banned === "diagnos") expect(out.replace("does not diagnose, treat, cure or prevent", "")).not.toContain(banned);

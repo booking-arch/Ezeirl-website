@@ -43,10 +43,18 @@ export default function Footer() {
             </a>
             <nav aria-label="EZE ecosystem" className="mt-6">
               <p className="text-brand-white text-xs font-mono tracking-widest uppercase mb-3">THE ECOSYSTEM</p>
-              <ul className="space-y-2">
-                <li><Link href="/" className="text-brand-muted hover:text-brand-white text-sm transition-colors duration-200">EZE IRL <span className="text-brand-subtle text-xs">— the lifestyle</span></Link></li>
-                <li><Link href="/eze-fit" className="text-brand-muted hover:text-white text-sm transition-colors duration-200">EZE-FIT <span className="text-brand-subtle text-xs">— the technology</span></Link></li>
-                <li><Link href="/merch" className="text-brand-muted hover:text-white text-sm transition-colors duration-200">EZE // FORM <span className="text-brand-subtle text-xs">— the apparel</span></Link></li>
+              <ul>
+                {[
+                  { href: "/", name: "EZE IRL", role: "the lifestyle" },
+                  { href: "/eze-fit", name: "EZE-FIT", role: "the technology" },
+                  { href: "/merch", name: "EZE // FORM", role: "the apparel" },
+                ].map((l) => (
+                  <li key={l.href}>
+                    <Link href={l.href} className="inline-flex min-h-[44px] items-center text-brand-muted hover:text-brand-white text-sm transition-colors duration-200">
+                      {l.name} <span className="ml-1.5 text-brand-muted text-xs">— {l.role}</span>
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </nav>
           </div>

@@ -147,7 +147,7 @@ export default function Navigation() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 flex flex-col bg-black/98 px-6 pb-8 pt-24 backdrop-blur-xl lg:hidden"
+            className="fixed inset-0 z-40 flex flex-col bg-black/95 px-6 pb-8 pt-24 backdrop-blur-xl lg:hidden"
             role="dialog"
             aria-modal="true"
             aria-label="Menu"

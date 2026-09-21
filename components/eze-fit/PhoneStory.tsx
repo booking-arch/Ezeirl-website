@@ -33,7 +33,7 @@ export default function PhoneStory() {
     <div className="mx-auto grid max-w-6xl gap-x-16 px-4 lg:grid-cols-[minmax(0,320px)_1fr]">
       {/* Desktop: pinned device */}
       <div className="hidden lg:block">
-        <div className="sticky top-1/2 -translate-y-1/2 py-10">
+        <div className="sticky top-[max(6rem,calc(50vh-330px))] py-2">
           <PointerTilt>
             <PhoneDevice screens={ezeFitAssets.screens} activeId={active} />
           </PointerTilt>

@@ -70,8 +70,8 @@ export const fitChapters: readonly FitChapter[] = [
     id: "progress",
     word: "PROGRESS.",
     title: "See it add up.",
-    body: "Follow measurements and trends over time, and earn points for staying consistent.",
-    points: ["Measurements and trends", "FitPoints for consistency"],
+    body: "Follow measurements and trends over time, and earn FitPoints for completed workouts and nutrition days.",
+    points: ["Measurements and trends", "FitPoints for workouts and nutrition"],
   },
   {
     id: "understand",
@@ -104,7 +104,7 @@ export const fitFaq = [
   },
   {
     q: "Can I use it today?",
-    a: "Access is by invitation while the beta runs. Request an invite and we will reach out when spots open.",
+    a: "Access is by invitation while the beta runs. Request an invite to be considered as spots open.",
   },
   {
     q: "What is the difference between requesting an invite and getting launch updates?",
@@ -135,7 +135,7 @@ export const formCopy = {
 } as const;
 
 export const formFaq = [
-  { q: "When does Drop 001 release?", a: "There is no release date yet. Join the waitlist and you will hear first." },
+  { q: "When does Drop 001 release?", a: "There is no release date yet. Join the waitlist to be notified when Drop 001 is announced." },
   { q: "Can I buy something now?", a: "Not yet. The shop is not open. This page is a preview of what is coming." },
   { q: "What does early access mean?", a: "Joining the list is how you hear about Drop 001. Details will be shared with the list as they are confirmed." },
 ] as const;

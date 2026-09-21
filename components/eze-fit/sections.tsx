@@ -136,7 +136,7 @@ export function BetaAccess({ enabled }: { enabled: boolean }) {
             <p className="font-mono text-xs tracking-[0.3em] text-fit-lime">BECOME A TESTER</p>
             <h3 className="mt-2 font-display text-4xl text-white">TRY IT FIRST</h3>
             <p className="mb-7 mt-3 text-sm leading-relaxed text-fit-mist">
-              Request an invite to the private beta. Spots are limited and invitations go out in waves.
+              Request an invite to the private beta. Spots are limited.
             </p>
             <WaitlistForm
               interests={["eze_fit_beta"]}
@@ -145,7 +145,7 @@ export function BetaAccess({ enabled }: { enabled: boolean }) {
               tone="fit"
               cta="REQUEST AN INVITE"
               success="YOU'RE ON THE LIST."
-              successNote="Thanks. If a beta spot opens, we will be in touch."
+              successNote="Thanks. Your invite request has been received."
               disabledTitle="BETA REQUESTS OPEN SOON"
               disabledNote="Invite requests are not open yet. Check back shortly."
               consentLabel="Email me about beta invitations and testing."
@@ -159,7 +159,7 @@ export function BetaAccess({ enabled }: { enabled: boolean }) {
             <p className="font-mono text-xs tracking-[0.3em] text-fit-teal">PUBLIC LAUNCH</p>
             <h3 className="mt-2 font-display text-4xl text-white">HEAR WHEN IT OPENS</h3>
             <p className="mb-7 mt-3 text-sm leading-relaxed text-fit-mist">
-              Not ready to test? Get one email when EZE-FIT opens to everyone. No beta commitment.
+              Not ready to test? Get notified when EZE-FIT opens to everyone. No beta commitment.
             </p>
             <WaitlistForm
               interests={["eze_fit_launch"]}
@@ -168,7 +168,7 @@ export function BetaAccess({ enabled }: { enabled: boolean }) {
               tone="fit"
               cta="NOTIFY ME AT LAUNCH"
               success="YOU'RE ON THE LIST."
-              successNote="Thanks. We will let you know when EZE-FIT opens to everyone."
+              successNote="Thanks. You are on the launch list."
               disabledTitle="LAUNCH LIST OPENS SOON"
               disabledNote="The launch list is not open yet. Check back shortly."
               consentLabel="Email me when EZE-FIT launches."

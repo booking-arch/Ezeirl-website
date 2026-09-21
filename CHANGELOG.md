@@ -19,6 +19,14 @@ All notable changes to this project are documented here.
 - Navigation: EZE IRL · EZE-FIT · MERCH · STREAM · PARTNERSHIPS (+ WATCH, COMMUNITY in the mobile menu).
 - `PerformanceLab`: removed an invented statistic ("90% hydration") and an unsupported claim ("tested for real results").
 
+### Fixed during final verification
+- `/eze-fit`: pinned phone overlapped the section header on tall viewports (sticky offset used a translate); now viewport-aware.
+- Mobile menu overlay used `bg-black/98` (not in Tailwind's scale, so no background at all — the page showed through); now opaque `bg-black/95`. Same bug existed in the original menu.
+- Cross-link cards used `border-white/12` (no CSS generated → default light-gray border); now `border-white/10`.
+- Copy tightened to verified facts: removed "invitations go out in waves", "we will reach out / be in touch", "get one email", "hear first / see it first", and reworded FitPoints to "completed workouts and nutrition days".
+- Footer ecosystem links: contrast (#555 → muted) and 44px tap height. Focus moves to the invalid field on a failed submit.
+- Per-route OpenGraph/Twitter images for `/eze-fit` and `/merch` (typographic only).
+
 ### Removed
 - Legacy `AppSection` (fake phone UI, unverified AI-coaching / muscle-visualization / challenges claims, red/gold "Fit-Mate" branding), `GearSection` (invented product categories/claims), `config/fitmate.ts`.
 
