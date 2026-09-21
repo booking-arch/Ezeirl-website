@@ -34,13 +34,21 @@ export default function Footer() {
           <div className="md:col-span-1">
             <div className="flex items-center gap-2.5 mb-4">
               <EZEEmblemSVG size={36} color="#c9a84c" animated={false} />
-              <span className="text-brand-white text-xl tracking-widest" style={{ fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "0.15em" }}>{brand.name}</span>
+              <span className="text-brand-white text-xl tracking-widest" style={{ fontFamily: "var(--font-bebas)", letterSpacing: "0.15em" }}>{brand.name}</span>
             </div>
             <p className="text-brand-muted text-xs font-mono tracking-widest uppercase mb-2">{brand.tagline}</p>
             <p className="text-brand-subtle text-xs font-mono mb-4">{brand.taglineAlt}</p>
             <a href={brand.domain} className="text-brand-subtle text-xs font-mono hover:text-brand-muted transition-colors duration-200" aria-label="Visit EZE IRL website">
               {brand.domain.replace("https://", "")}
             </a>
+            <nav aria-label="EZE ecosystem" className="mt-6">
+              <p className="text-brand-white text-xs font-mono tracking-widest uppercase mb-3">THE ECOSYSTEM</p>
+              <ul className="space-y-2">
+                <li><Link href="/" className="text-brand-muted hover:text-brand-white text-sm transition-colors duration-200">EZE IRL <span className="text-brand-subtle text-xs">— the lifestyle</span></Link></li>
+                <li><Link href="/eze-fit" className="text-brand-muted hover:text-white text-sm transition-colors duration-200">EZE-FIT <span className="text-brand-subtle text-xs">— the technology</span></Link></li>
+                <li><Link href="/merch" className="text-brand-muted hover:text-white text-sm transition-colors duration-200">EZE // FORM <span className="text-brand-subtle text-xs">— the apparel</span></Link></li>
+              </ul>
+            </nav>
           </div>
 
           {/* Social */}

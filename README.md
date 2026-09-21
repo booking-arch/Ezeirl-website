@@ -15,25 +15,31 @@ Official website for EZE IRL — the fitness, competition, comedy, and real-life
 - Tailwind CSS 3
 - Framer Motion 11
 - Three.js (imperative, no JSX R3F — React 19 peer compat)
-- Bebas Neue + Inter + JetBrains Mono fonts
+- Bebas Neue + Inter + JetBrains Mono (self-hosted via `next/font`)
+- Vitest (logic + server-render tests) · Neon Postgres driver (waitlist)
 
 ## Sections
 
 1. Hero — cinematic intro with 3D metallic emblem
 2. The IRL — brand pillars
 3. First Stream — countdown, event details, pending location
-4. EZE Gear — product category teasers
-5. Performance Lab — supplement/sponsor placeholders
-6. Fit-Mate App — AI fitness app preview
+4. EZE-FIT — product reveal (private beta) → `/eze-fit`
+5. EZE // FORM — Drop 001 reveal (coming soon) → `/merch`
+6. Performance Lab — supplement/sponsor placeholders
 7. Watch — content platform cards
 8. Partnerships — brand partnership positioning
 9. Community — email signup (provider-safe)
+
+## Routes
+
+`/` · `/eze-fit` · `/merch` · `/api/waitlist` (POST) · legal pages · `/sitemap.xml`
 
 ## Local Development
 
 ```bash
 npm install --legacy-peer-deps  # Required: R3F 8.x / React 19 peer dep
 npm run dev                     # http://localhost:3000
+npm test                        # Vitest
 ```
 
 ## Build
@@ -51,7 +57,8 @@ npm run start          # Preview production build locally
 | `config/social.ts` | Social platform URLs (null = not configured) |
 | `config/links.ts` | Internal and external links |
 | `config/stream.ts` | First stream date, status, location |
-| `config/fitmate.ts` | App feature status |
+| `config/ecosystem.ts` | Navigation and EZE-FIT / EZE // FORM copy (verified claims only) |
+| `config/assets.ts` | Asset manifest for real EZE-FIT screens and EZE // FORM imagery |
 | `config/env.ts` | Runtime env variable access |
 
 ## Environment Variables
@@ -59,13 +66,11 @@ npm run start          # Preview production build locally
 Copy `.env.example` to `.env.local`. Do not commit `.env.local`.
 
 Email signup is disabled until a provider is configured and the privacy policy is attorney-reviewed.
+The EZE-FIT / EZE // FORM waitlist is off unless `WAITLIST_ENABLED=true` (needs `DATABASE_URL`). See `DEPLOYMENT.md`.
 
 ## Deployment (Vercel)
 
-1. Push repository to GitHub
-2. Import at vercel.com
-3. Set env vars from `.env.example`
-4. Connect custom domain `www.ezeirl.com` after DNS is ready
+The site is already live on Vercel — see `DEPLOYMENT.md` for the current state, release flow and rollback.
 
 **STOP: Do not deploy or change DNS without Ezekiel's approval.**
 

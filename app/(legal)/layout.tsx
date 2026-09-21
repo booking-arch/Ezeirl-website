@@ -8,7 +8,7 @@ export default function LegalLayout({ children }: { children: React.ReactNode })
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2" aria-label="EZE IRL Home">
             <EZEEmblemSVG size={28} color="#c9a84c" animated={false} />
-            <span className="text-brand-white text-lg tracking-widest" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>EZE IRL</span>
+            <span className="text-brand-white text-lg tracking-widest" style={{ fontFamily: "var(--font-bebas)" }}>EZE IRL</span>
           </Link>
           <Link href="/" className="text-brand-muted text-xs font-mono tracking-widest hover:text-brand-white transition-colors uppercase">← Back</Link>
         </div>

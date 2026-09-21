@@ -66,10 +66,10 @@ export default function Hero() {
 
         <div aria-hidden="true" className="overflow-hidden mb-3">
           <motion.div initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 1.6, ease: [0.16, 1, 0.3, 1] }}>
-            <span className="block text-brand-white leading-none select-none" style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(52px, 11vw, 120px)", letterSpacing: "0.04em" }}>
+            <span className="block text-brand-white leading-none select-none" style={{ fontFamily: "var(--font-bebas)", fontSize: "clamp(52px, 11vw, 120px)", letterSpacing: "0.04em" }}>
               BAD DECISIONS.
             </span>
-            <span className="block text-brand-red leading-none select-none" style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(52px, 11vw, 120px)", letterSpacing: "0.04em" }}>
+            <span className="block text-brand-red leading-none select-none" style={{ fontFamily: "var(--font-bebas)", fontSize: "clamp(52px, 11vw, 120px)", letterSpacing: "0.04em" }}>
               BETTER STORIES.
             </span>
           </motion.div>

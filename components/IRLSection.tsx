@@ -70,7 +70,7 @@ function PillarCard({ pillar, index }: { pillar: typeof pillars[0]; index: numbe
       {/* Label */}
       <h3
         className="text-brand-white text-2xl sm:text-3xl mb-3 font-display tracking-widest transition-colors duration-200 group-hover:opacity-90"
-        style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+        style={{ fontFamily: "var(--font-bebas)" }}
       >
         {pillar.label}
       </h3>
@@ -135,7 +135,7 @@ export default function IRLSection() {
             transition={{ duration: 0.8, delay: 0.1 }}
             className="text-brand-white leading-[0.92] font-display"
             style={{
-              fontFamily: "'Bebas Neue', sans-serif",
+              fontFamily: "var(--font-bebas)",
               fontSize: "clamp(40px, 8vw, 90px)",
               letterSpacing: "0.02em",
             }}

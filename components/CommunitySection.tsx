@@ -49,7 +49,7 @@ export default function CommunitySection() {
             THE EZE CREW
           </motion.span>
 
-          <motion.h2 id="community-heading" initial={{ opacity: 0, y: 30 }} animate={headerInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay: 0.1 }} className="text-brand-white leading-[0.92] font-display mb-6" style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(36px, 7vw, 80px)", letterSpacing: "0.02em" }}>
+          <motion.h2 id="community-heading" initial={{ opacity: 0, y: 30 }} animate={headerInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay: 0.1 }} className="text-brand-white leading-[0.92] font-display mb-6" style={{ fontFamily: "var(--font-bebas)", fontSize: "clamp(36px, 7vw, 80px)", letterSpacing: "0.02em" }}>
             THIS ISN&apos;T JUST CONTENT.
             <br />
             <span className="text-brand-muted/40">IT&apos;S A MOVEMENT.</span>
@@ -76,7 +76,7 @@ export default function CommunitySection() {
                 <div className="w-8 h-8 border-2 border-brand-red rounded-full flex items-center justify-center mx-auto mb-4" aria-hidden="true">
                   <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5L5 9L13 1" stroke="#cc0000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                 </div>
-                <p className="text-brand-white font-display text-xl tracking-widest mb-2" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>YOU&apos;RE IN.</p>
+                <p className="text-brand-white font-display text-xl tracking-widest mb-2" style={{ fontFamily: "var(--font-bebas)" }}>YOU&apos;RE IN.</p>
                 <p className="text-brand-muted text-sm">Welcome to the EZE Crew. Watch for updates.</p>
               </motion.div>
             )}

@@ -2,13 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Bebas+Neue&family=JetBrains+Mono:wght@400;700&display=swap');
 
 :root {
-  --font-inter: 'Inter', system-ui, sans-serif;
-  --font-bebas: 'Bebas Neue', sans-serif;
-  --font-jetbrains: 'JetBrains Mono', monospace;
-
+  /* --font-inter / --font-bebas / --font-jetbrains are provided by next/font in app/layout.tsx */
   --color-black: #0a0a0a;
   --color-graphite: #111111;
   --color-dark: #161616;
@@ -92,6 +88,45 @@ body {
 
 .glow-gold {
   box-shadow: 0 0 40px rgba(201, 168, 76, 0.2), 0 0 80px rgba(201, 168, 76, 0.1);
+}
+
+/* Ecosystem themes — scope focus ring and selection to each brand identity */
+.theme-fit :focus-visible,
+.theme-fit:focus-visible {
+  outline-color: #c6f432;
+}
+.theme-fit ::selection {
+  background-color: rgba(198, 244, 50, 0.28);
+}
+.theme-form :focus-visible,
+.theme-form:focus-visible {
+  outline-color: #ece6da;
+}
+.theme-form ::selection {
+  background-color: rgba(236, 230, 218, 0.25);
+}
+
+/* Fine grid used behind EZE-FIT hero surfaces (pure CSS, no image request) */
+.fit-grid {
+  background-image:
+    linear-gradient(to right, rgba(198, 244, 50, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(198, 244, 50, 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+}
+
+/* Scroll reveal (components/ecosystem/Reveal.tsx). Visible by default — hidden only once JS opts in. */
+.reveal {
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal[data-reveal="hidden"] {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0);
+}
+.reveal[data-reveal="shown"] {
+  opacity: 1;
+  transform: none;
 }
 
 /* Section base */

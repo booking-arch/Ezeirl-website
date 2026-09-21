@@ -4,7 +4,7 @@ export const metadata: Metadata = { title: "Privacy Policy | EZE IRL" };
 export default function PrivacyPage() {
   return (
     <article className="prose-legal">
-      <h1 className="text-3xl font-display tracking-widest mb-2" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>Privacy Policy</h1>
+      <h1 className="text-3xl font-display tracking-widest mb-2" style={{ fontFamily: "var(--font-bebas)" }}>Privacy Policy</h1>
       <p className="text-brand-muted text-xs font-mono mb-8">Last reviewed: August 2026 — Draft pending attorney review. Not legal advice.</p>
 
       <section className="space-y-6">

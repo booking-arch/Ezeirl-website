@@ -16,6 +16,11 @@ EZE IRL public website at www.ezeirl.com. Next.js 15 / React 19 / TypeScript.
 - **Do not connect social accounts** — all are null in config/social.ts
 - **Do not send outreach** — gym-collaboration-draft is for internal review only
 - **No secrets or credentials** in committed files
+- **Do not market any EZE-FIT feature** that is not CONFIRMED (or explicitly beta-labelled) in `docs/eze-fit-feature-matrix.md`
+- **Never fabricate app screens or merchandise imagery.** Missing assets stay `null` in `config/assets.ts`
+- **Do not invent EZE // FORM prices, materials, sizes, inventory or release dates**
+- **Waitlist is gated by `WAITLIST_ENABLED`** (default off). Do not enable it until the privacy policy is attorney-reviewed
+- **Never change DNS, nameservers, Squarespace, or Google Workspace records**
 - **Install with --legacy-peer-deps** (R3F 8.x / React 19 peer conflict)
 
 ## Build Commands
@@ -24,6 +29,7 @@ EZE IRL public website at www.ezeirl.com. Next.js 15 / React 19 / TypeScript.
 npm run build       # Must pass with zero errors
 npm run typecheck   # Must pass
 npm run lint        # Warnings acceptable, errors not
+npm test            # Vitest: waitlist, analytics, pages, content-policy tests
 ```
 
 ## Config Files (edit these, not components)
@@ -31,7 +37,8 @@ npm run lint        # Warnings acceptable, errors not
 - `config/brand.ts` — brand identity
 - `config/social.ts` — set url: to real URL when account is confirmed
 - `config/stream.ts` — update status when stream is confirmed/live/ended
-- `config/fitmate.ts` — update feature statuses as app develops
+- `config/ecosystem.ts` — navigation + all EZE-FIT / EZE // FORM copy (every EZE-FIT claim must map to `docs/eze-fit-feature-matrix.md`)
+- `config/assets.ts` — asset manifest; real EZE-FIT screens / EZE // FORM product imagery are registered here
 - `config/env.ts` — runtime env vars only
 
 ## Stream State Machine
@@ -51,7 +58,7 @@ All pages in app/(legal)/ are drafts requiring attorney review before data colle
 ## Known Limitations
 
 - R3F/React 19 peer dep conflict — use --legacy-peer-deps on install
-- No email provider connected — CommunitySection shows "coming soon" state
+- No email provider connected — CommunitySection shows "coming soon" state (the EZE-FIT / EZE // FORM waitlist is separate: see ARCHITECTURE.md)
 - No real social URLs — Footer shows "SOON" badges
 - No real creator images — data-placeholder attributes mark where assets go
-- No analytics — activate only after privacy policy is finalized
+- No analytics provider — events are emitted through `lib/analytics.ts` and dropped until a provider is approved

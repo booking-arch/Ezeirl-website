@@ -26,11 +26,15 @@ worker-src blob:;
 
 **Notes:**
 - `unsafe-eval` and `unsafe-inline` on `script-src` are required by Next.js dev mode. These should be tightened with nonces in production when the CSP is hardened.
-- `fonts.googleapis.com` and `fonts.gstatic.com` are permitted for Google Fonts (Inter, Bebas Neue, JetBrains Mono).
+- Fonts (Inter, Bebas Neue, JetBrains Mono) are self-hosted by `next/font` and served from `'self'`. The `fonts.googleapis.com` / `fonts.gstatic.com` allowances are no longer needed and can be removed in a future CSP tightening.
 - `img-src: https:` is broad to allow OG image validation tools and future CDN integration. Narrow when a CDN domain is set.
 - `connect-src: https:` allows fetch calls to HTTPS endpoints. When an email provider is configured, its API domain should be added explicitly.
 
-## No-Email-Collection Policy
+## Waitlist (EZE-FIT / EZE // FORM) — legal gate
+
+`/api/waitlist` refuses to parse, store or log anything unless `WAITLIST_ENABLED` is exactly `true` (default off); the pages render an "opening soon" panel instead of inputs. When enabled: same-origin check, JSON-only, 4 KB cap, per-client rate limit (in-process; see `lib/waitlist/rate-limit.ts` for the limitation), honeypot, strict validation, parameterized SQL, generic error bodies, no email in logs, identical response for new vs repeat signups (no account-enumeration oracle). Secrets (`DATABASE_URL`) are server-only. Schema holds no health or fitness data.
+
+## No-Email-Collection Policy (Community section)
 
 The Community section (`CommunitySection.tsx`) checks `env.emailProvider` at runtime. If the value is `null` (the default), no form is rendered and no email is accepted. When an email provider is configured:
 

@@ -21,6 +21,9 @@ app/
   not-found.tsx         — Custom 404 page
   opengraph-image.tsx   — Static OG image via next/og ImageResponse (edge runtime)
   sitemap.ts            — Auto-generated sitemap
+  eze-fit/page.tsx      — /eze-fit  (EZE-FIT private beta page)
+  merch/page.tsx        — /merch    (EZE // FORM, Drop 001 coming soon)
+  api/waitlist/route.ts — POST /api/waitlist (gated by WAITLIST_ENABLED)
   (legal)/              — Route group: shared layout with back navigation
     layout.tsx          — Legal layout: header, back link, footer
     privacy/            — /privacy
@@ -44,7 +47,8 @@ All site-wide configuration lives in `config/`. Components import from config; n
 | `social.ts` | Social platform URLs — all null until confirmed |
 | `links.ts` | Internal routes and mailto links used across components |
 | `stream.ts` | Stream event data: date, platform, location, status flags |
-| `fitmate.ts` | Fit-Mate app config, features, waitlist state |
+| `ecosystem.ts` | Navigation and EZE-FIT / EZE // FORM copy (verified claims only) |
+| `assets.ts` | Typed asset manifest; `null` = awaiting approved asset |
 | `env.ts` | Runtime env vars: emailProvider, analyticsId — all null until approved |
 
 ## 3D Approach
@@ -60,7 +64,7 @@ Cleanup in `useEffect` return function:
 
 Fallback: SVG emblem renders if WebGL is unavailable or `prefers-reduced-motion: reduce` is set.
 
-## Social / Stream / Fitmate State
+## Social / Stream State
 
 - Social URLs: all `null` in `config/social.ts`. Footer renders "SOON" badges for null entries. No fabricated handles or follower counts anywhere.
 - Stream: `config/stream.ts` uses `platformUrl: null` — the "WATCH ON TWITCH" button only renders when `platformUrl` is non-null. Countdown guards against negative values with `if (diff <= 0) return zeros`.
@@ -75,3 +79,13 @@ Configured in `next.config.ts` via `headers()`:
 - `Referrer-Policy: strict-origin-when-cross-origin`
 - `Permissions-Policy: camera=(), microphone=(), geolocation=()`
 - `Content-Security-Policy` — see SECURITY.md
+
+## EZE ecosystem layer
+
+- **Identities:** EZE IRL (red/gold, existing) · EZE-FIT (`fit.*` tokens: charcoal, lime, emerald, teal) · EZE // FORM (`form.*` tokens: bone on ink). Page wrappers `theme-fit` / `theme-form` scope focus rings and selection.
+- **Assets:** `config/assets.ts` → `components/ecosystem/MediaSlot.tsx`. Production never renders a placeholder as if it were a product or app screen.
+- **Motion:** CSS + IntersectionObserver reveals (`Reveal`, visible without JS); Framer Motion only for pointer tilt / scroll drift, and only on the `full` tier from `hooks/useMotionTier.ts` (`static` = reduced motion, `lite` = touch/small/constrained, `full` = capable desktop). No WebGL for these pages.
+- **Waitlist:** `lib/waitlist/*` — `WaitlistStore` interface (Neon in production; in-memory for tests/dev only), `handler.ts` holds all request logic. Schema: `db/migrations/0001_waitlist.sql` — `waitlist_contacts` (unique normalized email) 1—N `waitlist_interests` (unique per contact+interest; `eze_fit_beta`, `eze_fit_launch`, `eze_form`; status, source, campaign, referral, consent timestamp + wording version).
+- **Analytics:** `lib/analytics.ts` — typed events, allow-listed props, no provider until approved.
+- **Commerce readiness:** `FormProduct` (id, name, colorway, views: front/back/side/detail/alt) is the seam for inventory, sizes, variants, cart and checkout; `ProductGrid` is the only component that would change.
+- **Tests:** `tests/` (Vitest, node env; server-render smoke tests via `react-dom/server`).

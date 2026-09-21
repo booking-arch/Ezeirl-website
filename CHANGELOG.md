@@ -4,6 +4,24 @@ All notable changes to this project are documented here.
 
 ---
 
+## [Unreleased] — `feat/ecosystem` — EZE ecosystem (EZE IRL · EZE-FIT · EZE // FORM)
+
+### Added
+- `/eze-fit` (private-beta product page, scroll-driven phone story, two separate waitlists, FAQ, disclaimers) and `/merch` (EZE // FORM, Drop 001 coming soon, real-asset gallery architecture, early access).
+- Homepage EZE-FIT and EZE // FORM reveals; ecosystem cross-links (footer, strip); contextual nav CTA; intentional mobile menu (Escape, scroll lock, focus return).
+- Waitlist: `/api/waitlist`, normalized contact + per-list interest schema (Neon Postgres), validation, honeypot, same-origin check, rate limit, no enumeration, **gated by `WAITLIST_ENABLED` (default off)**.
+- Analytics abstraction (`lib/analytics.ts`, 8 events, allow-listed props, GPC/DNT); no provider installed.
+- Asset architecture (`config/assets.ts`, `public/eze-{fit,form,irl}/`), motion tiers (static/lite/full), Vitest suite, sitemap + metadata + JSON-LD for both routes, `robots.txt` hides `/api/`.
+- Docs: EZE-FIT feature-verification matrix, production baseline, corrected `DEPLOYMENT.md`.
+
+### Changed
+- **Fonts now actually load.** The Google Fonts `@import` sat below the `@tailwind` rules, so browsers ignored it and Bebas Neue / Inter / JetBrains Mono never rendered in production. Now self-hosted via `next/font` (preloaded, metric-matched fallback). Visible change to the live homepage typography (toward the intended design); CLS 0.09 → 0.
+- Navigation: EZE IRL · EZE-FIT · MERCH · STREAM · PARTNERSHIPS (+ WATCH, COMMUNITY in the mobile menu).
+- `PerformanceLab`: removed an invented statistic ("90% hydration") and an unsupported claim ("tested for real results").
+
+### Removed
+- Legacy `AppSection` (fake phone UI, unverified AI-coaching / muscle-visualization / challenges claims, red/gold "Fit-Mate" branding), `GearSection` (invented product categories/claims), `config/fitmate.ts`.
+
 ## [1.0.0] — 2026-08-28 — Initial Build & Launch Preparation
 
 ### Added

@@ -39,14 +39,7 @@
 
 | Asset | Filename | Location | Dimensions | Format | Notes |
 |-------|----------|----------|-----------|--------|-------|
-| Fit-Mate Screenshot 1 | `app-screen-1.webp` | `public/images/app/` | 390×844 px | WebP | App UI — workout logging |
-| Fit-Mate Screenshot 2 | `app-screen-2.webp` | `public/images/app/` | 390×844 px | WebP | App UI — progress tracking |
-| Fit-Mate Screenshot 3 | `app-screen-3.webp` | `public/images/app/` | 390×844 px | WebP | App UI — challenges |
-| Fit-Mate Screenshot 4 | `app-screen-4.webp` | `public/images/app/` | 390×844 px | WebP | App UI — leaderboard |
-| Fit-Mate Screenshot 5 | `app-screen-5.webp` | `public/images/app/` | 390×844 px | WebP | App UI — social feed |
-| Gear Mockup 1 | `product-apparel.webp` | `public/images/products/` | 800×800 px | WebP | Apparel category hero |
-| Gear Mockup 2 | `product-training.webp` | `public/images/products/` | 800×800 px | WebP | Training gear category hero |
-| Gear Mockup 3 | `product-accessories.webp` | `public/images/products/` | 800×800 px | WebP | Accessories category hero |
+| *(superseded)* Fit-Mate screenshots / gear mockups | — | — | — | — | Replaced by the ecosystem asset structure below. |
 | Video Thumbnail 1 | `thumb-1.webp` | `public/images/watch/` | 1280×720 px | WebP | Watch section — video 1 |
 | Video Thumbnail 2 | `thumb-2.webp` | `public/images/watch/` | 1280×720 px | WebP | Watch section — video 2 |
 | Video Thumbnail 3 | `thumb-3.webp` | `public/images/watch/` | 1280×720 px | WebP | Watch section — video 3 |
@@ -58,3 +51,20 @@
 - **Alt text:** Every `<img>` must have a meaningful `alt` attribute.
 - **Compression:** Target < 150 KB for hero images, < 50 KB for thumbnails. Use Squoosh or similar.
 - **apple-touch-icon.png:** Generate from the favicon SVG at 180×180. Add to `public/` and restore the `apple` entry in `app/layout.tsx` icons config.
+
+## Ecosystem assets (EZE-FIT and EZE // FORM)
+
+Real assets only — never generated or mocked up. Register each file in `config/assets.ts`; nothing under
+these folders is displayed until it is registered. Details: `docs/assets/`.
+
+```
+public/eze-fit/   brand/ screens/ video/ promo/            EZE-FIT: runner mark, wordmark, REAL screenshots/recordings
+public/eze-form/  collection/ products/<id>/ lifestyle/ video/   EZE // FORM: REAL garment imagery
+public/eze-irl/   shared EZE IRL editorial imagery
+```
+
+Missing assets stay `null` in the manifest. In development a labelled "AWAITING APPROVED ASSET" box appears;
+in production the page shows a brand-safe typographic fallback and never a stand-in product or app screen.
+
+EZE-FIT screens must come from production-equivalent feature flags (see `docs/eze-fit-feature-matrix.md`,
+"Gating finding") using a demo account with no real health or personal data.

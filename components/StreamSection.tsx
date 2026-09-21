@@ -21,7 +21,7 @@ function getTimeLeft(): TimeLeft {
 function CountdownUnit({ value, label }: { value: number; label: string }) {
   return (
     <div className="flex flex-col items-center gap-1">
-      <span className="text-brand-white font-display text-4xl sm:text-5xl lg:text-6xl tabular-nums" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+      <span className="text-brand-white font-display text-4xl sm:text-5xl lg:text-6xl tabular-nums" style={{ fontFamily: "var(--font-bebas)" }}>
         {String(value).padStart(2, "0")}
       </span>
       <span className="text-brand-subtle text-xs font-mono tracking-widest uppercase">{label}</span>
@@ -69,7 +69,7 @@ export default function StreamSection() {
         </motion.span>
 
         {/* Heading */}
-        <motion.h2 id="stream-heading" initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay: 0.1 }} className="text-brand-white leading-[0.92] font-display mb-6" style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(36px, 7vw, 80px)", letterSpacing: "0.02em" }}>
+        <motion.h2 id="stream-heading" initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay: 0.1 }} className="text-brand-white leading-[0.92] font-display mb-6" style={{ fontFamily: "var(--font-bebas)", fontSize: "clamp(36px, 7vw, 80px)", letterSpacing: "0.02em" }}>
           {stream.name}
         </motion.h2>
 

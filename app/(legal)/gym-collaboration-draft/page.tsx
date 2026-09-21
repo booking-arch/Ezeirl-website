@@ -9,7 +9,7 @@ export default function GymCollaborationDraftPage() {
         <p className="text-brand-muted text-xs font-mono mt-1">Do not share this URL publicly. Do not submit this proposal without Ezekiel reviewing and approving every detail.</p>
       </div>
 
-      <h1 className="text-3xl font-display tracking-widest mb-2" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>Gym Filming Collaboration Proposal</h1>
+      <h1 className="text-3xl font-display tracking-widest mb-2" style={{ fontFamily: "var(--font-bebas)" }}>Gym Filming Collaboration Proposal</h1>
       <p className="text-brand-muted text-xs font-mono mb-8">Draft for Ezekiel Cruz / EZE Media — Not for distribution</p>
 
       <div className="space-y-8 text-brand-muted text-sm leading-relaxed">

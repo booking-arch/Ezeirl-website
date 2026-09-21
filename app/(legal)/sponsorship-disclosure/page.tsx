@@ -4,7 +4,7 @@ export const metadata: Metadata = { title: "Sponsorship & Affiliate Disclosure |
 export default function SponsorshipDisclosurePage() {
   return (
     <article>
-      <h1 className="text-3xl font-display tracking-widest mb-2" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>Sponsorship & Affiliate Disclosure</h1>
+      <h1 className="text-3xl font-display tracking-widest mb-2" style={{ fontFamily: "var(--font-bebas)" }}>Sponsorship & Affiliate Disclosure</h1>
       <p className="text-brand-muted text-xs font-mono mb-8">Effective: August 2026</p>
       <div className="space-y-6">
         <div>

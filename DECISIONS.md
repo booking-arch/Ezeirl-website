@@ -80,3 +80,18 @@
 **Decision:** Tailwind CSS 3.x used (not 4.x alpha/RC).
 
 **Reason:** Tailwind 4 was in alpha/RC at build date. Next.js 15 integration with Tailwind 4's new CSS-first config approach was not stable. Tailwind 3 has full support with `postcss.config.mjs`.
+
+---
+
+## Ecosystem Decisions (2026-09)
+
+- **Waitlist off by default.** Built and tested completely, but `WAITLIST_ENABLED` must be `true` to collect anything (AGENTS.md legal gate). Enabling is configuration, not a redesign.
+- **Contacts + interests, not one row per product.** One email = one contact; each list is an interest row, so a person on all three lists is not three conflicting records. Gmail dots/plus-tags are intentionally *not* collapsed.
+- **Repeat signups look identical to new ones** so the endpoint cannot be used to test whether an address is on a list.
+- **Neon via the serverless driver,** not a full ORM: two tables and one statement do not justify Prisma.
+- **In-process rate limiting** (documented limitation) behind an interface; DB constraints keep data correct regardless.
+- **Vitest without jsdom/testing-library:** logic + `react-dom/server` render tests cover the risk (claims, gate, placeholders) without a heavy stack.
+- **No new animation library.** CSS/IntersectionObserver for reveals, existing Framer Motion for tilt/drift; Three.js is not used on the new pages.
+- **`next/font` instead of the CSS `@import`.** The `@import` was invalid (after `@tailwind`) so fonts never loaded; self-hosting also fixes CLS.
+- **EZE-FIT claims are derived from evidence,** not route names: `docs/eze-fit-feature-matrix.md`. Production flags differ from dev (`FEATURE_*` are unset in production), so dev screenshots would over-represent the product.
+- **Placeholders never ship as products:** missing assets render a labelled box only outside production.

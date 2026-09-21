@@ -1,8 +1,8 @@
 export const links = {
   enterIRL: "#watch",
   joinMovement: "#community",
-  joinBeta: "#fitmate",
-  seeApp: "#fitmate",
+  joinBeta: "/eze-fit#beta-access",
+  seeApp: "/eze-fit",
   watchYoutube: null as string | null, // set when YouTube URL is confirmed
   followTiktok: null as string | null,
   followInstagram: null as string | null,

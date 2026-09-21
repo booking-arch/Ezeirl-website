@@ -26,6 +26,26 @@ const config: Config = {
           muted: "#888888",
           subtle: "#555555",
         },
+        // EZE-FIT — technology identity: charcoal, electric lime, emerald, teal
+        fit: {
+          ink: "#060908",
+          charcoal: "#0d1210",
+          panel: "#131a17",
+          line: "#22302a",
+          lime: "#c6f432",
+          "lime-dim": "#8fb01f",
+          emerald: "#0fa878",
+          teal: "#1db5a4",
+          mist: "#9db1a8",
+        },
+        // EZE // FORM — apparel identity: editorial, bone on ink
+        form: {
+          ink: "#0b0b0a",
+          ash: "#171614",
+          line: "#2b2a27",
+          bone: "#ece6da",
+          stone: "#a39d90",
+        },
       },
       fontFamily: {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],

@@ -1,5 +1,13 @@
 import type { Metadata, Viewport } from "next";
+import { Bebas_Neue, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+
+// Self-hosted by next/font at build time: preloaded, no render-blocking @import, and a size-adjusted
+// fallback so the swap does not reflow the page (CLS). The CSS variable names are the ones the
+// Tailwind config and components already reference.
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
+const bebas = Bebas_Neue({ subsets: ["latin"], weight: "400", variable: "--font-bebas", display: "swap" });
+const jetbrains = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.ezeirl.com"),
@@ -48,7 +56,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className={`scroll-smooth ${inter.variable} ${bebas.variable} ${jetbrains.variable}`}>
       <body className="bg-brand-black text-brand-white antialiased">
         <a
           href="#main-content"

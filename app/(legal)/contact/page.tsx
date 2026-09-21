@@ -16,7 +16,7 @@ export default function ContactPage() {
       <h1
         className="text-brand-white leading-none font-display mb-6"
         style={{
-          fontFamily: "'Bebas Neue', sans-serif",
+          fontFamily: "var(--font-bebas)",
           fontSize: "clamp(40px, 8vw, 80px)",
           letterSpacing: "0.02em",
         }}
