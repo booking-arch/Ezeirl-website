@@ -12,9 +12,9 @@ const jetbrains = localFont({ src: "./fonts/jetbrains-mono-latin-variable.woff2"
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.ezeirl.com"),
-  title: "EZE IRL | Bad Decisions. Better Stories.",
+  title: "EZE IRL | Discipline Creates Freedom",
   description:
-    "EZE IRL is a fitness, competition, comedy, and real-life media brand. Gym challenges, IRL adventures, real conversations, and the wins and mistakes that make life worth watching.",
+    "EZE IRL is a fitness, lifestyle and real-life media brand: training, adventure and the discipline behind it. Home of EZE-FIT, the fitness app in private beta, and EZE // FORM apparel.",
   keywords: [
     "EZE IRL", "EZE", "fitness livestream", "IRL fitness content", "gym challenges",
     "fitness comedy", "real conversations", "Los Angeles fitness creator",
@@ -29,16 +29,14 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://www.ezeirl.com",
     siteName: "EZE IRL",
-    title: "EZE IRL | Bad Decisions. Better Stories.",
+    title: "EZE IRL | Discipline Creates Freedom",
     description:
-      "Fitness. Competition. Comedy. Real conversations. EZE IRL follows the wins, mistakes, gains and unpredictable moments that make life worth watching.",
-    images: [{ url: "/images/og-image.jpg", width: 1200, height: 630, alt: "EZE IRL — Bad Decisions. Better Stories." }],
+      "Fitness. Lifestyle. Discipline. EZE IRL follows the training, the wins and the real life behind it.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "EZE IRL | Bad Decisions. Better Stories.",
-    description: "Fitness. Competition. Comedy. Real conversations. EZE IRL.",
-    images: ["/images/og-image.jpg"],
+    title: "EZE IRL | Discipline Creates Freedom",
+    description: "Fitness. Lifestyle. Discipline. EZE IRL.",
     creator: "@ezeirl",
   },
   icons: {

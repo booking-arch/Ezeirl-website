@@ -3,7 +3,7 @@ export const brand = {
   company: "EZE Media",
   creator: "EZE",
   community: "The EZE Crew",
-  tagline: "Bad decisions. Better stories.",
+  tagline: "Discipline creates freedom.",
   taglineAlt: "Real Life. No Filter.",
   domain: "https://www.ezeirl.com",
   email: "booking@ezeirl.com",

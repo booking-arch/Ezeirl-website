@@ -103,7 +103,7 @@ export default function Footer() {
       <div className="border-t border-brand-border/20">
         <div className="max-w-6xl mx-auto px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-brand-subtle text-xs font-mono">© {new Date().getFullYear()} EZE Media. All rights reserved.</p>
-          <p className="text-brand-subtle text-xs font-mono">BAD DECISIONS. BETTER STORIES.</p>
+          <p className="text-brand-subtle text-xs font-mono">DISCIPLINE CREATES FREEDOM</p>
         </div>
       </div>
     </footer>

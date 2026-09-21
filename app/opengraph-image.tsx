@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "EZE IRL — Bad Decisions. Better Stories.";
+export const alt = "EZE IRL — Discipline Creates Freedom";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -78,7 +78,7 @@ export default function OGImage() {
               marginBottom: 24,
             }}
           >
-            FITNESS · IRL · STREAM
+            FITNESS · LIFESTYLE · DISCIPLINE
           </p>
 
           {/* Brand name */}
@@ -116,7 +116,7 @@ export default function OGImage() {
               textTransform: "uppercase",
             }}
           >
-            BAD DECISIONS. BETTER STORIES.
+            DISCIPLINE CREATES FREEDOM
           </p>
         </div>
 
