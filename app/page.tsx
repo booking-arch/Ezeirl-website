@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
+import StorySection from "@/components/StorySection";
+import TileStrip from "@/components/TileStrip";
 import IRLSection from "@/components/IRLSection";
+import LifestyleSection from "@/components/LifestyleSection";
+import ClosingCta from "@/components/ClosingCta";
 import EzeFitReveal from "@/components/home/EzeFitReveal";
 import EzeFormReveal from "@/components/home/EzeFormReveal";
 import StreamSection from "@/components/StreamSection";
@@ -19,7 +23,10 @@ export default function HomePage() {
       <Navigation />
       <main id="main-content">
         <Hero />
+        <StorySection />
+        <TileStrip />
         <IRLSection />
+        <LifestyleSection />
         <EzeFitReveal />
         <EzeFormReveal />
         <StreamSection />
@@ -27,6 +34,7 @@ export default function HomePage() {
         <WatchSection />
         <PartnershipSection />
         <CommunitySection />
+        <ClosingCta />
       </main>
       <Footer />
     </>

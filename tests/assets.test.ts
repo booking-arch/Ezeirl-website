@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
-import { ezeFitAssets, ezeFormAssets, type ImageAsset } from "@/config/assets";
+import { ezeFitAssets, ezeFormAssets, ezeIrlPhotos, type ImageAsset } from "@/config/assets";
 
 const media = readFileSync("docs/assets/eze-fit-media.md", "utf8");
 const registered = (Object.entries(ezeFitAssets.screens).filter(([, v]) => v) as [string, ImageAsset][]);
@@ -49,5 +49,22 @@ describe("EZE // FORM registry", () => {
       expect(existsSync(`public${a.src}`), a.src).toBe(true);
       expect(a.alt.length).toBeGreaterThan(20);
     }
+  });
+});
+
+describe("EZE IRL photography registry", () => {
+  const photos = Object.entries(ezeIrlPhotos);
+  it("registers only files that exist, as web WebP under 300 KB, with real alt text", () => {
+    for (const [k, a] of photos) {
+      expect(existsSync(`public${a.src}`), k).toBe(true);
+      expect(statSync(`public${a.src}`).size, `${k} too heavy`).toBeLessThan(300 * 1024);
+      expect(a.alt.length, k).toBeGreaterThan(40);
+      expect(a.focal, `${k} needs a focal point`).toMatch(/^\d+% \d+%$/);
+    }
+  });
+  it("documents every photo, and keeps excluded originals out of public/", () => {
+    const doc = readFileSync("docs/assets/eze-irl-photos.md", "utf8");
+    for (const [k, a] of photos) expect(doc, k).toContain(a.src.split("/").pop());
+    expect(readdirSync("public/eze-irl/photos").length).toBe(photos.length);
   });
 });

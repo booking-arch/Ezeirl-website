@@ -26,7 +26,7 @@ export default function ContactPage() {
 
       <div
         className="w-12 h-px mb-8"
-        style={{ background: "rgba(204,0,0,0.6)" }}
+        style={{ background: "rgba(31,224,130,0.6)" }}
         aria-hidden="true"
       />
 

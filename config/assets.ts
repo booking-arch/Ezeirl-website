@@ -20,6 +20,8 @@ export interface ImageAsset {
   height: number;
   alt: string; // real, descriptive alt text — required
   blurDataURL?: string;
+  /** CSS object-position focal point so crops never cut the subject (e.g. "62% 30%"). */
+  focal?: string;
 }
 
 export interface VideoAsset {
@@ -99,3 +101,23 @@ export function hasFitScreens(): boolean {
 export function hasFormProducts(): boolean {
   return ezeFormAssets.products.some((p) => p.views.front);
 }
+
+/**
+ * EZE IRL professional photography (approved set, Drive: "Eze irl website/site photos").
+ * Masters live outside the repo; these are 941x1672 WebP copies, uncropped and ungraded on disk.
+ * Cropping/focal points are applied in CSS. Selection rationale and exclusions: docs/assets/eze-irl-photos.md.
+ */
+const photo = (name: string, alt: string, focal: string): ImageAsset => ({ src: `/eze-irl/photos/${name}.webp`, width: 941, height: 1672, alt, focal });
+
+export const ezeIrlPhotos = {
+  hero: photo("cable-row-back", "EZE seen from behind in a black long-sleeve top, cap and headphones, performing a seated cable row in front of a rack of kettlebells.", "58% 34%"),
+  portrait: photo("portrait-arms-crossed", "EZE with arms crossed and headphones on, looking straight into the camera, tattoos visible on his chest and arms.", "50% 14%"),
+  sunset: photo("sunset-calisthenics", "A man mid-air in a horizontal calisthenics jump against a sunset sky beside outdoor bleachers.", "50% 22%"),
+  cableSide: photo("cable-row-side", "EZE seated on a bench in a black long-sleeve top, cap and headphones, gripping a cable handle beside a kettlebell rack.", "48% 30%"),
+  pullUp: photo("pull-up-back", "EZE seen from behind hanging from pull-up handles in a gym.", "50% 40%"),
+  curlLow: photo("incline-curl-low", "Low-angle shot of EZE in a cap and headphones performing an incline curl on a dark gym bench.", "45% 30%"),
+  dumbbellRow: photo("dumbbell-row", "EZE in a green training tee and cap bracing on a bench while doing a heavy dumbbell row.", "50% 32%"),
+  curlRoar: photo("incline-curl-roar", "EZE in headphones roaring mid-set during an incline curl, shot from a low angle.", "48% 26%"),
+  plate: photo("plate-hold", "EZE seated holding a weight plate in a sleeveless hoodie and cap, a dark gym behind him.", "50% 34%"),
+  bench: photo("bench-rest", "EZE leaning back on a bench with eyes closed and headphones on between sets.", "50% 38%"),
+};

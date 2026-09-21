@@ -5,12 +5,12 @@ import { motion, useInView } from "framer-motion";
 import Button from "./UI/Button";
 
 const categories = [
-  { label: "Gyms & Fitness Facilities", description: "Filming collaborations, location partnerships, and member acquisition stories.", accent: "#cc0000" },
-  { label: "Fitness Apparel", description: "Performance clothing that gets worn during actual training — not just photoshoots.", accent: "#c9a84c" },
-  { label: "Workout Accessories", description: "Straps, wraps, belts, bags — the gear that earns its place in the routine.", accent: "#c9a84c" },
-  { label: "Cameras & Livestream Gear", description: "Production equipment partnerships for quality real-life content.", accent: "#cc0000" },
-  { label: "Supplements", description: "Pre-workout, protein, recovery, hydration — tested in real training. All disclosures included.", accent: "#c9a84c" },
-  { label: "Creators & Events", description: "Collab opportunities with aligned creators, competitions, and local events.", accent: "#cc0000" },
+  { label: "Gyms & Fitness Facilities", description: "Filming collaborations, location partnerships, and member acquisition stories.", accent: "#1fe082" },
+  { label: "Fitness Apparel", description: "Performance clothing that gets worn during actual training — not just photoshoots.", accent: "#d9d6cf" },
+  { label: "Workout Accessories", description: "Straps, wraps, belts, bags — the gear that earns its place in the routine.", accent: "#d9d6cf" },
+  { label: "Cameras & Livestream Gear", description: "Production equipment partnerships for quality real-life content.", accent: "#1fe082" },
+  { label: "Supplements", description: "Pre-workout, protein, recovery, hydration — tested in real training. All disclosures included.", accent: "#d9d6cf" },
+  { label: "Creators & Events", description: "Collab opportunities with aligned creators, competitions, and local events.", accent: "#1fe082" },
 ];
 
 export default function PartnershipSection() {
@@ -26,7 +26,7 @@ export default function PartnershipSection() {
       style={{ background: "linear-gradient(to bottom, #0a0a0a, #0c0c0c, #0a0a0a)" }}
       aria-labelledby="partnership-heading"
     >
-      <div className="absolute top-0 left-0 right-0 h-px opacity-15" style={{ background: "linear-gradient(to right, transparent, #c9a84c, transparent)" }} aria-hidden="true" />
+      <div className="absolute top-0 left-0 right-0 h-px opacity-15" style={{ background: "linear-gradient(to right, transparent, #d9d6cf, transparent)" }} aria-hidden="true" />
 
       <div className="max-w-6xl mx-auto">
         <div ref={headerRef} className="mb-14 sm:mb-18">

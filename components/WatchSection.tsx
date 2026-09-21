@@ -6,12 +6,12 @@ import Button from "./UI/Button";
 import { social } from "@/config/social";
 
 const categories = [
-  { id: "challenges", label: "CHALLENGES", accent: "#ff3b3b" },
-  { id: "fitness", label: "FITNESS", accent: "#ff3b3b" },
-  { id: "adventures", label: "ADVENTURES", accent: "#c9a84c" },
-  { id: "lifestyle", label: "LIFESTYLE", accent: "#c9a84c" },
+  { id: "challenges", label: "CHALLENGES", accent: "#58f0a6" },
+  { id: "fitness", label: "FITNESS", accent: "#58f0a6" },
+  { id: "adventures", label: "ADVENTURES", accent: "#d9d6cf" },
+  { id: "lifestyle", label: "LIFESTYLE", accent: "#d9d6cf" },
   { id: "irl", label: "IRL", accent: "#f5f5f5" },
-  { id: "live", label: "LIVE", accent: "#ff3b3b" },
+  { id: "live", label: "LIVE", accent: "#58f0a6" },
 ];
 
 const featuredContent = [
@@ -20,7 +20,7 @@ const featuredContent = [
     label: "FEATURED",
     title: "Videos",
     platform: "YOUTUBE",
-    platformColor: "#ff3b3b",
+    platformColor: "#58f0a6",
     description: "Long-form EZE IRL videos are on the way.",
     placeholder: true,
   },

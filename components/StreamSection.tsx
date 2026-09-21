@@ -53,8 +53,8 @@ export default function StreamSection() {
       className="py-24 sm:py-32 px-4 bg-brand-black relative overflow-hidden"
       aria-labelledby="stream-heading"
     >
-      <div className="absolute top-0 left-0 right-0 h-px opacity-30" style={{ background: "linear-gradient(to right, transparent, #cc0000, transparent)" }} aria-hidden="true" />
-      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 60% 40% at 50% 0%, rgba(139,0,0,0.08) 0%, transparent 70%)" }} aria-hidden="true" />
+      <div className="absolute top-0 left-0 right-0 h-px opacity-30" style={{ background: "linear-gradient(to right, transparent, #1fe082, transparent)" }} aria-hidden="true" />
+      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 60% 40% at 50% 0%, rgba(13,92,56,0.08) 0%, transparent 70%)" }} aria-hidden="true" />
 
       <div className="max-w-5xl mx-auto relative z-10">
         {/* Draft badge */}

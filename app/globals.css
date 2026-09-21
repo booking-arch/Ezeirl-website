@@ -10,8 +10,8 @@
   --color-dark: #161616;
   --color-card: #1a1a1a;
   --color-border: #2a2a2a;
-  --color-red: #cc0000;
-  --color-gold: #c9a84c;
+  --color-red: #1fe082;
+  --color-gold: #d9d6cf;
   --color-white: #f5f5f5;
   --color-muted: #888888;
 }
@@ -37,7 +37,7 @@ body {
 }
 
 ::selection {
-  background-color: rgba(204, 0, 0, 0.3);
+  background-color: rgba(31, 224, 130, 0.3);
   color: #f5f5f5;
 }
 
@@ -83,11 +83,11 @@ body {
 
 /* Red glow utility */
 .glow-red {
-  box-shadow: 0 0 40px rgba(204, 0, 0, 0.2), 0 0 80px rgba(204, 0, 0, 0.1);
+  box-shadow: 0 0 40px rgba(31, 224, 130, 0.2), 0 0 80px rgba(31, 224, 130, 0.1);
 }
 
 .glow-gold {
-  box-shadow: 0 0 40px rgba(201, 168, 76, 0.2), 0 0 80px rgba(201, 168, 76, 0.1);
+  box-shadow: 0 0 40px rgba(217, 214, 207, 0.2), 0 0 80px rgba(217, 214, 207, 0.1);
 }
 
 /* Ecosystem themes — scope focus ring and selection to each brand identity */
@@ -151,3 +151,40 @@ canvas {
     scroll-behavior: auto;
   }
 }
+
+/* ---- EZE IRL editorial system (approved template) ---- */
+.font-script { font-family: var(--font-script), cursive; font-weight: 400; }
+
+/* Film grain: fixed, pointer-events none, static (no animation). */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.09;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Dry-brush erosion for the big headline (mask, no extra request). */
+.distress {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='e'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='4'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 -9 7.6'/%3E%3C/filter%3E%3Crect width='320' height='320' filter='url(%23e)'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='e'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='4'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 -9 7.6'/%3E%3C/filter%3E%3Crect width='320' height='320' filter='url(%23e)'/%3E%3C/svg%3E");
+  -webkit-mask-size: 320px; mask-size: 320px;
+}
+
+/* Photographic grade: restrained desaturation keeps warm skin tones, deepens blacks. */
+.grade { filter: saturate(0.72) contrast(1.06) brightness(0.94); }
+
+/* Clip-path image reveal (used with components/ecosystem/Reveal). The OBSERVED wrapper is never clipped (a fully
+   clipped target has zero intersection and would never reveal); its children are wiped in instead. Visible without JS. */
+.reveal.mask-reveal[data-reveal="hidden"] { opacity: 1; transform: none; }
+.reveal.mask-reveal > * { clip-path: inset(0 0 0 0); transition: clip-path 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+.reveal.mask-reveal[data-reveal="hidden"] > * { clip-path: inset(0 0 100% 0); }
+
+/* Hero entrance: pure CSS, runs once, disabled by the reduced-motion rule above. */
+@keyframes hero-photo-in { from { opacity: 0; transform: scale(1.07); } to { opacity: 1; transform: scale(1); } }
+@keyframes hero-rise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+.hero-photo-in { animation: hero-photo-in 1.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.hero-rise { animation: hero-rise 1s cubic-bezier(0.16, 1, 0.3, 1) both; }

@@ -33,7 +33,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="md:col-span-1">
             <div className="flex items-center gap-2.5 mb-4">
-              <EZEEmblemSVG size={36} color="#c9a84c" animated={false} />
+              <EZEEmblemSVG size={36} color="#d9d6cf" animated={false} />
               <span className="text-brand-white text-xl tracking-widest" style={{ fontFamily: "var(--font-bebas)", letterSpacing: "0.15em" }}>{brand.name}</span>
             </div>
             <p className="text-brand-muted text-xs font-mono tracking-widest uppercase mb-2">{brand.tagline}</p>

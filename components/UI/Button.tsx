@@ -18,9 +18,9 @@ interface ButtonProps {
 
 const variantClasses = {
   primary:
-    "bg-brand-red text-white border border-brand-red hover:bg-brand-red-bright hover:border-brand-red-bright",
+    "bg-brand-red text-brand-black border border-brand-red hover:bg-brand-red-bright hover:border-brand-red-bright",
   secondary:
-    "bg-transparent text-brand-white border border-brand-border hover:border-brand-white/40",
+    "bg-transparent text-brand-white border border-brand-red/70 hover:bg-brand-red/10 hover:border-brand-red",
   ghost:
     "bg-transparent text-brand-muted border border-transparent hover:text-brand-white hover:border-brand-border",
   gold: "bg-brand-gold text-brand-black border border-brand-gold hover:bg-brand-gold-bright hover:border-brand-gold-bright font-bold",
@@ -47,7 +47,7 @@ export default function Button({
   "aria-label": ariaLabel,
 }: ButtonProps) {
   const classes = `
-    inline-flex items-center justify-center
+    inline-flex items-center justify-center rounded-full
     font-sans uppercase font-semibold
     transition-all duration-200 ease-out
     cursor-pointer select-none

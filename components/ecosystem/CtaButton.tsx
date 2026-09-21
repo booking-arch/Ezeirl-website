@@ -10,8 +10,8 @@ const tones: Record<Tone, string> = {
   "fit-outline": "bg-transparent text-white border-white/30 hover:border-fit-lime hover:text-fit-lime",
   form: "bg-form-bone text-form-ink border-form-bone hover:bg-white hover:border-white",
   "form-outline": "bg-transparent text-form-bone border-form-bone/40 hover:border-form-bone",
-  irl: "bg-brand-red text-white border-brand-red hover:bg-brand-red-bright hover:border-brand-red-bright",
-  "irl-outline": "bg-transparent text-brand-white border-brand-border hover:border-brand-white/50",
+  irl: "rounded-full bg-brand-red text-brand-black border-brand-red hover:bg-brand-red-bright hover:border-brand-red-bright",
+  "irl-outline": "rounded-full bg-transparent text-brand-white border-brand-red/70 hover:bg-brand-red/10 hover:border-brand-red",
 };
 
 interface CtaButtonProps {

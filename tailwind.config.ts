@@ -16,12 +16,13 @@ const config: Config = {
           dark: "#161616",
           card: "#1a1a1a",
           border: "#2a2a2a",
-          red: "#cc0000",
-          "red-bright": "#ff1a1a",
-          "red-dim": "#8b0000",
-          gold: "#c9a84c",
-          "gold-bright": "#e8c87a",
-          "gold-dim": "#8a6830",
+          // Token NAMES are legacy (red/gold); VALUES follow the approved EZE IRL template: neon green accent, warm off-white.
+          red: "#1fe082",
+          "red-bright": "#58f0a6",
+          "red-dim": "#0d5c38",
+          gold: "#d9d6cf",
+          "gold-bright": "#f1eee8",
+          "gold-dim": "#8d8a84",
           white: "#f5f5f5",
           muted: "#888888",
           subtle: "#858585", // was #555555 (2.6:1 on black); now >= 4.7:1 on every brand surface
@@ -51,6 +52,7 @@ const config: Config = {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
         display: ["var(--font-bebas)", "var(--font-inter)", "sans-serif"],
         mono: ["var(--font-jetbrains)", "monospace"],
+        script: ["var(--font-script)", "cursive"],
       },
       letterSpacing: {
         widest: "0.25em",
@@ -73,8 +75,8 @@ const config: Config = {
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
         glowRed: {
-          "0%, 100%": { boxShadow: "0 0 20px rgba(204, 0, 0, 0.3)" },
-          "50%": { boxShadow: "0 0 60px rgba(204, 0, 0, 0.6)" },
+          "0%, 100%": { boxShadow: "0 0 20px rgba(31, 224, 130, 0.3)" },
+          "50%": { boxShadow: "0 0 60px rgba(31, 224, 130, 0.6)" },
         },
       },
       backgroundImage: {

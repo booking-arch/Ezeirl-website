@@ -27,7 +27,7 @@ export default function OGImage() {
             position: "absolute",
             inset: 0,
             background:
-              "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(204,0,0,0.15) 0%, transparent 70%)",
+              "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(31,224,130,0.15) 0%, transparent 70%)",
           }}
         />
 
@@ -39,7 +39,7 @@ export default function OGImage() {
             left: 0,
             right: 0,
             height: 4,
-            background: "linear-gradient(to right, transparent, #cc0000, transparent)",
+            background: "linear-gradient(to right, transparent, #1fe082, transparent)",
           }}
         />
 
@@ -51,7 +51,7 @@ export default function OGImage() {
             left: 0,
             right: 0,
             height: 4,
-            background: "linear-gradient(to right, transparent, #cc0000, transparent)",
+            background: "linear-gradient(to right, transparent, #1fe082, transparent)",
           }}
         />
 
@@ -70,7 +70,7 @@ export default function OGImage() {
           {/* Eyebrow */}
           <p
             style={{
-              color: "#cc0000",
+              color: "#1fe082",
               fontSize: 18,
               fontFamily: "monospace",
               letterSpacing: "0.3em",
@@ -101,7 +101,7 @@ export default function OGImage() {
             style={{
               width: 120,
               height: 3,
-              background: "#cc0000",
+              background: "#1fe082",
               marginBottom: 28,
             }}
           />

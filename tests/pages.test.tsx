@@ -6,7 +6,7 @@ import MerchPage, { metadata as merchMeta } from "@/app/merch/page";
 import HomePage from "@/app/page";
 import sitemap from "@/app/sitemap";
 import ProductGrid from "@/components/merch/ProductGrid";
-import { ezeFitAssets, ezeFormAssets, type FormProduct } from "@/config/assets";
+import { ezeFitAssets, ezeFormAssets, ezeIrlPhotos, type FormProduct } from "@/config/assets";
 import { navItems, secondaryNav } from "@/config/ecosystem";
 
 const html = (el: React.ReactElement) => renderToStaticMarkup(el);
@@ -171,9 +171,17 @@ describe("homepage evolution", () => {
     for (const s of ["EZE // FORM", "DROP 001", "COMING SOON", "EXPLORE THE COLLECTION", "GET EARLY ACCESS"]) expect(out).toContain(s);
     expect(out).toContain('href="/merch"');
   });
-  it("keeps the existing EZE IRL content", () => {
-    for (const s of ["BAD DECISIONS.", "BETTER STORIES.", "ENTER THE IRL", "JOIN THE MOVEMENT"]) expect(out).toContain(s);
-    for (const id of ['id="home"', 'id="irl"', 'id="stream"', 'id="watch"', 'id="partnerships"', 'id="community"']) expect(out).toContain(id);
+  it("presents the approved EZE IRL identity and keeps every existing section", () => {
+    for (const t of ["DISCIPLINE", "CREATES", "Freedom", "EXPLORE EZE IRL", "JOIN THE MOVEMENT", "THIS IS", "Real training.", "FITNESS. COMEDY.", "LIVE", "BIGGER.", "never"]) expect(out).toContain(t);
+    for (const id of ['id="home"', 'id="story"', 'id="irl"', 'id="lifestyle"', 'id="stream"', 'id="watch"', 'id="partnerships"', 'id="community"', 'id="lab"', 'id="eze-fit"', 'id="eze-form"']) expect(out).toContain(id);
+    // one h1, and it starts with the brand
+    expect((out.match(/<h1/g) ?? []).length).toBe(1);
+  });
+  it("uses only registered professional photos, each with real alt text", () => {
+    const srcs = [...out.matchAll(/eze-irl%2Fphotos%2F([^&"]+)/g)].map((m) => decodeURIComponent(m[1]));
+    expect(srcs.length).toBeGreaterThan(5);
+    for (const s of new Set(srcs)) expect(Object.values(ezeIrlPhotos).some((p) => p.src.endsWith(s)), `unregistered photo ${s}`).toBe(true);
+    for (const img of out.match(/<img[^>]*>/g) ?? []) expect(img, "image without alt attribute").toMatch(/\balt=/);
   });
   it("removed the legacy Fit-Mate visuals and unverified claims", () => {
     const lower = out.toLowerCase();

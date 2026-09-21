@@ -19,6 +19,15 @@ All notable changes to this project are documented here.
 - Navigation: EZE IRL · EZE-FIT · MERCH · STREAM · PARTNERSHIPS (+ WATCH, COMMUNITY in the mobile menu).
 - `PerformanceLab`: removed an invented statistic ("90% hydration") and an unsupported claim ("tested for real results").
 
+### Homepage redesign — approved EZE IRL template + professional photography
+- New editorial homepage: **Hero** (real photo, distressed "DISCIPLINE CREATES" + green brush "Freedom", pill CTAs, side rail) → **Story** ("This is EZE IRL", photo mosaic) → **Tile strip** (Fitness / Lifestyle / EZE-FIT with the real app screen / EZE // FORM / Content) → **Training** (hairline pillar list, feature photo, snap-scroll gallery) → **Lifestyle** → EZE-FIT and EZE // FORM reveals → Stream / Performance Lab / Watch / Partnerships / Community (kept) → **closing CTA** → footer.
+- 10 professional photos from the approved set (WebP, focal points, alt text); 4 excluded with reasons: `docs/assets/eze-irl-photos.md`. Masters stay outside the repo.
+- Design system: token values remapped from red/gold to near-monochrome + neon green (`#1fe082`) + warm off-white; pill CTAs for EZE IRL; film grain, dry-brush mask, restrained photo grade; Permanent Marker script (Apache 2.0, self-hosted, latin).
+- Motion: clip-path image reveals, restrained parallax (capable desktops only), hero entrance; all disabled for reduced motion and never required (content is visible without JS).
+- Removed the Three.js hero emblem: homepage raw JS ~1036 KB → ~540 KB; Three.js no longer loads anywhere.
+- Fixed: `mask-reveal` targets could never reveal (Chrome excludes a fully clipped target from IntersectionObserver); the observed wrapper is now unclipped.
+- Deliberately not carried over from the concept: fake EZE-Fit UI, "Powered by AI / Backed by science", "AI Coach", "Real results".
+
 ### Phase 2 (real assets + polish)
 - **Real EZE-FIT screens** (Nutrition targets, Exercise library, FitPoints) captured from a production-mode build with no feature flags and a synthetic demo account; wired into the hero, homepage reveal and the pinned phone story. The Research chapter stays on the branded splash (HOLD). Provenance: `docs/assets/eze-fit-media.md`. Phone screen now sits below the device's dynamic-island band.
 - Chapter copy aligned to what the captured screens show ("targets", "exercise library with instructions", FitPoints for "completed workouts and nutrition days").

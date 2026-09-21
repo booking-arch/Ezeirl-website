@@ -10,7 +10,7 @@ const labCategories = [
     description: "Energy. Focus. Drive. The compounds that flip the switch before training.",
     icon: "⚡",
     status: "OPEN TO PARTNERS",
-    accent: "#cc0000",
+    accent: "#1fe082",
   },
   {
     id: "protein",
@@ -18,7 +18,7 @@ const labCategories = [
     description: "Recovery starts with the right fuel.",
     icon: "◈",
     status: "OPEN TO PARTNERS",
-    accent: "#c9a84c",
+    accent: "#d9d6cf",
   },
   {
     id: "recovery",
@@ -26,7 +26,7 @@ const labCategories = [
     description: "Sleep. Repair. Adapt. The overlooked side of serious training.",
     icon: "◇",
     status: "OPEN TO PARTNERS",
-    accent: "#c9a84c",
+    accent: "#d9d6cf",
   },
   {
     id: "hydration",
@@ -34,7 +34,7 @@ const labCategories = [
     description: "Every product here has to earn its place.",
     icon: "◉",
     status: "OPEN TO PARTNERS",
-    accent: "#cc0000",
+    accent: "#1fe082",
   },
   {
     id: "performance",
@@ -42,7 +42,7 @@ const labCategories = [
     description: "Creatine. Nootropics. The compounds that sharpen output over time.",
     icon: "◆",
     status: "OPEN TO PARTNERS",
-    accent: "#c9a84c",
+    accent: "#d9d6cf",
   },
 ];
 
@@ -78,7 +78,7 @@ function LabCard({ cat, index }: { cat: typeof labCategories[0]; index: number }
       {/* Label */}
       <h3
         className="text-brand-white text-lg font-display tracking-widest mb-1"
-        style={{ fontFamily: "var(--font-bebas)", color: cat.accent === "#c9a84c" ? "#e8c87a" : "#f5f5f5" }}
+        style={{ fontFamily: "var(--font-bebas)", color: cat.accent === "#d9d6cf" ? "#f1eee8" : "#f5f5f5" }}
       >
         {cat.label}
       </h3>
@@ -91,7 +91,7 @@ function LabCard({ cat, index }: { cat: typeof labCategories[0]; index: number }
         className="inline-flex items-center gap-2 text-xs font-mono tracking-widest px-2 py-1"
         style={{
           border: `1px solid ${cat.accent}55`,
-          color: cat.accent === "#cc0000" ? "#ff5c5c" : cat.accent,
+          color: cat.accent === "#1fe082" ? "#58f0a6" : cat.accent,
         }}
         aria-label="Partnership status"
       >
@@ -118,7 +118,7 @@ export default function PerformanceLab() {
     >
       <div
         className="absolute top-0 left-0 right-0 h-px opacity-15"
-        style={{ background: "linear-gradient(to right, transparent, #cc0000, transparent)" }}
+        style={{ background: "linear-gradient(to right, transparent, #1fe082, transparent)" }}
         aria-hidden="true"
       />
 

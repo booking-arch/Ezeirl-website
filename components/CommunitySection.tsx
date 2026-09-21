@@ -40,8 +40,8 @@ export default function CommunitySection() {
 
   return (
     <section id="community" className="py-24 sm:py-32 px-4 relative overflow-hidden" style={{ background: "linear-gradient(to bottom, #0a0a0a, #0b0b0b)" }} aria-labelledby="community-heading">
-      <div className="absolute top-0 left-0 right-0 h-px opacity-20" style={{ background: "linear-gradient(to right, transparent, #cc0000, transparent)" }} aria-hidden="true" />
-      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 70% 50% at 50% 100%, rgba(204,0,0,0.05) 0%, transparent 70%)" }} aria-hidden="true" />
+      <div className="absolute top-0 left-0 right-0 h-px opacity-20" style={{ background: "linear-gradient(to right, transparent, #1fe082, transparent)" }} aria-hidden="true" />
+      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 70% 50% at 50% 100%, rgba(31,224,130,0.05) 0%, transparent 70%)" }} aria-hidden="true" />
 
       <div className="max-w-4xl mx-auto text-center relative z-10">
         <div ref={headerRef}>
@@ -74,7 +74,7 @@ export default function CommunitySection() {
             {formState === "success" && (
               <motion.div key="success" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.4 }} className="border border-brand-red/40 p-8 text-center" role="status" aria-live="polite">
                 <div className="w-8 h-8 border-2 border-brand-red rounded-full flex items-center justify-center mx-auto mb-4" aria-hidden="true">
-                  <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5L5 9L13 1" stroke="#cc0000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5L5 9L13 1" stroke="#1fe082" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                 </div>
                 <p className="text-brand-white font-display text-xl tracking-widest mb-2" style={{ fontFamily: "var(--font-bebas)" }}>YOU&apos;RE IN.</p>
                 <p className="text-brand-muted text-sm">Welcome to the EZE Crew. Watch for updates.</p>
@@ -86,7 +86,7 @@ export default function CommunitySection() {
                 <div className="flex flex-col sm:flex-row gap-3">
                   <label htmlFor="community-email" className="sr-only">Email address</label>
                   <input id="community-email" type="email" value={email} onChange={(e) => { setEmail(e.target.value); setEmailError(""); }} placeholder="your@email.com" required disabled={formState === "submitting"} className="flex-1 bg-brand-graphite/60 border border-brand-border text-brand-white placeholder-brand-subtle px-4 py-3 text-sm font-mono focus:outline-none focus:border-brand-red/60 transition-colors duration-200 disabled:opacity-50" aria-required="true" aria-describedby={emailError ? "email-error" : undefined} aria-invalid={!!emailError} autoComplete="email" />
-                  <button type="submit" disabled={formState === "submitting" || !email} className="px-6 py-3 bg-brand-red text-white text-xs font-semibold tracking-widest uppercase hover:bg-brand-red-bright transition-colors duration-200 disabled:opacity-40 disabled:pointer-events-none" aria-label="Submit email signup">
+                  <button type="submit" disabled={formState === "submitting" || !email} className="px-6 py-3 bg-brand-red text-brand-black text-xs font-semibold tracking-widest uppercase hover:bg-brand-red-bright transition-colors duration-200 disabled:opacity-40 disabled:pointer-events-none" aria-label="Submit email signup">
                     {formState === "submitting" ? "JOINING..." : "JOIN"}
                   </button>
                 </div>

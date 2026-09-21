@@ -1,105 +1,72 @@
-"use client";
+import CtaButton from "@/components/ecosystem/CtaButton";
+import { ezeIrlPhotos } from "@/config/assets";
+import ParallaxPhoto from "@/components/irl/ParallaxPhoto";
 
-import { useRef } from "react";
-import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
-import dynamic from "next/dynamic";
-import Button from "./UI/Button";
-import { brand } from "@/config/brand";
-import { links } from "@/config/links";
+const side = ["FITNESS", "LIFESTYLE", "DISCIPLINE", "MORE"] as const;
+const mantra = ["TRAIN", "FUEL", "IMPROVE", "EXPLORE", "BUILD", "REPEAT"] as const;
 
-const HeroEmblem3D = dynamic(() => import("./3D/HeroEmblem3D"), {
-  ssr: false,
-  loading: () => (
-    <div className="w-full h-full flex items-center justify-center" aria-hidden="true">
-      <div className="w-32 h-32 border border-brand-gold/20 animate-pulse rounded-sm" />
-    </div>
-  ),
-});
-
+/** Homepage hero. One photograph, minimal copy, the wordmark lives in the nav. LCP element is the image. */
 export default function Hero() {
-  const heroRef = useRef<HTMLElement>(null);
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const springX = useSpring(mouseX, { stiffness: 50, damping: 20 });
-  const springY = useSpring(mouseY, { stiffness: 50, damping: 20 });
-  const parallaxX = useTransform(springX, [-0.5, 0.5], [-12, 12]);
-  const parallaxY = useTransform(springY, [-0.5, 0.5], [-8, 8]);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    const rect = heroRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    mouseX.set((e.clientX - rect.left) / rect.width - 0.5);
-    mouseY.set((e.clientY - rect.top) / rect.height - 0.5);
-  };
-
   return (
-    <section
-      id="home"
-      ref={heroRef}
-      onMouseMove={handleMouseMove}
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-brand-black"
-      aria-labelledby="hero-heading"
-    >
-      {/* Background */}
-      <div className="absolute inset-0 z-0" aria-hidden="true">
-        <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 80% 60% at 50% -10%, rgba(139,0,0,0.18) 0%, transparent 70%)" }} />
-        <div className="absolute inset-0 opacity-[0.025]" style={{ backgroundImage: "linear-gradient(rgba(245,245,245,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(245,245,245,0.3) 1px, transparent 1px)", backgroundSize: "80px 80px" }} />
+    <section id="home" aria-labelledby="hero-heading" className="grain relative isolate flex min-h-[100svh] items-end overflow-hidden bg-brand-black lg:items-center">
+      {/* Photograph: full-bleed on mobile, right-hand column on desktop (stays near native resolution). */}
+      <div className="hero-photo-in absolute inset-0 -z-10 lg:left-[40%] lg:[mask-image:linear-gradient(to_right,transparent_0%,#000_30%)]">
+        <ParallaxPhoto asset={ezeIrlPhotos.hero} priority sizes="(min-width: 1024px) 60vw, 100vw" focal="60% 30%" travel={5} />
       </div>
+      {/* Legibility + depth */}
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-t from-brand-black via-brand-black/55 to-brand-black/10 lg:bg-gradient-to-r lg:from-brand-black lg:via-brand-black/30 lg:to-transparent" />
+      <div aria-hidden="true" className="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-t from-brand-black to-transparent" />
 
-      {/* 3D Emblem */}
-      <motion.div style={{ x: parallaxX, y: parallaxY }} className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none select-none" aria-hidden="true">
-        <div className="w-80 h-80 sm:w-96 sm:h-96 lg:w-[480px] lg:h-[480px] opacity-70">
-          <HeroEmblem3D />
-        </div>
-      </motion.div>
+      <div className="relative mx-auto grid w-full max-w-7xl grid-cols-1 gap-8 px-5 pb-14 pt-32 sm:px-8 lg:grid-cols-[1fr_auto] lg:pb-0 lg:pt-24">
+        <div className="max-w-[46rem]">
+          <ul aria-hidden="true" className="hero-rise mb-8 hidden gap-1 font-mono text-[11px] tracking-[0.3em] text-brand-white/70 lg:flex lg:flex-col" style={{ animationDelay: "0.5s" }}>
+            {side.map((s) => (
+              <li key={s}>{s}</li>
+            ))}
+          </ul>
 
-      {/* Red flash */}
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: [0, 0.6, 0] }} transition={{ duration: 1.8, delay: 0.3, ease: "easeOut" }} className="absolute inset-0 z-5 pointer-events-none" style={{ background: "radial-gradient(ellipse 60% 40% at 50% 40%, rgba(204,0,0,0.25) 0%, transparent 70%)" }} aria-hidden="true" />
-
-      {/* Content */}
-      <div className="relative z-20 flex flex-col items-center text-center px-4 pt-20">
-        <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.4 }} className="block text-brand-red-bright text-xs font-mono tracking-[0.35em] uppercase mb-6" aria-hidden="true">
-          EZE IRL
-        </motion.span>
-
-        <h1 id="hero-heading" className="sr-only">EZE IRL — Bad Decisions. Better Stories.</h1>
-
-        <div aria-hidden="true" className="overflow-hidden mb-3">
-          <motion.div initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 1.6, ease: [0.16, 1, 0.3, 1] }}>
-            <span className="block text-brand-white leading-none select-none" style={{ fontFamily: "var(--font-bebas)", fontSize: "clamp(52px, 11vw, 120px)", letterSpacing: "0.04em" }}>
-              BAD DECISIONS.
+          <h1 id="hero-heading" className="hero-rise" style={{ animationDelay: "0.25s" }}>
+            <span className="sr-only">EZE IRL — </span>
+            <span className="distress block font-display text-[clamp(60px,16.5vw,168px)] leading-[0.84] lg:text-[clamp(72px,9.4vw,138px)] tracking-[0.005em] text-brand-white">
+              DISCIPLINE
+              <br />
+              CREATES
             </span>
-            <span className="block text-brand-red leading-none select-none" style={{ fontFamily: "var(--font-bebas)", fontSize: "clamp(52px, 11vw, 120px)", letterSpacing: "0.04em" }}>
-              BETTER STORIES.
+            <span className="font-script -mt-2 block -rotate-3 text-[clamp(64px,21vw,190px)] leading-[0.9] lg:text-[clamp(80px,11.5vw,172px)] text-brand-red [text-shadow:0_0_40px_rgba(31,224,130,0.25)] sm:-mt-4">
+              Freedom
             </span>
-          </motion.div>
+          </h1>
+
+          <p className="hero-rise mt-6 max-w-sm font-mono text-[11px] leading-relaxed tracking-[0.28em] text-brand-white/80 sm:text-xs" style={{ animationDelay: "0.55s" }}>
+            MORE THAN A WORKOUT.
+            <br />A HIGHER STATE.
+          </p>
+
+          <div className="hero-rise mt-9 flex flex-col gap-3 sm:flex-row" style={{ animationDelay: "0.7s" }}>
+            <CtaButton href="#story" tone="irl">
+              EXPLORE EZE IRL
+            </CtaButton>
+            <CtaButton href="#community" tone="irl-outline">
+              JOIN THE MOVEMENT
+            </CtaButton>
+          </div>
         </div>
 
-        <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 2.4 }} className="text-brand-gold text-xs sm:text-sm font-mono tracking-[0.35em] uppercase mb-4">
-          {brand.taglineAlt}
-        </motion.p>
-
-        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 2.7 }} className="text-brand-muted text-xs tracking-[0.2em] uppercase mb-10">
-          {brand.themes.join(" • ")}
-        </motion.p>
-
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 2.9 }} className="flex flex-col sm:flex-row items-center gap-4">
-          <Button variant="primary" size="lg" href={links.enterIRL}>ENTER THE IRL</Button>
-          <Button variant="secondary" size="lg" href={links.joinMovement}>JOIN THE MOVEMENT</Button>
-        </motion.div>
-
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, delay: 3.6 }} className="mt-16 flex flex-col items-center gap-2" aria-hidden="true">
-          <span className="text-brand-subtle text-xs tracking-widest uppercase font-mono">Scroll</span>
-          <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }} className="w-px h-8 bg-gradient-to-b from-brand-subtle to-transparent" />
-        </motion.div>
+        {/* Right rail (desktop): handwritten tagline + mantra, as in the approved concept */}
+        <aside aria-hidden="true" className="hero-rise hidden max-w-[11rem] flex-col items-start justify-center gap-7 text-right lg:flex" style={{ animationDelay: "0.9s" }}>
+          <p className="font-script -rotate-3 self-end text-3xl leading-[1.05] text-brand-white/90">
+            Same mindset.
+            <br />A higher you.
+          </p>
+          <ul className="self-end font-mono text-[11px] leading-[1.9] tracking-[0.3em] text-brand-white/70">
+            {mantra.map((m) => (
+              <li key={m}>{m}</li>
+            ))}
+          </ul>
+          <p className="font-script -rotate-3 self-end text-2xl leading-tight text-brand-red">Better than yesterday.</p>
+          <p className="self-end font-mono text-[10px] tracking-[0.3em] text-brand-white/60">LOS ANGELES · 2026</p>
+        </aside>
       </div>
-
-      {/* Creator portrait placeholder */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-15 w-64 sm:w-80 lg:w-96 pointer-events-none select-none" aria-hidden="true" data-placeholder="hero-creator-portrait">
-        <div className="w-full aspect-[3/4] opacity-0" />
-      </div>
-
-      <div className="absolute bottom-0 left-0 right-0 h-48 z-15 pointer-events-none" style={{ background: "linear-gradient(to top, #0a0a0a 0%, transparent 100%)" }} aria-hidden="true" />
     </section>
   );
 }

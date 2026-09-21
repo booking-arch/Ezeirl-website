@@ -14,7 +14,7 @@ export default function NotFound() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 60% 40% at 50% 50%, rgba(204,0,0,0.06) 0%, transparent 70%)",
+            "radial-gradient(ellipse 60% 40% at 50% 50%, rgba(31,224,130,0.06) 0%, transparent 70%)",
         }}
         aria-hidden="true"
       />
@@ -24,7 +24,7 @@ export default function NotFound() {
         className="absolute top-0 left-0 right-0 h-px"
         style={{
           background:
-            "linear-gradient(to right, transparent, #cc0000, transparent)",
+            "linear-gradient(to right, transparent, #1fe082, transparent)",
           opacity: 0.4,
         }}
         aria-hidden="true"
@@ -53,7 +53,7 @@ export default function NotFound() {
         {/* Divider */}
         <div
           className="w-16 h-px mx-auto mb-6"
-          style={{ background: "rgba(204,0,0,0.5)" }}
+          style={{ background: "rgba(31,224,130,0.5)" }}
           aria-hidden="true"
         />
 
@@ -68,7 +68,7 @@ export default function NotFound() {
         {/* CTA */}
         <Link
           href="/"
-          className="inline-flex items-center gap-2 bg-brand-red text-white text-xs font-semibold tracking-[0.2em] uppercase px-8 py-4 hover:bg-red-700 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-red focus-visible:outline-offset-4"
+          className="inline-flex items-center gap-2 bg-brand-red text-brand-black text-xs font-semibold tracking-[0.2em] uppercase px-8 py-4 hover:bg-red-700 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-red focus-visible:outline-offset-4"
         >
           ← BACK TO EZE IRL
         </Link>

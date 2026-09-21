@@ -7,6 +7,7 @@ import "./globals.css";
 // the swap does not shift layout (CLS). CSS variable names are the ones Tailwind and components already use.
 const inter = localFont({ src: "./fonts/inter-latin-variable.woff2", weight: "100 900", variable: "--font-inter", display: "swap", adjustFontFallback: "Arial" });
 const bebas = localFont({ src: "./fonts/bebas-neue-400-latin.woff2", weight: "400", variable: "--font-bebas", display: "swap", adjustFontFallback: "Arial" });
+const script = localFont({ src: "./fonts/permanent-marker-latin.woff2", weight: "400", variable: "--font-script", display: "swap", adjustFontFallback: false, fallback: ["cursive"] });
 const jetbrains = localFont({ src: "./fonts/jetbrains-mono-latin-variable.woff2", weight: "100 800", variable: "--font-jetbrains", display: "swap", adjustFontFallback: "Arial" });
 
 export const metadata: Metadata = {
@@ -56,11 +57,11 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`scroll-smooth ${inter.variable} ${bebas.variable} ${jetbrains.variable}`}>
+    <html lang="en" className={`scroll-smooth ${inter.variable} ${bebas.variable} ${jetbrains.variable} ${script.variable}`}>
       <body className="bg-brand-black text-brand-white antialiased">
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-brand-red focus:text-white focus:text-sm focus:font-mono focus:tracking-widest"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-brand-red focus:text-brand-black focus:text-sm focus:font-mono focus:tracking-widest"
         >
           Skip to main content
         </a>
