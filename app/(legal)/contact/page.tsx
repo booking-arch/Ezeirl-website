@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <div>
-      <p className="text-brand-red text-xs font-mono tracking-[0.3em] uppercase mb-4">
+      <p className="text-brand-red-bright text-xs font-mono tracking-[0.3em] uppercase mb-4">
         GET IN TOUCH
       </p>
 

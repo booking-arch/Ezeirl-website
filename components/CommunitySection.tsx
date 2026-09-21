@@ -45,14 +45,14 @@ export default function CommunitySection() {
 
       <div className="max-w-4xl mx-auto text-center relative z-10">
         <div ref={headerRef}>
-          <motion.span initial={{ opacity: 0, y: 10 }} animate={headerInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6 }} className="block text-brand-red text-xs font-mono tracking-[0.3em] uppercase mb-6">
+          <motion.span initial={{ opacity: 0, y: 10 }} animate={headerInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6 }} className="block text-brand-red-bright text-xs font-mono tracking-[0.3em] uppercase mb-6">
             THE EZE CREW
           </motion.span>
 
           <motion.h2 id="community-heading" initial={{ opacity: 0, y: 30 }} animate={headerInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay: 0.1 }} className="text-brand-white leading-[0.92] font-display mb-6" style={{ fontFamily: "var(--font-bebas)", fontSize: "clamp(36px, 7vw, 80px)", letterSpacing: "0.02em" }}>
             THIS ISN&apos;T JUST CONTENT.
             <br />
-            <span className="text-brand-muted/40">IT&apos;S A MOVEMENT.</span>
+            <span className="text-brand-muted/80">IT&apos;S A MOVEMENT.</span>
           </motion.h2>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={headerInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay: 0.3 }} className="mb-10">
@@ -90,8 +90,8 @@ export default function CommunitySection() {
                     {formState === "submitting" ? "JOINING..." : "JOIN"}
                   </button>
                 </div>
-                {emailError && <p id="email-error" className="text-brand-red text-xs font-mono text-left" role="alert" aria-live="assertive">{emailError}</p>}
-                {formState === "error" && <p className="text-brand-red text-xs font-mono" role="alert" aria-live="assertive">Something went wrong. Please try again.</p>}
+                {emailError && <p id="email-error" className="text-brand-red-bright text-xs font-mono text-left" role="alert" aria-live="assertive">{emailError}</p>}
+                {formState === "error" && <p className="text-brand-red-bright text-xs font-mono" role="alert" aria-live="assertive">Something went wrong. Please try again.</p>}
                 <p className="text-brand-subtle text-xs font-mono leading-relaxed text-left">
                   By joining, you agree to receive occasional updates from EZE IRL. No spam. Unsubscribe anytime. See our <a href="/privacy" className="underline hover:text-brand-muted transition-colors">Privacy Policy</a>.
                 </p>

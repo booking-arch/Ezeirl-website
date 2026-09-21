@@ -24,7 +24,7 @@ const config: Config = {
           "gold-dim": "#8a6830",
           white: "#f5f5f5",
           muted: "#888888",
-          subtle: "#555555",
+          subtle: "#858585", // was #555555 (2.6:1 on black); now >= 4.7:1 on every brand surface
         },
         // EZE-FIT — technology identity: charcoal, electric lime, emerald, teal
         fit: {

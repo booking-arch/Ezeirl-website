@@ -64,7 +64,7 @@ export default function StreamSection() {
         </motion.div>
 
         {/* Eyebrow */}
-        <motion.span initial={{ opacity: 0, x: -20 }} animate={inView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.6 }} className="block text-brand-red text-xs font-mono tracking-[0.3em] uppercase mb-4">
+        <motion.span initial={{ opacity: 0, x: -20 }} animate={inView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.6 }} className="block text-brand-red-bright text-xs font-mono tracking-[0.3em] uppercase mb-4">
           First Public IRL Stream
         </motion.span>
 
@@ -88,7 +88,7 @@ export default function StreamSection() {
             <p className="text-brand-white text-sm font-semibold">
               Planned: {stream.platform}
               {stream.platformStatus === "not-configured" && (
-                <span className="ml-2 text-brand-subtle text-xs">(account pending)</span>
+                <span className="ml-2 text-brand-subtle text-xs">(coming soon)</span>
               )}
             </p>
           </div>
@@ -124,11 +124,11 @@ export default function StreamSection() {
         {/* Details grid */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay: 0.4 }} className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
           <div className="border border-brand-border/40 p-5">
-            <p className="text-brand-red text-xs font-mono tracking-widest uppercase mb-2">Concept</p>
+            <p className="text-brand-red-bright text-xs font-mono tracking-widest uppercase mb-2">Concept</p>
             <p className="text-brand-muted text-sm leading-relaxed">{stream.concept}</p>
           </div>
           <div className="border border-brand-border/40 p-5">
-            <p className="text-brand-red text-xs font-mono tracking-widest uppercase mb-2">Crew</p>
+            <p className="text-brand-red-bright text-xs font-mono tracking-widest uppercase mb-2">Crew</p>
             <p className="text-brand-muted text-sm">EZE + Brandon Leigh</p>
             <p className="text-brand-subtle text-xs mt-1">{stream.crewSize}-person production</p>
           </div>

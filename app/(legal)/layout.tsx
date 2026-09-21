@@ -13,7 +13,7 @@ export default function LegalLayout({ children }: { children: React.ReactNode })
           <Link href="/" className="text-brand-muted text-xs font-mono tracking-widest hover:text-brand-white transition-colors uppercase">← Back</Link>
         </div>
       </header>
-      <main className="max-w-4xl mx-auto px-4 py-12 sm:py-16">
+      <main id="main-content" className="max-w-4xl mx-auto px-4 py-12 sm:py-16">
         {children}
       </main>
       <footer className="border-t border-brand-border/40 px-4 py-6 text-center">

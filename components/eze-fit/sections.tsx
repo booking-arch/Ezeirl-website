@@ -42,7 +42,7 @@ export function FitHero() {
         </div>
 
         <PointerTilt className="mt-2 lg:mt-0">
-          <PhoneDevice screens={ezeFitAssets.screens} activeId="track" priority />
+          <PhoneDevice screens={{ ...ezeFitAssets.screens, train: null, progress: null, understand: null }} activeId="track" priority />
         </PointerTilt>
       </div>
     </section>

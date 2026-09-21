@@ -58,7 +58,7 @@ export default function Hero() {
 
       {/* Content */}
       <div className="relative z-20 flex flex-col items-center text-center px-4 pt-20">
-        <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.4 }} className="block text-brand-red text-xs font-mono tracking-[0.35em] uppercase mb-6" aria-hidden="true">
+        <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.4 }} className="block text-brand-red-bright text-xs font-mono tracking-[0.35em] uppercase mb-6" aria-hidden="true">
           EZE IRL
         </motion.span>
 

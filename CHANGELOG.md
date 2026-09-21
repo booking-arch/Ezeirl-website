@@ -19,6 +19,15 @@ All notable changes to this project are documented here.
 - Navigation: EZE IRL · EZE-FIT · MERCH · STREAM · PARTNERSHIPS (+ WATCH, COMMUNITY in the mobile menu).
 - `PerformanceLab`: removed an invented statistic ("90% hydration") and an unsupported claim ("tested for real results").
 
+### Phase 2 (real assets + polish)
+- **Real EZE-FIT screens** (Nutrition targets, Exercise library, FitPoints) captured from a production-mode build with no feature flags and a synthetic demo account; wired into the hero, homepage reveal and the pinned phone story. The Research chapter stays on the branded splash (HOLD). Provenance: `docs/assets/eze-fit-media.md`. Phone screen now sits below the device's dynamic-island band.
+- Chapter copy aligned to what the captured screens show ("targets", "exercise library with instructions", FitPoints for "completed workouts and nutrition days").
+- **Contrast:** zero axe violations on `/`, `/eze-fit`, `/merch`, `/privacy` at desktop and mobile. `brand.subtle` #555 → #858585; small red eyebrows use the bright red; dimmed display headings raised to 80 %. Footer links and nav logo now 44 px tall. Legal pages: skip link now has a target (`#main-content`), mailto links underlined.
+- **Placeholders removed:** Performance Lab "PRODUCT IMAGE" boxes / "PARTNER SLOT OPEN" / "disclosure will appear here"; Watch section fake video cards with play buttons and the unsupported "New content drops weekly" claim; "(account pending)". Replaced with branded coming-soon states.
+- **Fonts self-hosted** (`app/fonts/`, `next/font/local`, docs/fonts.md): builds no longer contact Google.
+- Homepage `<link rel="canonical">` added. Domain-routing findings documented (docs/domain-routing.md); nothing changed.
+- EZE // FORM imagery: acquisition blocked (no `clothing` folder or images in the authorized Drive tree). Import procedure ready: docs/assets/eze-form-drop-001.md.
+
 ### Fixed during final verification
 - `/eze-fit`: pinned phone overlapped the section header on tall viewports (sticky offset used a translate); now viewport-aware.
 - Mobile menu overlay used `bg-black/98` (not in Tailwind's scale, so no background at all — the page showed through); now opaque `bg-black/95`. Same bug existed in the original menu.

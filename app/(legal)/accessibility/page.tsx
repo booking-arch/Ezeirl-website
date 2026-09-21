@@ -31,7 +31,7 @@ export default function AccessibilityPage() {
         </div>
         <div>
           <h2 className="text-brand-white text-lg font-semibold mb-2">Feedback</h2>
-          <p className="text-brand-muted text-sm leading-relaxed">If you encounter a barrier, please contact us: <a href="mailto:booking@ezeirl.com" className="text-brand-gold hover:underline">booking@ezeirl.com</a>. We take accessibility reports seriously.</p>
+          <p className="text-brand-muted text-sm leading-relaxed">If you encounter a barrier, please contact us: <a href="mailto:booking@ezeirl.com" className="text-brand-gold underline underline-offset-2">booking@ezeirl.com</a>. We take accessibility reports seriously.</p>
         </div>
       </div>
     </article>

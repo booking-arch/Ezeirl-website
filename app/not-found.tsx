@@ -32,7 +32,7 @@ export default function NotFound() {
 
       <main className="relative z-10 text-center max-w-xl mx-auto" id="main-content">
         {/* Eyebrow */}
-        <p className="text-brand-red text-xs font-mono tracking-[0.35em] uppercase mb-6">
+        <p className="text-brand-red-bright text-xs font-mono tracking-[0.35em] uppercase mb-6">
           Error 404
         </p>
 

@@ -87,7 +87,7 @@ export default function Navigation() {
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between sm:h-20">
-            <Link href="/" className="group flex items-center gap-2.5" aria-label="EZE IRL home">
+            <Link href="/" className="group flex min-h-[44px] items-center gap-2.5" aria-label="EZE IRL home">
               <EZEEmblemSVG size={32} color="#c9a84c" animated={false} />
               <span className="font-display text-xl tracking-[0.15em] text-brand-white transition-colors duration-200 group-hover:text-brand-gold" style={{ fontFamily: "var(--font-bebas)" }}>
                 EZE IRL

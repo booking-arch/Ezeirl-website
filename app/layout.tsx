@@ -1,13 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Bebas_Neue, Inter, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-// Self-hosted by next/font at build time: preloaded, no render-blocking @import, and a size-adjusted
-// fallback so the swap does not reflow the page (CLS). The CSS variable names are the ones the
-// Tailwind config and components already reference.
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
-const bebas = Bebas_Neue({ subsets: ["latin"], weight: "400", variable: "--font-bebas", display: "swap" });
-const jetbrains = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains", display: "swap" });
+// Self-hosted, latin subset (see docs/fonts.md). The files are the exact woff2 bytes Google Fonts served through
+// next/font, committed so builds never depend on fonts.googleapis.com. Preloaded, with a size-adjusted fallback so
+// the swap does not shift layout (CLS). CSS variable names are the ones Tailwind and components already use.
+const inter = localFont({ src: "./fonts/inter-latin-variable.woff2", weight: "100 900", variable: "--font-inter", display: "swap", adjustFontFallback: "Arial" });
+const bebas = localFont({ src: "./fonts/bebas-neue-400-latin.woff2", weight: "400", variable: "--font-bebas", display: "swap", adjustFontFallback: "Arial" });
+const jetbrains = localFont({ src: "./fonts/jetbrains-mono-latin-variable.woff2", weight: "100 800", variable: "--font-jetbrains", display: "swap", adjustFontFallback: "Arial" });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.ezeirl.com"),

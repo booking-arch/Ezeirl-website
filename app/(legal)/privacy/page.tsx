@@ -26,11 +26,11 @@ export default function PrivacyPage() {
         </div>
         <div>
           <h2 className="text-brand-white text-lg font-semibold mb-2">Your Rights</h2>
-          <p className="text-brand-muted text-sm leading-relaxed">You may request removal of your information at any time by emailing <a href="mailto:booking@ezeirl.com" className="text-brand-gold hover:underline">booking@ezeirl.com</a>. California residents may have additional rights under CCPA.</p>
+          <p className="text-brand-muted text-sm leading-relaxed">You may request removal of your information at any time by emailing <a href="mailto:booking@ezeirl.com" className="text-brand-gold underline underline-offset-2">booking@ezeirl.com</a>. California residents may have additional rights under CCPA.</p>
         </div>
         <div>
           <h2 className="text-brand-white text-lg font-semibold mb-2">Contact</h2>
-          <p className="text-brand-muted text-sm leading-relaxed">Privacy questions: <a href="mailto:booking@ezeirl.com" className="text-brand-gold hover:underline">booking@ezeirl.com</a></p>
+          <p className="text-brand-muted text-sm leading-relaxed">Privacy questions: <a href="mailto:booking@ezeirl.com" className="text-brand-gold underline underline-offset-2">booking@ezeirl.com</a></p>
         </div>
         <div className="border border-brand-border/40 p-4 mt-8">
           <p className="text-brand-subtle text-xs font-mono">⚠ This draft requires attorney review before activation of any data collection. Do not activate email signup or analytics until this policy is finalized.</p>

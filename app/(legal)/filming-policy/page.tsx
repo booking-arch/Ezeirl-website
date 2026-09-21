@@ -29,7 +29,7 @@ export default function FilmingPolicyPage() {
         </div>
         <div>
           <h2 className="text-brand-white text-lg font-semibold mb-2">Removal Requests</h2>
-          <p className="text-brand-muted text-sm leading-relaxed">If you believe you appear in our content without consent and wish to be removed, contact us immediately at <a href="mailto:booking@ezeirl.com" className="text-brand-gold hover:underline">booking@ezeirl.com</a>. We will respond within 72 hours and take prompt corrective action where warranted.</p>
+          <p className="text-brand-muted text-sm leading-relaxed">If you believe you appear in our content without consent and wish to be removed, contact us immediately at <a href="mailto:booking@ezeirl.com" className="text-brand-gold underline underline-offset-2">booking@ezeirl.com</a>. We will respond within 72 hours and take prompt corrective action where warranted.</p>
         </div>
         <div>
           <h2 className="text-brand-white text-lg font-semibold mb-2">Platform Compliance</h2>
@@ -37,7 +37,7 @@ export default function FilmingPolicyPage() {
         </div>
         <div>
           <h2 className="text-brand-white text-lg font-semibold mb-2">Contact</h2>
-          <p className="text-brand-muted text-sm leading-relaxed"><a href="mailto:booking@ezeirl.com" className="text-brand-gold hover:underline">booking@ezeirl.com</a></p>
+          <p className="text-brand-muted text-sm leading-relaxed"><a href="mailto:booking@ezeirl.com" className="text-brand-gold underline underline-offset-2">booking@ezeirl.com</a></p>
         </div>
       </div>
     </article>

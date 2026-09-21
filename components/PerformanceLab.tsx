@@ -9,7 +9,7 @@ const labCategories = [
     label: "PRE-WORKOUT",
     description: "Energy. Focus. Drive. The compounds that flip the switch before training.",
     icon: "⚡",
-    status: "PARTNER SLOT OPEN",
+    status: "OPEN TO PARTNERS",
     accent: "#cc0000",
   },
   {
@@ -17,7 +17,7 @@ const labCategories = [
     label: "PROTEIN",
     description: "Recovery starts with the right fuel.",
     icon: "◈",
-    status: "PARTNER SLOT OPEN",
+    status: "OPEN TO PARTNERS",
     accent: "#c9a84c",
   },
   {
@@ -25,7 +25,7 @@ const labCategories = [
     label: "RECOVERY",
     description: "Sleep. Repair. Adapt. The overlooked side of serious training.",
     icon: "◇",
-    status: "PARTNER SLOT OPEN",
+    status: "OPEN TO PARTNERS",
     accent: "#c9a84c",
   },
   {
@@ -33,7 +33,7 @@ const labCategories = [
     label: "HYDRATION",
     description: "Every product here has to earn its place.",
     icon: "◉",
-    status: "PARTNER SLOT OPEN",
+    status: "OPEN TO PARTNERS",
     accent: "#cc0000",
   },
   {
@@ -41,7 +41,7 @@ const labCategories = [
     label: "PERFORMANCE",
     description: "Creatine. Nootropics. The compounds that sharpen output over time.",
     icon: "◆",
-    status: "PARTNER SLOT OPEN",
+    status: "OPEN TO PARTNERS",
     accent: "#c9a84c",
   },
 ];
@@ -66,19 +66,13 @@ function LabCard({ cat, index }: { cat: typeof labCategories[0]; index: number }
         aria-hidden="true"
       />
 
-      {/* Product image placeholder */}
+      {/* Decorative category tile (no product is shown until a partner is confirmed) */}
       <div
         className="w-full aspect-video mb-5 flex items-center justify-center relative overflow-hidden"
-        style={{ background: "rgba(255,255,255,0.02)", border: "1px dashed rgba(255,255,255,0.06)" }}
-        data-placeholder={`${cat.id}-product-image`}
-        aria-label={`${cat.label} product image placeholder`}
+        style={{ background: `linear-gradient(135deg, ${cat.accent}0d, rgba(255,255,255,0.015))`, border: "1px solid rgba(255,255,255,0.06)" }}
+        aria-hidden="true"
       >
-        <div className="flex flex-col items-center gap-2">
-          <span className="text-3xl opacity-20" aria-hidden="true">{cat.icon}</span>
-          <span className="text-brand-subtle text-xs font-mono tracking-widest uppercase">
-            PRODUCT IMAGE
-          </span>
-        </div>
+        <span className="text-4xl" style={{ color: cat.accent, opacity: 0.45 }}>{cat.icon}</span>
       </div>
 
       {/* Label */}
@@ -96,8 +90,8 @@ function LabCard({ cat, index }: { cat: typeof labCategories[0]; index: number }
       <div
         className="inline-flex items-center gap-2 text-xs font-mono tracking-widest px-2 py-1"
         style={{
-          border: `1px dashed ${cat.accent}40`,
-          color: `${cat.accent}80`,
+          border: `1px solid ${cat.accent}55`,
+          color: cat.accent === "#cc0000" ? "#ff5c5c" : cat.accent,
         }}
         aria-label="Partnership status"
       >
@@ -105,9 +99,8 @@ function LabCard({ cat, index }: { cat: typeof labCategories[0]; index: number }
         {cat.status}
       </div>
 
-      {/* Disclosure placeholder */}
-      <p className="mt-3 text-brand-subtle/40 text-[10px] font-mono leading-tight">
-        *Sponsorship disclosure will appear here when applicable.
+      <p className="mt-3 text-brand-subtle text-[10px] font-mono leading-tight">
+        Any sponsored placement will be clearly disclosed.
       </p>
     </motion.div>
   );
@@ -136,7 +129,7 @@ export default function PerformanceLab() {
             initial={{ opacity: 0, x: -20 }}
             animate={headerInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="block text-brand-red text-xs font-mono tracking-[0.3em] uppercase mb-4"
+            className="block text-brand-red-bright text-xs font-mono tracking-[0.3em] uppercase mb-4"
           >
             EZE PERFORMANCE LAB
           </motion.span>
@@ -154,9 +147,9 @@ export default function PerformanceLab() {
           >
             WHAT I TRAIN WITH.
             <br />
-            <span className="text-brand-muted/50">WHAT I TEST.</span>
+            <span className="text-brand-muted/80">WHAT I TEST.</span>
             <br />
-            <span className="text-brand-muted/30">WHAT EARNS A SPOT.</span>
+            <span className="text-brand-muted/80">WHAT EARNS A SPOT.</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}

@@ -38,7 +38,7 @@ export default function Footer() {
             </div>
             <p className="text-brand-muted text-xs font-mono tracking-widest uppercase mb-2">{brand.tagline}</p>
             <p className="text-brand-subtle text-xs font-mono mb-4">{brand.taglineAlt}</p>
-            <a href={brand.domain} className="text-brand-subtle text-xs font-mono hover:text-brand-muted transition-colors duration-200" aria-label="Visit EZE IRL website">
+            <a href={brand.domain} className="inline-flex min-h-[44px] items-center text-brand-subtle text-xs font-mono hover:text-brand-muted transition-colors duration-200" aria-label="Visit EZE IRL website">
               {brand.domain.replace("https://", "")}
             </a>
             <nav aria-label="EZE ecosystem" className="mt-6">
@@ -72,10 +72,10 @@ export default function Footer() {
                         {entry.label}
                       </a>
                     ) : (
-                      <span className="flex items-center gap-3 text-brand-subtle/40 text-sm cursor-default" aria-label={`${entry.label} — coming soon`}>
+                      <span className="flex items-center gap-3 text-brand-subtle text-sm cursor-default" aria-label={`${entry.label} — coming soon`}>
                         <span className="opacity-30">{socialIcons[key]}</span>
                         {entry.label}
-                        <span className="text-[10px] font-mono tracking-widest border border-brand-border/30 px-1.5 py-0.5 text-brand-subtle/30">SOON</span>
+                        <span className="text-[10px] font-mono tracking-widest border border-brand-border/30 px-1.5 py-0.5 text-brand-subtle">SOON</span>
                       </span>
                     )}
                   </li>
@@ -87,12 +87,12 @@ export default function Footer() {
           {/* Legal */}
           <div>
             <p className="text-brand-white text-xs font-mono tracking-widest uppercase mb-5">LEGAL & BUSINESS</p>
-            <a href={`mailto:${brand.email}`} className="text-brand-muted hover:text-brand-gold text-sm font-mono transition-colors duration-200 block mb-4">{brand.email}</a>
+            <a href={`mailto:${brand.email}`} className="text-brand-muted hover:text-brand-gold text-sm font-mono transition-colors duration-200 inline-flex min-h-[44px] items-center mb-2">{brand.email}</a>
             <nav aria-label="Legal and business links">
-              <ul className="space-y-2">
+              <ul>
                 {legalLinks.map((l) => (
                   <li key={l.label}>
-                    <Link href={l.href} className="text-brand-subtle hover:text-brand-muted text-xs font-mono tracking-wide transition-colors duration-200">{l.label}</Link>
+                    <Link href={l.href} className="inline-flex min-h-[44px] items-center text-brand-subtle hover:text-brand-muted text-xs font-mono tracking-wide transition-colors duration-200">{l.label}</Link>
                   </li>
                 ))}
               </ul>
@@ -103,7 +103,7 @@ export default function Footer() {
       <div className="border-t border-brand-border/20">
         <div className="max-w-6xl mx-auto px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-brand-subtle text-xs font-mono">© {new Date().getFullYear()} EZE Media. All rights reserved.</p>
-          <p className="text-brand-subtle/40 text-xs font-mono">BAD DECISIONS. BETTER STORIES.</p>
+          <p className="text-brand-subtle text-xs font-mono">BAD DECISIONS. BETTER STORIES.</p>
         </div>
       </div>
     </footer>

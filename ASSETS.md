@@ -63,7 +63,7 @@ public/eze-form/  collection/ products/<id>/ lifestyle/ video/   EZE // FORM: RE
 public/eze-irl/   shared EZE IRL editorial imagery
 ```
 
-Missing assets stay `null` in the manifest. In development a labelled "AWAITING APPROVED ASSET" box appears;
+EZE-FIT screens registered so far are listed in `docs/assets/eze-fit-media.md`; EZE // FORM status and import procedure are in `docs/assets/eze-form-drop-001.md`. Missing assets stay `null` in the manifest. In development a labelled "AWAITING APPROVED ASSET" box appears;
 in production the page shows a brand-safe typographic fallback and never a stand-in product or app screen.
 
 EZE-FIT screens must come from production-equivalent feature flags (see `docs/eze-fit-feature-matrix.md`,

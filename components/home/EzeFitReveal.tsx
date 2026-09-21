@@ -52,7 +52,7 @@ export default function EzeFitReveal() {
         </div>
 
         <PointerTilt className="mt-2 lg:mt-0">
-          <PhoneDevice screens={ezeFitAssets.screens} activeId="track" />
+          <PhoneDevice screens={{ ...ezeFitAssets.screens, train: null, progress: null, understand: null }} activeId="track" />
         </PointerTilt>
       </div>
     </section>

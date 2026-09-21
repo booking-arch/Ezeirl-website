@@ -29,7 +29,7 @@ export default function SponsorshipDisclosurePage() {
         </div>
         <div>
           <h2 className="text-brand-white text-lg font-semibold mb-2">Questions</h2>
-          <p className="text-brand-muted text-sm leading-relaxed"><a href="mailto:booking@ezeirl.com" className="text-brand-gold hover:underline">booking@ezeirl.com</a></p>
+          <p className="text-brand-muted text-sm leading-relaxed"><a href="mailto:booking@ezeirl.com" className="text-brand-gold underline underline-offset-2">booking@ezeirl.com</a></p>
         </div>
       </div>
     </article>

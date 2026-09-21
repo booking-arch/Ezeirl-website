@@ -79,11 +79,12 @@ describe("/eze-fit", () => {
     expect(out).toContain("beta software");
   });
 
-  it("never shows an invented app interface: with no real captures it shows the brand splash only", () => {
-    expect(Object.values(ezeFitAssets.screens).every((s) => s === null)).toBe(true);
+  it("shows only REAL registered captures inside the phone, plus the brand splash underlay", () => {
     const out = html(<EzeFitPage />);
-    expect(out).toContain("FITNESS MADE EZE");
-    expect(out).not.toMatch(/<img[^>]+screens\//);
+    expect(out).toContain("FITNESS MADE EZE"); // splash underlay stays for chapters without a capture
+    const srcs = [...out.matchAll(/eze-fit%2Fscreens%2F([^&"]+)/g)].map((m) => decodeURIComponent(m[1]));
+    for (const s of srcs) expect(Object.values(ezeFitAssets.screens).some((a) => a?.src.endsWith(s)), `unregistered screen: ${s}`).toBe(true);
+    expect(out).not.toMatch(/mock|lorem|placeholder screen/i);
   });
 
   it("has SEO metadata, canonical and structured data without ratings/offers", () => {

@@ -6,40 +6,40 @@ import Button from "./UI/Button";
 import { social } from "@/config/social";
 
 const categories = [
-  { id: "challenges", label: "CHALLENGES", accent: "#cc0000" },
-  { id: "fitness", label: "FITNESS", accent: "#cc0000" },
+  { id: "challenges", label: "CHALLENGES", accent: "#ff3b3b" },
+  { id: "fitness", label: "FITNESS", accent: "#ff3b3b" },
   { id: "adventures", label: "ADVENTURES", accent: "#c9a84c" },
   { id: "lifestyle", label: "LIFESTYLE", accent: "#c9a84c" },
   { id: "irl", label: "IRL", accent: "#f5f5f5" },
-  { id: "live", label: "LIVE", accent: "#cc0000" },
+  { id: "live", label: "LIVE", accent: "#ff3b3b" },
 ];
 
 const featuredContent = [
   {
     id: "featured-1",
     label: "FEATURED",
-    title: "Latest Upload",
+    title: "Videos",
     platform: "YOUTUBE",
-    platformColor: "#cc0000",
-    description: "New content drops weekly. Subscribe to never miss a video.",
+    platformColor: "#ff3b3b",
+    description: "Long-form EZE IRL videos are on the way.",
     placeholder: true,
   },
   {
     id: "featured-2",
     label: "TRENDING",
-    title: "Top TikTok",
+    title: "Short clips",
     platform: "TIKTOK",
     platformColor: "#f5f5f5",
-    description: "Short-form content. Real moments. No filter.",
+    description: "Short-form clips are on the way.",
     placeholder: true,
   },
   {
     id: "featured-3",
     label: "HIGHLIGHTS",
-    title: "Recent Stream",
+    title: "Streams",
     platform: "TWITCH",
-    platformColor: "#9147ff",
-    description: "Catch the streams live — challenges, gaming, Q&As.",
+    platformColor: "#b58cff",
+    description: "Streams will be announced here.",
     placeholder: true,
   },
 ];
@@ -63,30 +63,14 @@ function ContentCard({
       className="group relative overflow-hidden border border-brand-border/60 bg-brand-card/20 hover:border-brand-border transition-all duration-300"
       style={{ cursor: "default" }}
     >
-      {/* Thumbnail placeholder */}
+      {/* Branded coming-soon tile. No play button: there is no video to play yet. */}
       <div
         className="aspect-video relative overflow-hidden"
-        style={{ background: "linear-gradient(135deg, #111 0%, #1a1a1a 100%)" }}
-        data-placeholder={`video-thumbnail-${content.id}`}
-        aria-label={`${content.title} video thumbnail placeholder`}
+        style={{ background: `linear-gradient(135deg, ${content.platformColor}14 0%, #141414 100%)` }}
+        aria-hidden="true"
       >
-        {/* Play button overlay */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <motion.div
-            className="w-12 h-12 rounded-full flex items-center justify-center border border-brand-white/20 group-hover:border-brand-white/40 transition-all duration-300"
-            style={{ background: "rgba(0,0,0,0.5)" }}
-            whileHover={{ scale: 1.1 }}
-          >
-            <div
-              className="w-0 h-0 ml-1"
-              style={{
-                borderTop: "8px solid transparent",
-                borderBottom: "8px solid transparent",
-                borderLeft: `14px solid ${content.platformColor}`,
-              }}
-              aria-hidden="true"
-            />
-          </motion.div>
+          <span className="font-mono text-xs tracking-[0.3em] text-brand-muted border border-brand-border px-3 py-1.5">COMING SOON</span>
         </div>
 
         {/* Platform badge */}
@@ -148,7 +132,7 @@ export default function WatchSection() {
             initial={{ opacity: 0, x: -20 }}
             animate={headerInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="block text-brand-red text-xs font-mono tracking-[0.3em] uppercase mb-4"
+            className="block text-brand-red-bright text-xs font-mono tracking-[0.3em] uppercase mb-4"
           >
             WATCH
           </motion.span>
@@ -166,7 +150,7 @@ export default function WatchSection() {
           >
             WATCH WHAT
             <br />
-            <span className="text-brand-muted/40">HAPPENS NEXT.</span>
+            <span className="text-brand-muted/80">HAPPENS NEXT.</span>
           </motion.h2>
         </div>
 
@@ -221,7 +205,7 @@ export default function WatchSection() {
               WATCH ON YOUTUBE
             </Button>
           ) : (
-            <span className="inline-flex items-center gap-2 border border-brand-border/30 px-6 py-3 text-xs font-semibold tracking-widest uppercase text-brand-subtle/40 cursor-default">
+            <span className="inline-flex items-center gap-2 border border-brand-border/30 px-6 py-3 text-xs font-semibold tracking-widest uppercase text-brand-subtle cursor-default">
               YOUTUBE COMING SOON
             </span>
           )}
@@ -230,7 +214,7 @@ export default function WatchSection() {
               FOLLOW ON TIKTOK
             </Button>
           ) : (
-            <span className="inline-flex items-center gap-2 border border-brand-border/20 px-6 py-3 text-xs font-semibold tracking-widest uppercase text-brand-subtle/30 cursor-default">
+            <span className="inline-flex items-center gap-2 border border-brand-border/20 px-6 py-3 text-xs font-semibold tracking-widest uppercase text-brand-subtle cursor-default">
               TIKTOK COMING SOON
             </span>
           )}

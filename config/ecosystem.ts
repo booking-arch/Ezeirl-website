@@ -55,16 +55,16 @@ export const fitChapters: readonly FitChapter[] = [
   {
     id: "track",
     word: "TRACK.",
-    title: "Know what you ate.",
-    body: "Log meals and see calories, protein, carbs and fat against your daily targets.",
-    points: ["Meal logging with daily totals", "Calorie and macro estimates from your profile"],
+    title: "Know your numbers.",
+    body: "See your daily calorie, protein, carb and fat targets, and log meals.",
+    points: ["Daily calorie and macro targets (estimates)", "Meal logging"],
   },
   {
     id: "train",
     word: "TRAIN.",
     title: "Plan the work.",
-    body: "Build programs, log your workouts, and browse an exercise library.",
-    points: ["Programs and workout logging", "Exercise library"],
+    body: "Build programs, log your workouts, and browse an exercise library with instructions and muscle groups.",
+    points: ["Programs and workout logging", "Exercise library with instructions"],
   },
   {
     id: "progress",

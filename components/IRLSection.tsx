@@ -62,7 +62,7 @@ function PillarCard({ pillar, index }: { pillar: typeof pillars[0]; index: numbe
       {/* Number */}
       <span
         className="block text-xs font-mono mb-4 transition-colors duration-200"
-        style={{ color: pillar.accent, letterSpacing: "0.2em" }}
+        style={{ color: pillar.accent === "#cc0000" ? "#ff3b3b" : pillar.accent, letterSpacing: "0.2em" }}
       >
         {pillar.symbol}
       </span>
@@ -123,7 +123,7 @@ export default function IRLSection() {
             initial={{ opacity: 0, x: -20 }}
             animate={headerInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="block text-brand-red text-xs font-mono tracking-[0.3em] uppercase mb-4"
+            className="block text-brand-red-bright text-xs font-mono tracking-[0.3em] uppercase mb-4"
           >
             THE IRL
           </motion.span>
@@ -142,7 +142,7 @@ export default function IRLSection() {
           >
             FITNESS. COMEDY.
             <br />
-            <span className="text-brand-muted/60">REAL CONVERSATIONS.</span>
+            <span className="text-brand-muted/80">REAL CONVERSATIONS.</span>
           </motion.h2>
 
           <motion.p

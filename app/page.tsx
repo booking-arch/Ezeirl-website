@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import IRLSection from "@/components/IRLSection";
@@ -9,6 +10,8 @@ import WatchSection from "@/components/WatchSection";
 import PartnershipSection from "@/components/PartnershipSection";
 import CommunitySection from "@/components/CommunitySection";
 import Footer from "@/components/Footer";
+
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 export default function HomePage() {
   return (
