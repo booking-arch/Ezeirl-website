@@ -60,7 +60,7 @@ export default function StreamSection() {
         {/* Draft badge */}
         <motion.div initial={{ opacity: 0, y: -10 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.5 }} className="inline-flex items-center gap-2 border border-brand-gold/40 px-3 py-1.5 mb-8" role="note" aria-label="Event planning status">
           <span className="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse" aria-hidden="true" />
-          <span className="text-brand-gold text-xs font-mono tracking-widest uppercase">Planned Event — Details Subject to Change</span>
+          <span className="text-brand-gold text-xs font-mono tracking-widest uppercase">{isPast ? "Planned Event — Original Date Has Passed" : "Planned Event — Details Subject to Change"}</span>
         </motion.div>
 
         {/* Eyebrow */}
@@ -102,8 +102,8 @@ export default function StreamSection() {
         {mounted && (
           isPast ? (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="border border-brand-border bg-brand-card/30 p-8 mb-10 text-center">
-              <p className="text-brand-muted text-sm font-mono tracking-widest uppercase mb-2">Stream Complete</p>
-              <p className="text-brand-white text-lg">Check back for the replay and highlights.</p>
+              <p className="text-brand-muted text-sm font-mono tracking-widest uppercase mb-2">Date Passed</p>
+              <p className="text-brand-white text-lg">This event&apos;s planned date has passed. An update will be posted here.</p>
             </motion.div>
           ) : (
             <motion.div initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay: 0.3 }} className="mb-10">
