@@ -1,14 +1,14 @@
 import Link from "next/link";
-import EZEEmblemSVG from "@/components/3D/EZEEmblemSVG";
+import Image from "next/image";
+import { ezeIrlBrand } from "@/config/assets";
 
 export default function LegalLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-brand-black text-brand-white">
       <header className="border-b border-brand-border/40 px-4 py-4">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2" aria-label="EZE IRL Home">
-            <EZEEmblemSVG size={28} color="#d9d6cf" animated={false} />
-            <span className="text-brand-white text-lg tracking-widest" style={{ fontFamily: "var(--font-bebas)" }}>EZE IRL</span>
+          <Link href="/" className="flex items-center" aria-label="EZE IRL Home">
+            <Image src={ezeIrlBrand.lockup.src} width={ezeIrlBrand.lockup.width} height={ezeIrlBrand.lockup.height} alt="" className="h-7 w-auto" />
           </Link>
           <Link href="/" className="text-brand-muted text-xs font-mono tracking-widest hover:text-brand-white transition-colors uppercase">← Back</Link>
         </div>

@@ -121,3 +121,14 @@ export const ezeIrlPhotos = {
   plate: photo("plate-hold", "EZE seated holding a weight plate in a sleeveless hoodie and cap, a dark gym behind him.", "50% 34%"),
   bench: photo("bench-rest", "EZE leaning back on a bench with eyes closed and headphones on between sets.", "50% 38%"),
 };
+
+/**
+ * EZE IRL approved logo suite (Drive: "Eze irl website/Website Logos"). Vector-clean marks,
+ * white-on-transparent, ready to sit on the dark brand background as-is.
+ */
+export const ezeIrlBrand = {
+  /** Horizontal lockup: mark + "EZE//IRL" wordmark + "A HIGHER STATE" tagline. Primary nav/footer logo. */
+  lockup: { src: "/eze-irl/brand/lockup.webp", width: 2007, height: 446, alt: "EZE IRL" },
+  /** Icon-only angular mark, no wordmark. For compact contexts. */
+  mark: { src: "/eze-irl/brand/mark.webp", width: 1112, height: 735, alt: "EZE IRL" },
+};

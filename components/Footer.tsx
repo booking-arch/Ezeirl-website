@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import EZEEmblemSVG from "./3D/EZEEmblemSVG";
+import Image from "next/image";
+import { ezeIrlBrand } from "@/config/assets";
 import { brand } from "@/config/brand";
 import { social } from "@/config/social";
 import { links } from "@/config/links";
@@ -32,9 +33,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
           {/* Brand */}
           <div className="md:col-span-1">
-            <div className="flex items-center gap-2.5 mb-4">
-              <EZEEmblemSVG size={36} color="#d9d6cf" animated={false} />
-              <span className="text-brand-white text-xl tracking-widest" style={{ fontFamily: "var(--font-bebas)", letterSpacing: "0.15em" }}>{brand.name}</span>
+            <div className="mb-4">
+              <Image src={ezeIrlBrand.lockup.src} width={ezeIrlBrand.lockup.width} height={ezeIrlBrand.lockup.height} alt={ezeIrlBrand.lockup.alt} className="h-9 w-auto" />
             </div>
             <p className="text-brand-muted text-xs font-mono tracking-widest uppercase mb-2">{brand.tagline}</p>
             <p className="text-brand-subtle text-xs font-mono mb-4">{brand.taglineAlt}</p>

@@ -13,7 +13,7 @@
 
 | Asset | Filename | Location | Dimensions | Format | Notes |
 |-------|----------|----------|-----------|--------|-------|
-| Apple Touch Icon | `apple-touch-icon.png` | `public/apple-touch-icon.png` | 180×180 px | PNG | Referenced in layout.tsx metadata; reference removed until file exists |
+| ~~Apple Touch Icon~~ | ~~`apple-touch-icon.png`~~ | — | — | — | **Done** — generated from the approved logo suite, see `docs/assets/eze-irl-brand.md` |
 | OG / Share Image | `og-image.jpg` | `public/images/og-image.jpg` | 1200×630 px | JPG or WebP | Fallback for platforms that don't support Next.js OG route |
 | Hero Creator Portrait | `hero-portrait.webp` | `public/images/hero-portrait.webp` | 800×1200 px min | WebP | Do not modify face, body, tattoos, or identifying features |
 | Hero Background | `hero-bg.webp` | `public/images/hero-bg.webp` | 1920×1080 px min | WebP or MP4 | Cinematic gym/IRL background |

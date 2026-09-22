@@ -40,9 +40,11 @@ export const metadata: Metadata = {
     creator: "@ezeirl",
   },
   icons: {
-    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
-    // apple-touch-icon.png is a required production asset — see ASSETS.md
-    // Removed broken reference until the 180x180 PNG is generated
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon-32.png", type: "image/png", sizes: "32x32" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
   },
   manifest: "/site.webmanifest",
 };

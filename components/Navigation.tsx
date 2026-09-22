@@ -4,7 +4,8 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import EZEEmblemSVG from "./3D/EZEEmblemSVG";
+import Image from "next/image";
+import { ezeIrlBrand } from "@/config/assets";
 import { navItems, navCta, secondaryNav } from "@/config/ecosystem";
 import { track } from "@/lib/analytics";
 
@@ -87,11 +88,8 @@ export default function Navigation() {
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between sm:h-20">
-            <Link href="/" className="group flex min-h-[44px] items-center gap-2.5" aria-label="EZE IRL home">
-              <EZEEmblemSVG size={32} color="#d9d6cf" animated={false} />
-              <span className="font-display text-xl tracking-[0.15em] text-brand-white transition-colors duration-200 group-hover:text-brand-gold" style={{ fontFamily: "var(--font-bebas)" }}>
-                EZE IRL
-              </span>
+            <Link href="/" className="group flex min-h-[44px] items-center" aria-label="EZE IRL home">
+              <Image src={ezeIrlBrand.lockup.src} width={ezeIrlBrand.lockup.width} height={ezeIrlBrand.lockup.height} alt="" priority className="h-7 w-auto transition-opacity duration-200 group-hover:opacity-80 sm:h-8" />
             </Link>
 
             <ul className="hidden items-center gap-8 lg:flex">
