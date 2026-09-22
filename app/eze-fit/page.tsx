@@ -6,17 +6,13 @@ import { jsonLd, SITE_URL } from "@/lib/json-ld";
 import { isWaitlistEnabled } from "@/lib/waitlist/config";
 
 /**
- * This page intentionally mirrors the real EZE-FIT application's own production landing page
- * (served at "/" on the app itself) layout-for-layout and word-for-word, at the owner's explicit
- * request — not a marketing reinterpretation. Structure, copy, section order, color system
- * (emerald / cyan / slate) and card treatment all match the source. Two deliberate adaptations,
- * since this page has no user session and no public login endpoint of its own:
- *  - "Log in" scrolls to the beta-signup form instead of linking to an account system that
- *    doesn't exist on this static marketing page (the real app's login is private/invitation-only).
- *  - The footer's "Log in / Create account" pair is replaced with a link back into the EZE
- *    ecosystem, since there is nothing to log into from here.
- * The email capture re-uses this site's own gated /api/waitlist (WAITLIST_ENABLED), matching the
- * real form's single-field layout exactly. See CHANGELOG.md for the full list of what changed.
+ * This page mirrors the real EZE-FIT application's own production landing page (served at "/" on
+ * the app itself) layout-for-layout and word-for-word, at the owner's explicit request — but is
+ * deliberately NOT wired to that app in any way. It is a standalone ezeirl.com promo page with its
+ * own email-collection waitlist (this site's own gated /api/waitlist, WAITLIST_ENABLED). It never
+ * links to the real app, and carries no login: the real app is private, invitation-only, and not
+ * meant to be reachable from a public marketing page. Every action on this page is a sign-up.
+ * See CHANGELOG.md for the full list of what changed from the real page.
  */
 
 const title = "EZE-FIT | Your Fitness. Your Data. Your Plan.";
@@ -65,8 +61,8 @@ export default function EzeFitPage() {
             <span className="hidden h-fit items-center rounded-full bg-emerald-950 px-3 py-1 text-xs font-bold text-emerald-300 sm:inline-flex">
               PRIVATE BETA
             </span>
-            <a href="#beta-signup" className="min-h-[44px] rounded-lg border border-slate-600 px-4 py-2 text-slate-100">
-              Log in
+            <a href="#beta-signup" className="inline-flex min-h-[44px] items-center rounded-lg bg-emerald-400 px-4 py-2 font-bold text-slate-950">
+              Join the Beta
             </a>
           </div>
         </nav>

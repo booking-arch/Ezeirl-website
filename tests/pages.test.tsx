@@ -67,6 +67,13 @@ describe("/eze-fit (exact replica of the real app's own landing page, per owner 
     expect(out).not.toMatch(/<img[^>]+screens\//); // no phone mockup on this page
   });
 
+  it("is a standalone waitlist page: no login, no link to the real app", () => {
+    const out = html(<EzeFitPage />);
+    expect(out.toLowerCase()).not.toContain("log in");
+    expect(out).not.toMatch(/href="https?:\/\/127\.0\.0\.1|tail2931c4\.ts\.net|localhost/);
+    expect(out).toContain("Join the Beta");
+  });
+
   it("has SEO metadata, canonical and structured data without ratings/offers", () => {
     expect(fitMeta.alternates?.canonical).toBe("/eze-fit");
     expect(String(fitMeta.title)).toContain("EZE-FIT");
