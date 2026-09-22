@@ -2,39 +2,43 @@
 
 Internal. **Not published.** Update this file whenever imagery is imported.
 
-## Acquisition status: BLOCKED — no images accessible
+## Acquisition status: BLOCKED — files found, but none are usable product photography
 
-**2026-09-21.** Google Drive access is authorized in this environment and was used, limited to the EZE // FORM tree:
+**2026-09-22.** Read `G:\My Drive\EZE  FORM\Clothing\Products` and its parent `G:\My Drive\EZE  FORM\Clothing` (via
+Drive for Desktop through Windows, read-only; nothing was moved or deleted in Drive). Local copy for review:
+`C:\Users\EzequielCruz\eze-form-masters\` (outside the repo, not committed).
 
-| Check | Result |
-|---|---|
-| Folder `EZE//FORM` (id `1uVdW2b5…`, created 2026-09-21, owner: you) | Found |
-| Its children | **4 PDFs only**: `01_EZE_FORM_Brand_Foundation`, `02_EZE_FORM_Visual_Identity_Direction`, `03_EZE_FORM_Drop_001_Under_Construction`, `04_EZE_FORM_Product_and_Ecosystem_Roadmap` |
-| Subfolder named `clothing` (anywhere visible to this connection) | **Not found** |
-| Images (`image/*`) inside `EZE//FORM` | **None** |
+**41 files found** (29 `.HEIC`, 12 `.PNG`; 2 PNGs are byte-identical duplicates, so 40 unique). None can be used as-is:
 
-The four PDFs sit outside the authorized `clothing` scope and were **not opened**. Likely explanations, for the owner to check:
-the `clothing` folder was not uploaded yet, lives in a different Google account or a Shared Drive this connector cannot see, or has
-not been shared with the connected account. No other Drive locations were searched and no Windows folders were re-searched.
+| Group | Count | What it actually is |
+|---|---|---|
+| `IMG_8550`–`IMG_8578.HEIC` (29) | 29 | **Screen captures of a phone browsing a wholesale-sourcing marketplace app** (Alibaba/1688-style). Every frame shows phone chrome — status bar, "Find similar", "Chat now", "Send inquiry" buttons — and one frame is a full product listing with a price ladder ("$6.82 · Min. order 50 pieces"), a "Super September" sale banner and a store rating. The garments shown belong to other, unrelated brands/sellers (visible marks include "Andreike", "FLAMEBULL", generic "Custom" text, Chrome-Hearts-style cross graphics) — these are reference/inspiration captures, not EZE // FORM's own product. |
+| `Clothing/*.png` + `Clothing/Products/*.png` (11 unique) | 11 | **AI-generated concept boards**, two kinds: (a) `EZE//FORM` **logo/wordmark exploration sheets** (multiple mark variations side by side, no single approved mark indicated), and (b) **fabric-swatch mockup sheets** for named concepts ("EMBOSS HOODIE", "PANEL HOODIE", "SIGNATURE HOODIE", "DISTRESSED KNIT SWEATER") with generic colour-swatch dots and template captions — the visual grammar of an AI moodboard generator, not photography of a sewn garment. |
 
-Nothing was substituted: no stock imagery, no generated garments, no mock-ups. `/merch` and the homepage reveal remain on their
-typographic fallback, which is correct until real photography exists.
+**Conclusion:** there is still no photograph of an actual, physical EZE // FORM garment in the reachable Drive location.
+Per the standing rule ("do not substitute stock images, do not AI-generate replacement clothing, never invent — group by
+real product, not by file count"), **none of these 40 files were used.** `/merch`, the homepage reveal and
+`config/assets.ts` are unchanged (`ezeFormAssets.hero: null`, `products: []`).
+
+The logo sheets are noted for later: if the owner picks one mark from `c02`/`c03` and confirms it as approved, it can
+seed `public/eze-fit/brand/` or a future `public/eze-form/brand/` — but that is a brand-identity decision for the owner,
+not something inferred from a multi-option exploration sheet.
 
 ## What the owner needs to do (any one of these)
 
-1. Move or share the `clothing` folder so it appears under `EZE//FORM` in the connected Google account, then tell the assistant to continue; or
-2. Export the ~33 approved images and copy them into `public/eze-form/drop-001/` (full-quality originals are fine; they are optimized on import); or
-3. Point to another exact folder the assistant may read.
+1. Share or export actual photographs of physical EZE // FORM garments (on a mannequin, a model, or flat-lay) —
+   the "site photos" style used for EZE IRL is the right precedent; or
+2. Confirm that one of the sourcing-marketplace listings represents a genuinely licensed/white-label EZE // FORM
+   product and should be used as a placeholder with that fact disclosed (not implied to be an exclusive EZE // FORM photo); or
+3. Point to a different, more complete folder if the real production photography lives elsewhere.
 
-Also useful (optional): a short list of which images are the same garment, and any confirmed product names. Until names exist, products get internal IDs (`product-01`, `product-02`, …).
-
-## Import procedure (ready, not yet run)
+## Import procedure (ready, unchanged from before)
 
 1. **Inventory** every file before building: filename, dimensions, orientation, product group, view (front / back / side / detail / alternate),
-   colorway (only if objectively visible), duplicate / near-duplicate, quality, hero / gallery / detail suitability. Group multiple views of one garment; do not assume 33 images = 33 products.
-2. **Optimize:** masters stay outside the repo (`~/eze-form-masters/`). Web variants: WebP (Next serves AVIF/WebP per request), ~1600 px long edge for gallery, ~2400 px for the hero, quality ≈ 80–82, no EXIF.
+   colorway (only if objectively visible), duplicate / near-duplicate, quality, hero / gallery / detail suitability. Group multiple views of one garment; do not assume file count = product count.
+2. **Optimize:** masters stay outside the repo. Web variants: WebP, ~1600 px long edge for gallery, ~2400 px for the hero, quality ≈ 80–82, no EXIF.
 3. **Place** under `public/eze-form/drop-001/<product-id>/` (`front.webp`, `back.webp`, `side.webp`, `detail-1.webp`, …) and register in `config/assets.ts` → `ezeFormAssets.products` (and `hero`).
-4. **Document** each product and the hero here (table below). `tests/assets.test.ts` already fails if a registered file is missing or lacks alt text.
+4. **Document** each product and the hero here. `tests/assets.test.ts` fails if a registered file is missing or lacks alt text.
 5. Homepage reveal: set `ezeFormAssets.hero` to the strongest single image; the reveal then shows it instead of the typographic "001".
 6. Re-run typecheck, lint, tests, clean build, and visual QA at 375 / 390 / 430 / 768 / 1280 / 1440 / 1920.
 
@@ -43,10 +47,10 @@ Also useful (optional): a short list of which images are the same garment, and a
 Never state fabric composition, technical materials, pricing, sizing, inventory, release date, manufacturing location or performance
 properties unless the owner supplies them. `FormProduct` has `name`, `colorway` and `description` fields that stay `null` until confirmed.
 
-## Inventory (empty until images are supplied)
+## Inventory (still empty — no usable photography found)
 
 | Product ID | Files | Views | Colorway | Hero? | Notes |
 |---|---|---|---|---|---|
 | — | — | — | — | — | — |
 
-Rejected / unused images and reasons: —
+Rejected images and reasons: see table above (all 40 files, two groups, neither usable).
