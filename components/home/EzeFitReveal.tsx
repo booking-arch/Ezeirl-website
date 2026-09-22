@@ -41,7 +41,7 @@ export default function EzeFitReveal() {
               ))}
             </ul>
             <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-              <CtaButton href="/eze-fit#beta-access" tone="fit" event="eze_fit_beta_cta" surface="home_fit">
+              <CtaButton href="/eze-fit#beta-signup" tone="fit" event="eze_fit_beta_cta" surface="home_fit">
                 REQUEST BETA ACCESS
               </CtaButton>
               <CtaButton href="/eze-fit" tone="fit-outline">

@@ -17,7 +17,7 @@ export const secondaryNav = [
 
 /** Contextual header CTA per route. */
 export const navCta = {
-  "/eze-fit": { label: "REQUEST BETA ACCESS", href: "/eze-fit#beta-access", tone: "fit" },
+  "/eze-fit": { label: "REQUEST BETA ACCESS", href: "/eze-fit#beta-signup", tone: "fit" },
   "/merch": { label: "GET EARLY ACCESS", href: "/merch#early-access", tone: "form" },
   default: { label: "JOIN IRL", href: "#community", tone: "irl" },
 } as const;

@@ -105,3 +105,23 @@ All notable changes to this project are documented here.
 - [ ] Add Fit-Mate app screenshots
 - [ ] Confirm stream venue and update location note
 - [ ] Harden CSP: replace `unsafe-inline` with nonce-based policy
+
+### /eze-fit rebuilt as an exact replica of the real app's own landing page (2026-09-22)
+Owner request: match http://127.0.0.1:3005/ — the live EZE-FIT app's own production homepage —
+layout-for-layout and word-for-word. Replaced the previous Bebas/lime editorial design and pinned
+phone story with a structural and visual match of the real page's copy, section order, and color
+system (emerald/cyan/slate, rounded cards, `font-black` headlines). Read the app's own `page.tsx`
+and `globals.css` directly rather than reverse-engineering screenshots. Two deliberate adaptations
+since this static marketing page has no session and no public login: "Log in" scrolls to the
+beta-signup form instead of an account system that doesn't exist here; the footer's "Log in /
+Create account" pair is a link back into the EZE ecosystem instead. Email capture reuses this
+site's own gated `/api/waitlist` with the real form's single-field layout (no name field, no
+consent checkbox). One intentional deviation from "exact": five caption/footer text colors
+(slate-500 on slate-950, 4.23:1) were bumped to slate-400 to clear WCAG AA — 0 axe violations,
+desktop and mobile. Removed `components/eze-fit/{sections,PhoneStory}.tsx` (superseded).
+
+This page's copy (as shipped live by the app itself) exceeds what `docs/eze-fit-feature-matrix.md`
+classified as production-safe for `ezeirl.com`'s own marketing voice (e.g. "AI fitness coach",
+"Fitness Coach", "Food search + barcode" stated plainly rather than hedged/beta-labeled). It was
+used verbatim per explicit instruction to mirror the real, already-live app page exactly, not
+independently re-verified against that matrix. Flagged here rather than silently reconciled.

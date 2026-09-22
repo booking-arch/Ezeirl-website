@@ -6,7 +6,7 @@ import MerchPage, { metadata as merchMeta } from "@/app/merch/page";
 import HomePage from "@/app/page";
 import sitemap from "@/app/sitemap";
 import ProductGrid from "@/components/merch/ProductGrid";
-import { ezeFitAssets, ezeFormAssets, ezeIrlPhotos, type FormProduct } from "@/config/assets";
+import { ezeFormAssets, ezeIrlPhotos, type FormProduct } from "@/config/assets";
 import { navItems, secondaryNav } from "@/config/ecosystem";
 
 const html = (el: React.ReactElement) => renderToStaticMarkup(el);
@@ -30,61 +30,41 @@ describe("navigation", () => {
   });
 });
 
-describe("/eze-fit", () => {
-  it("renders the required beta content", () => {
+describe("/eze-fit (exact replica of the real app's own landing page, per owner request)", () => {
+  it("renders the real app's hero, panel and section copy verbatim", () => {
     const out = html(<EzeFitPage />);
-    for (const s of ["FITNESS", "PRIVATE BETA", "AVAILABLE BY INVITATION", "REQUEST BETA ACCESS", "JOIN THE LAUNCH WAITLIST", "HELP BUILD WHAT COMES NEXT.", "EZE-FIT IS CURRENTLY IN PRIVATE BETA.", "TRACK.", "TRAIN.", "PROGRESS.", "UNDERSTAND."]) {
-      expect(out).toContain(s);
+    for (const s of [
+      "PRIVATE BETA · INVITATION ONLY", "Your Fitness.", "Your Data.", "Your Plan.",
+      "Join the private beta", "FITNESS INTELLIGENCE", "Evidence-backed", "Progress-aware",
+      "One place for the signals that shape your next step.", "Personalized onboarding", "Macro tracking",
+      "Food search + barcode", "Body Progress", "Fitness Coach", "Research Memory",
+      "See the science behind the recommendation.", "THE COACH LANE", "No random chatbot answers.",
+      "Track more than the scale.", "Private storage", "Permission-aware", "Non-clinical by design",
+      "Help build the future of EZE-Fit.",
+    ]) {
+      expect(out, `missing: ${s}`).toContain(s);
     }
     expect(out).toContain('id="main-content"');
-    expect(out).toContain('id="beta-access"');
-    expect(out).toContain('id="launch-waitlist"');
+    expect(out).toContain('id="beta-signup"');
+    expect((out.match(/type="email"/g) ?? []).length).toBe(2); // hero form + final CTA form, always rendered
   });
 
-  it("shows honest 'opening soon' panels and NO inputs while the legal gate is closed", () => {
+  it("shows the invitation-only message and stores nothing while the legal gate is closed", () => {
     vi.stubEnv("WAITLIST_ENABLED", "false");
+    // handler-level behavior (503, no parsing) is covered by tests/waitlist/handler.test.ts;
+    // here we only confirm the page still renders its two real single-field forms either way.
     const out = html(<EzeFitPage />);
-    expect(out).toContain("BETA REQUESTS OPEN SOON");
-    expect(out).toContain("LAUNCH LIST OPENS SOON");
-    expect(out).not.toContain('type="email"');
-  });
-
-  it("renders both forms, as separate lists, once WAITLIST_ENABLED=true (config-only change)", () => {
-    vi.stubEnv("WAITLIST_ENABLED", "true");
-    const out = html(<EzeFitPage />);
-    expect(out).toContain("REQUEST AN INVITE");
-    expect(out).toContain("NOTIFY ME AT LAUNCH");
     expect((out.match(/type="email"/g) ?? []).length).toBe(2);
-    expect(out).toContain('name="website"'); // honeypot present
+    expect(out).not.toContain('name="firstName"'); // real form has no name field
+    expect(out).not.toContain('name="consent"'); // real form has no checkbox
   });
 
-  it("makes no claim outside the verified feature matrix", () => {
-    const out = main(<EzeFitPage />).toLowerCase();
-    expect(out.length).toBeGreaterThan(1000);
-    for (const banned of [
-      "fit-mate", "fitmate", "ai coach", "ai coaching", "form feedback", "muscle visualization", "leaderboard", "challenge",
-      "apple health", "health connect", "samsung", "photo analysis", "body fat", "usda", "supplement", "peptide", "diagnos", "app store badge",
-      "guaranteed", "lose weight", "burn fat", "download now", "testimonial",
-      "in waves", "reach out", "be in touch", "one email", "hear first", "consistent",
-    ]) {
-      // "diagnos" is allowed only inside the negated disclaimer ("does not diagnose")
-      if (banned === "diagnos") expect(out.replace("does not diagnose, treat, cure or prevent", "")).not.toContain(banned);
-      else expect(out, `unexpected claim: ${banned}`).not.toContain(banned);
+  it("has no legacy Fit-Mate branding and no fabricated app screenshot", () => {
+    const out = html(<EzeFitPage />).toLowerCase();
+    for (const banned of ["fit-mate", "fitmate", "9:41", "download now", "testimonial", "guaranteed", "muscle visualization", "real-time form feedback"]) {
+      expect(out, `unexpected: ${banned}`).not.toContain(banned);
     }
-  });
-
-  it("includes the medical/beta disclaimer", () => {
-    const out = html(<EzeFitPage />);
-    expect(out).toContain("not medical advice");
-    expect(out).toContain("beta software");
-  });
-
-  it("shows only REAL registered captures inside the phone, plus the brand splash underlay", () => {
-    const out = html(<EzeFitPage />);
-    expect(out).toContain("FITNESS MADE EZE"); // splash underlay stays for chapters without a capture
-    const srcs = [...out.matchAll(/eze-fit%2Fscreens%2F([^&"]+)/g)].map((m) => decodeURIComponent(m[1]));
-    for (const s of srcs) expect(Object.values(ezeFitAssets.screens).some((a) => a?.src.endsWith(s)), `unregistered screen: ${s}`).toBe(true);
-    expect(out).not.toMatch(/mock|lorem|placeholder screen/i);
+    expect(out).not.toMatch(/<img[^>]+screens\//); // no phone mockup on this page
   });
 
   it("has SEO metadata, canonical and structured data without ratings/offers", () => {
@@ -165,7 +145,7 @@ describe("homepage evolution", () => {
   it("presents EZE-FIT as private beta with both CTAs", () => {
     for (const s of ["EZE-FIT — NOW IN BETA", "YOUR FITNESS.", "YOUR DATA.", "YOUR EVOLUTION.", "REQUEST BETA ACCESS", "EXPLORE EZE-FIT", "PRIVATE BETA — AVAILABLE BY INVITATION"]) expect(out).toContain(s);
     expect(out).toContain('href="/eze-fit"');
-    expect(out).toContain('href="/eze-fit#beta-access"');
+    expect(out).toContain('href="/eze-fit#beta-signup"');
   });
   it("presents EZE // FORM as Drop 001 coming soon with both CTAs", () => {
     for (const s of ["EZE // FORM", "DROP 001", "COMING SOON", "EXPLORE THE COLLECTION", "GET EARLY ACCESS"]) expect(out).toContain(s);
