@@ -59,7 +59,7 @@ npm run start          # Preview production build locally
 | `config/stream.ts` | First stream date, status, location |
 | `config/ecosystem.ts` | Navigation and EZE-FIT / EZE // FORM copy (verified claims only) |
 | `config/assets.ts` | Asset manifest for real EZE-FIT screens and EZE // FORM imagery |
-| `config/env.ts` | Runtime env variable access |
+| `lib/waitlist/config.ts` | Waitlist legal gate (`WAITLIST_ENABLED`) |
 
 ## Environment Variables
 

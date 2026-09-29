@@ -1,42 +1,23 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
-import { env } from "@/config/env";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import WaitlistForm from "./ecosystem/WaitlistForm";
 
-type FormState = "idle" | "submitting" | "success" | "error" | "no-provider";
-
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-export default function CommunitySection() {
+/**
+ * Real signup, wired to this site's own gated /api/waitlist (see lib/waitlist/*) — replaces the
+ * previous stub that checked a never-configured `env.emailProvider` and faked success with a
+ * setTimeout. WAITLIST_ENABLED still governs collection; while it's off this renders an honest
+ * "opening soon" panel via WaitlistForm, same as every other signup on the site.
+ *
+ * `enabled` MUST be computed by a server component (isWaitlistEnabled() reads a server-only env
+ * var) and passed down — calling it directly inside this "use client" component would read
+ * `undefined` in the browser after hydration (client bundles only inline NEXT_PUBLIC_* vars),
+ * causing the server-rendered form and the client's re-render to disagree and desync.
+ */
+export default function CommunitySection({ enabled }: { enabled: boolean }) {
   const headerRef = useRef<HTMLDivElement>(null);
   const headerInView = useInView(headerRef, { once: true });
-  const [email, setEmail] = useState("");
-  const [formState, setFormState] = useState<FormState>(env.emailProvider ? "idle" : "no-provider");
-  const [emailError, setEmailError] = useState("");
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setEmailError("");
-    if (!EMAIL_REGEX.test(email)) {
-      setEmailError("Please enter a valid email address.");
-      return;
-    }
-    if (!env.emailProvider) {
-      setFormState("no-provider");
-      return;
-    }
-    setFormState("submitting");
-    try {
-      // TODO: wire to env.emailProvider when approved
-      // await submitEmail(email);
-      await new Promise((res) => setTimeout(res, 800));
-      setFormState("success");
-      setEmail("");
-    } catch {
-      setFormState("error");
-    }
-  };
 
   return (
     <section id="community" className="py-24 sm:py-32 px-4 relative overflow-hidden" style={{ background: "linear-gradient(to bottom, #0a0a0a, #0b0b0b)" }} aria-labelledby="community-heading">
@@ -62,42 +43,22 @@ export default function CommunitySection() {
           </motion.div>
         </div>
 
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={headerInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay: 0.4 }} className="max-w-md mx-auto">
-          <AnimatePresence mode="wait">
-            {formState === "no-provider" && (
-              <motion.div key="no-provider" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="border border-brand-border p-6 text-center">
-                <p className="text-brand-white text-sm mb-1">Updates coming soon.</p>
-                <p className="text-brand-subtle text-xs font-mono">We&apos;re finishing setup. Check back shortly or follow on social for live updates.</p>
-              </motion.div>
-            )}
-
-            {formState === "success" && (
-              <motion.div key="success" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.4 }} className="border border-brand-red/40 p-8 text-center" role="status" aria-live="polite">
-                <div className="w-8 h-8 border-2 border-brand-red rounded-full flex items-center justify-center mx-auto mb-4" aria-hidden="true">
-                  <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5L5 9L13 1" stroke="#1fe082" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                </div>
-                <p className="text-brand-white font-display text-xl tracking-widest mb-2" style={{ fontFamily: "var(--font-bebas)" }}>YOU&apos;RE IN.</p>
-                <p className="text-brand-muted text-sm">Welcome to the EZE Crew. Watch for updates.</p>
-              </motion.div>
-            )}
-
-            {(formState === "idle" || formState === "submitting" || formState === "error") && (
-              <motion.form key="form" onSubmit={handleSubmit} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex flex-col gap-3" noValidate aria-label="Join EZE IRL email signup">
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <label htmlFor="community-email" className="sr-only">Email address</label>
-                  <input id="community-email" type="email" value={email} onChange={(e) => { setEmail(e.target.value); setEmailError(""); }} placeholder="your@email.com" required disabled={formState === "submitting"} className="flex-1 bg-brand-graphite/60 border border-brand-border text-brand-white placeholder-brand-subtle px-4 py-3 text-sm font-mono focus:outline-none focus:border-brand-red/60 transition-colors duration-200 disabled:opacity-50" aria-required="true" aria-describedby={emailError ? "email-error" : undefined} aria-invalid={!!emailError} autoComplete="email" />
-                  <button type="submit" disabled={formState === "submitting" || !email} className="px-6 py-3 bg-brand-red text-brand-black text-xs font-semibold tracking-widest uppercase hover:bg-brand-red-bright transition-colors duration-200 disabled:opacity-40 disabled:pointer-events-none" aria-label="Submit email signup">
-                    {formState === "submitting" ? "JOINING..." : "JOIN"}
-                  </button>
-                </div>
-                {emailError && <p id="email-error" className="text-brand-red-bright text-xs font-mono text-left" role="alert" aria-live="assertive">{emailError}</p>}
-                {formState === "error" && <p className="text-brand-red-bright text-xs font-mono" role="alert" aria-live="assertive">Something went wrong. Please try again.</p>}
-                <p className="text-brand-subtle text-xs font-mono leading-relaxed text-left">
-                  By joining, you agree to receive occasional updates from EZE IRL. No spam. Unsubscribe anytime. See our <a href="/privacy" className="underline hover:text-brand-muted transition-colors">Privacy Policy</a>.
-                </p>
-              </motion.form>
-            )}
-          </AnimatePresence>
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={headerInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay: 0.4 }} className="max-w-md mx-auto text-left">
+          <WaitlistForm
+            interests={["eze_irl_community"]}
+            source="homepage"
+            enabled={enabled}
+            tone="irl"
+            cta="JOIN"
+            success="YOU'RE IN."
+            successNote="Welcome to the EZE Crew. Watch for updates."
+            disabledTitle="UPDATES COMING SOON"
+            disabledNote="We're finishing setup. Check back shortly or follow on social for live updates."
+            consentLabel="Send me EZE IRL updates: gear drops, streams, and challenges."
+            showFirstName={false}
+            analyticsEvent="eze_irl_community_signup"
+            analyticsSurface="community_homepage"
+          />
         </motion.div>
       </div>
     </section>

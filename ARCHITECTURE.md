@@ -49,7 +49,6 @@ All site-wide configuration lives in `config/`. Components import from config; n
 | `stream.ts` | Stream event data: date, platform, location, status flags |
 | `ecosystem.ts` | Navigation and EZE-FIT / EZE // FORM copy (verified claims only) |
 | `assets.ts` | Typed asset manifest; `null` = awaiting approved asset |
-| `env.ts` | Runtime env vars: emailProvider, analyticsId — all null until approved |
 
 ## 3D Approach
 
@@ -68,7 +67,7 @@ Fallback: SVG emblem renders if WebGL is unavailable or `prefers-reduced-motion:
 
 - Social URLs: all `null` in `config/social.ts`. Footer renders "SOON" badges for null entries. No fabricated handles or follower counts anywhere.
 - Stream: `config/stream.ts` uses `platformUrl: null` — the "WATCH ON TWITCH" button only renders when `platformUrl` is non-null. Countdown guards against negative values with `if (diff <= 0) return zeros`.
-- Email/Community: `env.emailProvider` is `null`. `CommunitySection.tsx` detects this and shows a "coming soon" state — no form is displayed, no email is submitted or logged.
+- Email/Community: `CommunitySection.tsx` uses the real gated waitlist (`lib/waitlist/*`, interest `eze_irl_community`, source `homepage`). While `WAITLIST_ENABLED` is not `true`, it shows a "coming soon" state — no form is displayed, no email is submitted or logged. (Superseded the old `env.emailProvider` stub, which faked a success response with a `setTimeout` and never actually collected anything — removed 2026-09-22.)
 - Gear: all "COMING SOON" badges, no purchase links anywhere.
 
 ## Security Headers

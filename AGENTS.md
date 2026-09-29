@@ -20,6 +20,7 @@ EZE IRL public website at www.ezeirl.com. Next.js 15 / React 19 / TypeScript.
 - **Never fabricate app screens or merchandise imagery.** Missing assets stay `null` in `config/assets.ts`
 - **Do not invent EZE // FORM prices, materials, sizes, inventory or release dates**
 - **Waitlist is gated by `WAITLIST_ENABLED`** (default off). Do not enable it until the privacy policy is attorney-reviewed
+- **Client intake (`/intake`, `POST /api/intake`) collects HEALTH data and is gated by `INTAKE_ENABLED` (default off).** Do not enable until the privacy policy is attorney-reviewed. Data goes only to `client_intake_submissions` (migration 0003), never the waitlist tables
 - **Never change DNS, nameservers, Squarespace, or Google Workspace records**
 - **Install with --legacy-peer-deps** (R3F 8.x / React 19 peer conflict)
 
@@ -39,7 +40,6 @@ npm test            # Vitest: waitlist, analytics, pages, content-policy tests
 - `config/stream.ts` — update status when stream is confirmed/live/ended
 - `config/ecosystem.ts` — navigation + all EZE-FIT / EZE // FORM copy (every EZE-FIT claim must map to `docs/eze-fit-feature-matrix.md`)
 - `config/assets.ts` — asset manifest; real EZE-FIT screens / EZE // FORM product imagery are registered here
-- `config/env.ts` — runtime env vars only
 
 ## Stream State Machine
 

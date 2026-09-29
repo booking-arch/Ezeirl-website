@@ -6,7 +6,7 @@ export const navItems = [
   { label: "EZE-FIT", href: "/eze-fit", id: "eze-fit" },
   { label: "MERCH", href: "/merch", id: "merch" },
   { label: "STREAM", href: "/#stream", id: "stream" },
-  { label: "PARTNERSHIPS", href: "/#partnerships", id: "partnerships" },
+  { label: "PARTNERSHIPS", href: "/partnerships", id: "partnerships" },
 ] as const;
 
 /** Secondary destinations kept reachable (mobile menu + footer) without cluttering the header. */

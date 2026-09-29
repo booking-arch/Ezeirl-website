@@ -28,6 +28,7 @@ const ctaClass: Record<Tone, string> = {
 function isActive(id: string, pathname: string): boolean {
   if (id === "eze-fit") return pathname.startsWith("/eze-fit");
   if (id === "merch") return pathname.startsWith("/merch");
+  if (id === "partnerships") return pathname.startsWith("/partnerships");
   if (id === "home") return pathname === "/";
   return false;
 }

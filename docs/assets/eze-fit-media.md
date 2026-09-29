@@ -23,9 +23,14 @@ Production content volume was not accessible and is unverified.
 
 | File (public) | Route | Feature | Classification | Marketing safe | Used at |
 |---|---|---|---|---|---|
-| `eze-fit/screens/nutrition-targets.webp` | `/nutrition` | Daily calorie / protein / carb / fat / fiber / hydration targets with "Why?" | LIMITED (estimates) | Yes, "targets" wording only | `/eze-fit` hero + TRACK chapter; homepage EZE-FIT reveal |
-| `eze-fit/screens/exercise-library.webp` | `/exercises` | Exercise library: muscle groups, instructions, filter | CONFIRMED | Yes | `/eze-fit` TRAIN chapter |
-| `eze-fit/screens/fitpoints-score.webp` | `/fitpoints` | FitPoints daily score and categories | LIMITED | Yes, "completed workouts and nutrition days" | `/eze-fit` PROGRESS chapter |
+| `eze-fit/screens/nutrition-targets.webp` | `/nutrition` | Daily calorie / protein / carb / fat / fiber / hydration targets with "Why?" | LIMITED (estimates) | Yes, "targets" wording only | Homepage EZE-FIT reveal (phone), homepage tile strip (EZE-FIT tile) |
+| `eze-fit/screens/exercise-library.webp` | `/exercises` | Exercise library: muscle groups, instructions, filter | CONFIRMED | Yes | Registered; not currently placed on any page |
+| `eze-fit/screens/fitpoints-score.webp` | `/fitpoints` | FitPoints daily score and categories | LIMITED | Yes, "completed workouts and nutrition days" | Registered; not currently placed on any page |
+
+**2026-09-22 update:** `/eze-fit` was rebuilt as an exact, standalone replica of the real app's own
+landing page (owner request — see `CHANGELOG.md`) and no longer uses the pinned phone story or
+these captures directly; they remain registered and are used on the homepage. Nothing here was
+deleted, since `PhoneDevice`/`ezeFitAssets.screens` may still be used on the homepage or a future page.
 
 Crops: the exercise capture starts below the app's mobile nav strip because that strip lists Coach, Supplements,
 Health and Secrets (excluded features). Each capture was scanned for excluded-feature text before acceptance.

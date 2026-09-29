@@ -68,6 +68,7 @@ export default function Button({
       return (
         <motion.a
           href={href}
+          onClick={onClick}
           className={classes}
           target={external ? "_blank" : undefined}
           rel={external ? "noopener noreferrer" : undefined}
@@ -79,7 +80,7 @@ export default function Button({
       );
     }
     return (
-      <MotionLink href={href} className={classes} aria-label={ariaLabel} {...motionProps}>
+      <MotionLink href={href} onClick={onClick} className={classes} aria-label={ariaLabel} {...motionProps}>
         {children}
       </MotionLink>
     );

@@ -14,10 +14,12 @@ import WatchSection from "@/components/WatchSection";
 import PartnershipSection from "@/components/PartnershipSection";
 import CommunitySection from "@/components/CommunitySection";
 import Footer from "@/components/Footer";
+import { isWaitlistEnabled } from "@/lib/waitlist/config";
 
 export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 export default function HomePage() {
+  const waitlistEnabled = isWaitlistEnabled();
   return (
     <>
       <Navigation />
@@ -33,7 +35,7 @@ export default function HomePage() {
         <PerformanceLab />
         <WatchSection />
         <PartnershipSection />
-        <CommunitySection />
+        <CommunitySection enabled={waitlistEnabled} />
         <ClosingCta />
       </main>
       <Footer />

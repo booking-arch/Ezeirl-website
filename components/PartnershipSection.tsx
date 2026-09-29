@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import Button from "./UI/Button";
+import { track } from "@/lib/analytics";
 
 const categories = [
   { label: "Gyms & Fitness Facilities", description: "Filming collaborations, location partnerships, and member acquisition stories.", accent: "#1fe082" },
@@ -62,7 +63,14 @@ export default function PartnershipSection() {
 
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
           <p className="text-brand-muted text-sm mb-4">Ready to build something real together?</p>
-          <Button variant="gold" size="lg" href="mailto:booking@ezeirl.com?subject=Partnership+Inquiry">PARTNERSHIP INQUIRY</Button>
+          <Button
+            variant="gold"
+            size="lg"
+            href="mailto:booking@ezeirl.com?subject=Partnership+Inquiry"
+            onClick={() => track("partnership_cta", { surface: "partnerships" })}
+          >
+            PARTNERSHIP INQUIRY
+          </Button>
           <p className="mt-3 text-brand-subtle text-xs font-mono">booking@ezeirl.com</p>
         </motion.div>
       </div>

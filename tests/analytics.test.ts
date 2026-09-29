@@ -10,7 +10,11 @@ afterEach(() => {
 describe("analytics layer", () => {
   it("defines exactly the required events", () => {
     expect([...ANALYTICS_EVENTS].sort()).toEqual(
-      ["eze_fit_beta_cta", "eze_fit_beta_signup", "eze_fit_launch_signup", "eze_fit_view", "merch_early_access_cta", "merch_product_view", "merch_view", "merch_waitlist_signup"].sort(),
+      [
+        "eze_fit_beta_cta", "eze_fit_beta_signup", "eze_fit_launch_signup", "eze_fit_view",
+        "merch_early_access_cta", "merch_product_view", "merch_view", "merch_waitlist_signup",
+        "eze_irl_community_signup", "partnership_cta", "social_click", "content_click",
+      ].sort(),
     );
   });
 

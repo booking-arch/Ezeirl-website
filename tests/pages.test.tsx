@@ -3,6 +3,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { readFileSync } from "node:fs";
 import EzeFitPage, { metadata as fitMeta } from "@/app/eze-fit/page";
 import MerchPage, { metadata as merchMeta } from "@/app/merch/page";
+import PartnershipsPage, { metadata as partnershipsMeta } from "@/app/partnerships/page";
 import HomePage from "@/app/page";
 import sitemap from "@/app/sitemap";
 import ProductGrid from "@/components/merch/ProductGrid";
@@ -21,12 +22,29 @@ describe("navigation", () => {
     expect(navItems.map((n) => n.label)).toEqual(["EZE IRL", "EZE-FIT", "MERCH", "STREAM", "PARTNERSHIPS"]);
     expect(navItems.find((n) => n.id === "eze-fit")?.href).toBe("/eze-fit");
     expect(navItems.find((n) => n.id === "merch")?.href).toBe("/merch");
+    expect(navItems.find((n) => n.id === "partnerships")?.href).toBe("/partnerships");
   });
   it("uses absolute anchors so links work from /eze-fit and /merch", () => {
     for (const n of [...navItems, ...secondaryNav]) expect(n.href.startsWith("/")).toBe(true);
   });
   it("keeps WATCH and COMMUNITY reachable", () => {
     expect(secondaryNav.map((s) => s.label)).toEqual(["WATCH", "COMMUNITY"]);
+  });
+});
+
+describe("/partnerships", () => {
+  it("renders the real partnership content, contact, and disclosure — no fake contact details", () => {
+    const out = html(<PartnershipsPage />);
+    for (const s of ["BUILT ON", "AUTHENTICITY", "Gyms &amp; Fitness Facilities", "PARTNERSHIP INQUIRY", "SUPPLEMENT DISCLOSURE POLICY"]) expect(out).toContain(s);
+    expect(out).toContain("booking@ezeirl.com");
+    expect(out).not.toMatch(/\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/); // no phone number
+  });
+  it("has SEO metadata and a ContactPoint (email only)", () => {
+    expect(partnershipsMeta.alternates?.canonical).toBe("/partnerships");
+    const out = html(<PartnershipsPage />);
+    expect(out).toContain("application/ld+json");
+    expect(out).toContain('"ContactPoint"');
+    expect(out).not.toMatch(/"telephone"/);
   });
 });
 
@@ -176,12 +194,23 @@ describe("homepage evolution", () => {
       expect(lower, `legacy claim still present: ${gone}`).not.toContain(gone);
     }
   });
+  it("community section uses the real gated waitlist, not the old fake stub", () => {
+    expect(out).not.toContain("env.emailProvider");
+    // Default test env has WAITLIST_ENABLED unset, so the real WaitlistForm shows its honest disabled panel.
+    expect(out).toContain("UPDATES COMING SOON");
+  });
+  it("community section renders the real single-source-of-truth form once the gate is open", () => {
+    vi.stubEnv("WAITLIST_ENABLED", "true");
+    const enabledOut = html(<HomePage />);
+    expect(enabledOut).toContain('name="email"');
+    expect(enabledOut).toContain("Send me EZE IRL updates");
+  });
 });
 
 describe("SEO artifacts", () => {
   it("sitemap lists the new routes and preserves the existing ones", () => {
     const urls = sitemap().map((s) => s.url);
-    for (const u of ["", "/eze-fit", "/merch", "/privacy", "/terms", "/sponsorship-disclosure", "/filming-policy", "/accessibility"]) {
+    for (const u of ["", "/eze-fit", "/merch", "/partnerships", "/privacy", "/terms", "/sponsorship-disclosure", "/filming-policy", "/accessibility"]) {
       expect(urls).toContain(`https://www.ezeirl.com${u}`);
     }
     expect(urls.some((u) => u.includes("/api"))).toBe(false);

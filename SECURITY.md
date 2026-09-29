@@ -36,11 +36,11 @@ worker-src blob:;
 
 ## No-Email-Collection Policy (Community section)
 
-The Community section (`CommunitySection.tsx`) checks `env.emailProvider` at runtime. If the value is `null` (the default), no form is rendered and no email is accepted. When an email provider is configured:
+Every signup form on the site (`CommunitySection.tsx`, `/eze-fit`, `/merch`) is gated by `WAITLIST_ENABLED` (see the "Waitlist" section above), enforced server-side in `lib/waitlist/handler.ts`. If the flag is not exactly `true` (the default), the API refuses to parse or store anything and no form is shown. Before setting it:
 
 1. The provider must have a signed DPA.
 2. Privacy policy must be reviewed and updated.
-3. `env.emailProvider` must be set to the approved provider name.
+3. `WAITLIST_ENABLED` must be set to `true` and `DATABASE_URL` provisioned (see DEPLOYMENT.md).
 4. Email API key must be added to `.env.local` (never committed).
 
 No email address is ever logged to console, written to a file, or passed to any third-party without the above steps completed.
@@ -48,7 +48,6 @@ No email address is ever logged to console, written to a file, or passed to any 
 ## No-Secrets Policy
 
 - `.env`, `.env.local`, `.env.production`, `*.env` are all listed in `.gitignore`.
-- `config/env.ts` reads from `process.env.NEXT_PUBLIC_*` — values are only surfaced client-side when prefixed with `NEXT_PUBLIC_`.
 - No API keys, tokens, or secrets exist anywhere in the committed codebase.
 
 ## What is Blocked

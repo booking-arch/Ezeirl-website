@@ -27,15 +27,15 @@
 
 ## Why No Email Provider is Active
 
-**Decision:** `env.emailProvider` is `null`. The community form shows "coming soon."
+**Decision:** `WAITLIST_ENABLED` is not `true` by default. The community form (and every other waitlist form) shows "coming soon."
 
-**Reason:** Collecting email addresses requires a signed DPA with the provider, an updated privacy policy, and a compliant unsubscribe flow. None of these were in place at launch prep. The guard in `CommunitySection.tsx` prevents any form from rendering when `emailProvider` is null — this is not just a UI choice but a data governance decision.
+**Reason:** Collecting email addresses requires an updated, attorney-reviewed privacy policy and a compliant unsubscribe flow. The guard in `lib/waitlist/handler.ts` prevents the API from parsing or storing anything while the flag is off — this is not just a UI choice but a data governance decision, enforced server-side. (Superseded the original `env.emailProvider`-based design, which never had a real backend — see ARCHITECTURE.md.)
 
 **Path to activation:**
 1. Select a provider (Buttondown, ConvertKit, Klaviyo, etc.)
 2. Sign DPA
 3. Review and update privacy policy
-4. Set `env.emailProvider` and add API key to `.env.local`
+4. Attorney-review the privacy policy, then set `WAITLIST_ENABLED=true` and provision `DATABASE_URL` (see DEPLOYMENT.md)
 5. Wire the submit handler
 
 ---

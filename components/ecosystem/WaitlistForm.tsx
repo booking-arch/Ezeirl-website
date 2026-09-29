@@ -6,7 +6,7 @@ import { track, type AnalyticsEvent } from "@/lib/analytics";
 import type { WaitlistInterest, WaitlistSource } from "@/lib/waitlist/interests";
 import { normalizeEmail, normalizeFirstName } from "@/lib/waitlist/normalize";
 
-type Tone = "fit" | "form";
+type Tone = "fit" | "form" | "irl";
 type Phase = "idle" | "submitting" | "success" | "error" | "limited";
 
 interface WaitlistFormProps {
@@ -38,6 +38,12 @@ const styles: Record<Tone, { input: string; button: string; accent: string; pane
     button: "bg-form-bone text-form-ink hover:bg-white",
     accent: "text-form-bone",
     panel: "border-form-line bg-form-ash/60",
+  },
+  irl: {
+    input: "border-brand-border bg-brand-graphite/60 text-brand-white placeholder:text-brand-subtle focus:border-brand-red/60",
+    button: "bg-brand-red text-brand-black hover:bg-brand-red-bright",
+    accent: "text-brand-red-bright",
+    panel: "border-brand-border bg-brand-card/40",
   },
 };
 
@@ -206,7 +212,7 @@ export default function WaitlistForm(props: WaitlistFormProps) {
       </div>
 
       <label className="flex cursor-pointer items-start gap-3 text-sm leading-snug text-white/70">
-        <input type="checkbox" name="consent" disabled={busy} className="mt-0.5 h-5 w-5 shrink-0 accent-current" style={{ accentColor: tone === "fit" ? "#c6f432" : "#ece6da" }} />
+        <input type="checkbox" name="consent" disabled={busy} className="mt-0.5 h-5 w-5 shrink-0 accent-current" style={{ accentColor: tone === "fit" ? "#c6f432" : tone === "irl" ? "#58f0a6" : "#ece6da" }} />
         <span>
           {consentLabel} <span className="text-white/50">(optional)</span>
         </span>

@@ -19,6 +19,10 @@ export const ANALYTICS_EVENTS = [
   "merch_product_view",
   "merch_waitlist_signup",
   "merch_early_access_cta",
+  "eze_irl_community_signup",
+  "partnership_cta",
+  "social_click",
+  "content_click",
 ] as const;
 export type AnalyticsEvent = (typeof ANALYTICS_EVENTS)[number];
 

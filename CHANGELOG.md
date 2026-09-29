@@ -6,6 +6,19 @@ All notable changes to this project are documented here.
 
 ## [Unreleased] — `feat/ecosystem` — EZE ecosystem (EZE IRL · EZE-FIT · EZE // FORM)
 
+### 2026-09-22 — production-launch completion pass
+- **New `/partnerships`** page: dedicated route reusing the verified `PartnershipSection` content, own SEO metadata, `ContactPage`/`ContactPoint` structured data (email only, no phone), nav updated to link here instead of the homepage anchor.
+- **Community signup fixed**: `CommunitySection` previously checked a never-configured `env.emailProvider` and faked a success response with `setTimeout` — collected nothing, ever. Rewired to the real gated `/api/waitlist` (interest `eze_irl_community`, source `homepage`) via the shared `WaitlistForm`, which gained an `"irl"` tone. Verified end-to-end (invalid email, valid + consent, success state, real POST body) against a live dev server.
+- **Fixed a hydration bug introduced during that rewiring**: `isWaitlistEnabled()` was called directly inside the (`"use client"`) `CommunitySection`, which reads a server-only env var — correct during SSR, `undefined` after hydration in the browser, so the form and its disabled-state sibling disagreed and React silently remounted the wrong one. Fixed by computing the flag in the server component (`app/page.tsx`) and passing it down as a prop, the same pattern `/eze-fit` and `/merch` already used correctly.
+- **Waitlist schema widened** (additive migration `0002_waitlist_community.sql`): new interest `eze_irl_community`, new sources `homepage`/`partnerships`. Verified on disposable Postgres: applies idempotently, accepts the new values, still rejects invalid ones.
+- **Removed dead code**: `config/env.ts` (the fake email-provider gate, now unreachable) and its five stale doc references (`AGENTS.md`, `ARCHITECTURE.md`, `DECISIONS.md`, `README.md`, `SECURITY.md`), rewritten to describe the real `WAITLIST_ENABLED` gate.
+- **Branded error handling**: `app/error.tsx` (route-segment crashes) and `app/global-error.tsx` (root-layout crashes) replace Next's generic error page; neither ever renders the underlying error to the visitor.
+- **Security regression suite** (`tests/security-boundary.test.tsx`): fails if any page ever renders a `127.0.0.1`/tailnet/`fit-mate`/localhost-with-port URL, an off-site link, or a link into `/admin`/`/dashboard`; also scans the compiled `.next/static` output (what the browser actually downloads) when a build is present.
+- **Analytics**: added `eze_irl_community_signup`, `partnership_cta`, `social_click`, `content_click` events; `Button.tsx` now forwards `onClick` on href/mailto links (it silently dropped it before) so the partnership CTA can be tracked.
+- **Docs**: `docs/admin-observability.md` (no admin panel built — documents the safer alternative), `docs/assets/asset-audit-2026-09-22.md` (consolidated missing-asset report, re-verified against Drive).
+- Added `images.qualities: [75, 80]` to `next.config.ts` (Next 16 forward-compat; was a build warning).
+- 106/106 tests passing (was 95); 0 axe violations across all 8 public routes, desktop + mobile.
+
 ### Added
 - `/eze-fit` (private-beta product page, scroll-driven phone story, two separate waitlists, FAQ, disclaimers) and `/merch` (EZE // FORM, Drop 001 coming soon, real-asset gallery architecture, early access).
 - Homepage EZE-FIT and EZE // FORM reveals; ecosystem cross-links (footer, strip); contextual nav CTA; intentional mobile menu (Escape, scroll lock, focus return).
@@ -125,3 +138,6 @@ classified as production-safe for `ezeirl.com`'s own marketing voice (e.g. "AI f
 "Fitness Coach", "Food search + barcode" stated plainly rather than hedged/beta-labeled). It was
 used verbatim per explicit instruction to mirror the real, already-live app page exactly, not
 independently re-verified against that matrix. Flagged here rather than silently reconciled.
+
+## Unreleased — client intake
+- Added `/intake` new-client questionnaire (schema in `config/intake.ts`), `POST /api/intake`, migration 0003. Off by default (`INTAKE_ENABLED`). noindex.
