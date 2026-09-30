@@ -1,4 +1,5 @@
 import type { RateLimiter } from "@/lib/waitlist/rate-limit";
+import type { PlanStore } from "@/lib/plans/store";
 import type { IntakeStore } from "./store";
 import { parseIntakePayload } from "./validate";
 
@@ -6,6 +7,7 @@ export interface IntakeDeps {
   enabled: boolean;
   store: IntakeStore | null;
   rateLimiter: RateLimiter;
+  plans?: PlanStore | null;
 }
 
 const MAX_BODY_BYTES = 40_000;
@@ -67,11 +69,19 @@ export async function handleIntakeRequest(req: Request, deps: IntakeDeps): Promi
 
   if (!deps.store) return json(503, { ok: false, code: "unavailable", message: "The form is temporarily unavailable." });
 
+  let submissionId = "";
   try {
-    await deps.store.insert(parsed.data);
+    submissionId = await deps.store.insert(parsed.data);
   } catch (err) {
     console.error("[intake] store failure:", err instanceof Error ? err.name : "unknown");
     return json(500, { ok: false, code: "server_error", message: "Something went wrong. Please try again." });
+  }
+  if (deps.plans && submissionId) {
+    try {
+      await deps.plans.ensureDraft(parsed.data, submissionId);
+    } catch (err) {
+      console.error("[intake] plan draft failure:", err instanceof Error ? err.name : "unknown");
+    }
   }
   return json(200, { ok: true });
 }

@@ -11,6 +11,8 @@ import RegisterPage from "@/app/register/page";
 import AccountPage from "@/app/account/page";
 import IntakePage from "@/app/intake/page";
 import ClientPortalPage from "@/app/client-portal/page";
+import CoachPage from "@/app/coach/page";
+import PlanDocument from "@/components/plans/PlanDocument";
 
 /**
  * Critical security rule (explicit project requirement): the public website must never expose
@@ -46,6 +48,9 @@ const PAGES: [string, React.ReactElement][] = [
   ["/account", <AccountPage key="account" />],
   ["/intake", <IntakePage key="intake" />],
   ["/client-portal", <ClientPortalPage key="portal" />],
+  ["/coach", <CoachPage key="coach" />],
+  ["/plan/waiting", <PlanDocument key="waiting" plan={{ status: "draft", clientName: "Alex" }} />],
+  ["/plan/published", <PlanDocument key="published" plan={{ status: "published", clientName: "Alex", serviceLabel: "Personal training", goals: "Strength", idealOutcome: "Feel better", fitnessPlan: "Practice a squat.", meals: "Eat foods you already like.", schedule: "Monday — Training" }} />],
 ];
 
 describe("security boundary: no private infrastructure ever reaches the public site", () => {

@@ -1,5 +1,6 @@
 import { handleIntakeRequest } from "@/lib/intake/handler";
 import { isIntakeEnabled, resolveIntakeStore } from "@/lib/intake/store";
+import { resolvePlanStore } from "@/lib/plans/store";
 import { createMemoryRateLimiter } from "@/lib/waitlist/rate-limit";
 
 export const runtime = "nodejs";
@@ -9,5 +10,5 @@ export const dynamic = "force-dynamic";
 const rateLimiter = createMemoryRateLimiter({ limit: 5, windowMs: 10 * 60 * 1000 });
 
 export async function POST(req: Request) {
-  return handleIntakeRequest(req, { enabled: isIntakeEnabled(), store: resolveIntakeStore(), rateLimiter });
+  return handleIntakeRequest(req, { enabled: isIntakeEnabled(), store: resolveIntakeStore(), plans: resolvePlanStore(), rateLimiter });
 }

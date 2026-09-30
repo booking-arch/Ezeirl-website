@@ -33,6 +33,9 @@ app/
   register/page.tsx     — /register
   account/page.tsx      — /account
   api/auth/*            — register, login, logout, session, password change
+  coach/page.tsx        — /coach (owner review; COACH_EMAILS)
+  plan/[token]/page.tsx — /plan/[token] (client view, empty until published)
+  api/coach/*           — list, read, and publish plans
   (legal)/              — Route group: shared layout with back navigation
     layout.tsx          — Legal layout: header, back link, footer
     privacy/            — /privacy

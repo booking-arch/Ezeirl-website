@@ -53,6 +53,10 @@ No email address is ever logged to console, written to a file, or passed to any 
 
 `/login`, `/register`, and `/account` are EZE IRL accounts. Passwords are stored as scrypt hashes. The session cookie `eze_session` is HttpOnly and holds a random token; the database stores only its SHA-256 hash. Changing the password ends the older sessions and sets a new cookie. These tables are not the private EZE-FIT user database and hold no health data. The routes are `noindex` and disallowed in `robots.txt`.
 
+## Coach desk
+
+`/coach` is open only to emails listed in `COACH_EMAILS`. A client plan at `/plan/[token]` shows a waiting page until that coach publishes it. The published page contains the five client sections only. Coach notes, medications, and the rest of the questionnaire stay on the desk. Both routes are `noindex` and disallowed in `robots.txt`.
+
 ## No-Secrets Policy
 
 - `.env`, `.env.local`, `.env.production`, `*.env` are all listed in `.gitignore`.

@@ -6,6 +6,11 @@ All notable changes to this project are documented here.
 
 ## [Unreleased] — `feat/ecosystem` — EZE ecosystem (EZE IRL · EZE-FIT · EZE // FORM)
 
+### 2026-09-30 — coach-reviewed client plans
+- A portal questionnaire now creates a **draft** fitness and nutrition plan. The client link stays a waiting page until you publish it from `/coach`.
+- `/coach` is limited to the emails in `COACH_EMAILS`. It shows the questionnaire, the editable plan, and private coach notes. Health answers that need a closer look must be confirmed before publish.
+- The client opens `/plan/[token]` for goals, ideal outcome, fitness plan, meals, and schedule. Coach notes and the raw health answers are not on that page.
+
 ### 2026-09-30 — EZE IRL website accounts
 - **Log in** is at `/login`. **Create account** is at `/register`. A signed-in person lands on `/account`, can change their password, and can log out.
 - Accounts live in `site_accounts` / `site_sessions` (migration `0004`). On this machine they are stored in `data/site-accounts.sqlite`, which is not committed. When `DATABASE_URL` is set, they use that Postgres database instead. On Vercel, with no database configured, sign-in answers that accounts are unavailable. Changing a password ends the older sessions.

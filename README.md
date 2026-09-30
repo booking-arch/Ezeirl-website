@@ -38,6 +38,8 @@ Official website for EZE IRL — the fitness, competition, comedy, and real-life
 
 `/intake` and `/client-portal` exist, are `noindex`, and are disallowed in `robots.txt`. Both stay off unless their environment gates are set.
 
+`/coach` reviews a questionnaire into a fitness and nutrition plan. `/plan/[token]` is the client link and stays empty until that plan is published.
+
 ## Local Development
 
 ```bash

@@ -8,6 +8,7 @@ const inputClass =
 
 export default function AccountPanel() {
   const [email, setEmail] = useState<string | null>(null);
+  const [coach, setCoach] = useState(false);
   const [ready, setReady] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -19,8 +20,13 @@ export default function AccountPanel() {
     let cancelled = false;
     fetch("/api/auth/session", { cache: "no-store" })
       .then((response) => response.json())
-      .then((data) => {
-        if (!cancelled) setEmail(typeof data.email === "string" ? data.email : null);
+      .then(async (data) => {
+        if (cancelled) return;
+        const signedIn = typeof data.email === "string" ? data.email : null;
+        setEmail(signedIn);
+        if (!signedIn) return;
+        const coachResponse = await fetch("/api/coach/me", { cache: "no-store" }).catch(() => null);
+        if (!cancelled) setCoach(Boolean(coachResponse?.ok));
       })
       .catch(() => {
         if (!cancelled) setEmail(null);
@@ -93,6 +99,7 @@ export default function AccountPanel() {
           <li><Link className="inline-flex min-h-[44px] items-center underline underline-offset-2" href="/content">Browse the photographs</Link></li>
           <li><Link className="inline-flex min-h-[44px] items-center underline underline-offset-2" href="/eze-fit">EZE-FIT beta interest</Link></li>
           <li><Link className="inline-flex min-h-[44px] items-center underline underline-offset-2" href="/client-portal">Coaching portal</Link></li>
+          {coach ? <li><Link className="inline-flex min-h-[44px] items-center underline underline-offset-2" href="/coach">Coach desk</Link></li> : null}
         </ul>
         <button type="button" onClick={logout} disabled={pending} className="mt-4 inline-flex min-h-[44px] items-center text-xs font-semibold uppercase tracking-[0.18em] text-brand-white underline underline-offset-4">
           Log out

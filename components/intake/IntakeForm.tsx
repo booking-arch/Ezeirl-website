@@ -56,7 +56,7 @@ export default function IntakeForm({ enabled, service = "personal-training", gui
         <h2 ref={successRef} tabIndex={-1} className="font-display text-3xl tracking-[0.08em] text-brand-red-bright outline-none">
           THANK YOU — GOT IT.
         </h2>
-        <p className="mt-2 text-sm leading-relaxed text-white/70">Your {intake.title.toLowerCase()} questionnaire was received. I’ll review it and reach out to plan next steps.</p>
+        <p className="mt-2 text-sm leading-relaxed text-white/70">Your {intake.title.toLowerCase()} questionnaire was received. Your coach will review it before a plan is shared with you.</p>
         {guided && <Link href="/client-portal" className="mt-6 inline-block text-sm text-brand-red-bright underline underline-offset-4">Back to your portal</Link>}
       </div>
     );
