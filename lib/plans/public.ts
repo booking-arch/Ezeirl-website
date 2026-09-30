@@ -24,6 +24,7 @@ export interface PlanRecord extends PlanContent {
   createdAt: string;
   updatedAt: string;
   publishedAt: string | null;
+  agreementSelection: string[];
 }
 
 export interface PlanSummary {

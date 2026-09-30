@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { PlanRecord, PlanSummary } from "@/lib/plans/public";
+import AgreementPacket from "./AgreementPacket";
 
 const field =
   "mt-2 w-full border border-brand-border bg-brand-graphite/60 px-3 py-3 text-base leading-relaxed text-brand-white focus:border-brand-red/60 focus:outline-none";
@@ -75,6 +76,7 @@ export default function CoachDesk() {
           meals: plan.meals,
           schedule: plan.schedule,
           coachNotes: plan.coachNotes,
+          agreementSelection: plan.agreementSelection,
           ...(publish === null ? {} : { publish, reviewed }),
         }),
       });
@@ -187,6 +189,8 @@ export default function CoachDesk() {
               ))}
             </dl>
           </section>
+
+          <AgreementPacket plan={plan} onSaved={setPlan} />
 
           {([
             ["goals", "GOALS"],

@@ -1,6 +1,7 @@
 import { readCookie } from "@/lib/auth/handler";
 import type { SessionRecord } from "@/lib/auth/store";
 import { normalizeEmail } from "@/lib/waitlist/normalize";
+import { AGREEMENT_FORMS } from "@/config/agreements";
 import type { PlanContent, PlanStatus } from "./public";
 import type { PlanStore } from "./store";
 
@@ -112,6 +113,16 @@ export async function handleCoachSave(req: Request, deps: CoachDeps, id: string)
     content[key] = value;
   }
   const status: PlanStatus = body.publish === true ? "published" : body.publish === false ? "draft" : current.status;
+  let agreementSelection = current.agreementSelection;
+  if (body.agreementSelection !== undefined) {
+    if (!Array.isArray(body.agreementSelection) || body.agreementSelection.length > AGREEMENT_FORMS.length || body.agreementSelection.some((id) => typeof id !== "string")) {
+      return json(422, { ok: false, message: "Choose valid agreement forms." });
+    }
+    const requested = [...new Set(body.agreementSelection as string[])];
+    const allowed = new Set(AGREEMENT_FORMS.filter((form) => form.services.includes(current.service)).map((form) => form.id));
+    if (requested.some((id) => !allowed.has(id))) return json(422, { ok: false, message: "One of those forms is not available for this coaching service." });
+    agreementSelection = requested;
+  }
   if (status === "published") {
     for (const key of ["goals", "idealOutcome", "fitnessPlan", "meals", "schedule"] as const) {
       if (!content[key].trim()) return json(422, { ok: false, message: "Fill in every client section before you publish." });
@@ -120,6 +131,6 @@ export async function handleCoachSave(req: Request, deps: CoachDeps, id: string)
       return json(422, { ok: false, message: "Confirm you reviewed the health answers before the client can see this." });
     }
   }
-  const saved = await deps.plans!.save(id, content, status);
+  const saved = await deps.plans!.save(id, content, status, agreementSelection);
   return json(200, { ok: true, plan: saved });
 }

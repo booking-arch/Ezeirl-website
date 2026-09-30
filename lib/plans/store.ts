@@ -2,6 +2,7 @@ import { randomBytes, randomUUID } from "node:crypto";
 import { mkdirSync } from "node:fs";
 import path from "node:path";
 import { isCoachingService } from "@/config/coaching";
+import { AGREEMENT_FORMS } from "@/config/agreements";
 import type { IntakeAnswer, IntakeSubmission } from "@/lib/intake/validate";
 import { describeIntake, draftPlan } from "./draft";
 import type { PlanContent, PlanRecord, PlanStatus, PlanSummary } from "./public";
@@ -11,7 +12,7 @@ export interface PlanStore {
   list(): Promise<PlanSummary[]>;
   get(id: string): Promise<PlanRecord | null>;
   getByToken(token: string): Promise<PlanRecord | null>;
-  save(id: string, content: PlanContent, status: PlanStatus): Promise<PlanRecord | null>;
+  save(id: string, content: PlanContent, status: PlanStatus, agreementSelection?: string[]): Promise<PlanRecord | null>;
 }
 
 type StoredPlan = PlanRecord;
@@ -43,6 +44,7 @@ function buildRecord(submission: IntakeSubmission, submissionId: string, existin
     createdAt: now,
     updatedAt: now,
     publishedAt: null,
+    agreementSelection: [],
   };
 }
 
@@ -67,7 +69,7 @@ export function createMemoryPlanStore(): PlanStore {
     async getByToken(token) {
       return [...plans.values()].find((plan) => plan.viewToken === token) ?? null;
     },
-    async save(id, content, status) {
+    async save(id, content, status, agreementSelection) {
       const current = plans.get(id);
       if (!current) return null;
       const now = new Date().toISOString();
@@ -77,6 +79,7 @@ export function createMemoryPlanStore(): PlanStore {
         status,
         updatedAt: now,
         publishedAt: status === "published" ? current.publishedAt ?? now : null,
+        agreementSelection: agreementSelection ?? current.agreementSelection,
       };
       plans.set(id, next);
       return next;
@@ -122,7 +125,19 @@ type PlanRow = {
   created_at: string;
   updated_at: string;
   published_at: string | null;
+  agreement_selection: string | string[] | null;
 };
+
+function parseAgreementSelection(raw: string | string[] | null | undefined): string[] {
+  try {
+    const parsed = typeof raw === "string" ? JSON.parse(raw) as unknown : raw;
+    if (!Array.isArray(parsed)) return [];
+    const allowed = new Set(AGREEMENT_FORMS.map((form) => form.id));
+    return [...new Set(parsed.filter((id): id is string => typeof id === "string" && allowed.has(id)))];
+  } catch {
+    return [];
+  }
+}
 
 function snapshot(submission: IntakeSubmission): string {
   return JSON.stringify({ service: submission.service, email: submission.email, fullName: submission.fullName, answers: submission.answers });
@@ -165,10 +180,11 @@ function rowToRecord(row: PlanRow): PlanRecord | null {
     createdAt: row.created_at,
     updatedAt: row.updated_at,
     publishedAt: row.published_at,
+    agreementSelection: parseAgreementSelection(row.agreement_selection),
   };
 }
 
-const PLAN_COLUMNS = `id, submission_id, view_token, status, service, client_name, email, goals, ideal_outcome, fitness_plan, meals, schedule, coach_notes, intake_json, created_at, updated_at, published_at`;
+const PLAN_COLUMNS = `id, submission_id, view_token, status, service, client_name, email, goals, ideal_outcome, fitness_plan, meals, schedule, coach_notes, intake_json, created_at, updated_at, published_at, agreement_selection`;
 
 const sqlitePools = new Map<string, PlanStore>();
 
@@ -199,9 +215,11 @@ export function createSqlitePlanStore(file: string): PlanStore {
           intake_json text NOT NULL,
           created_at text NOT NULL,
           updated_at text NOT NULL,
-          published_at text
+          published_at text,
+          agreement_selection text NOT NULL DEFAULT '[]'
         );
       `);
+      try { db.exec("ALTER TABLE client_plans ADD COLUMN agreement_selection text NOT NULL DEFAULT '[]'"); } catch { /* already present */ }
       return {
         db,
         insert: db.prepare(`INSERT INTO client_plans (id, submission_id, view_token, status, service, client_name, email, goals, ideal_outcome, fitness_plan, meals, schedule, coach_notes, intake_json, created_at, updated_at, published_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`),
@@ -209,7 +227,7 @@ export function createSqlitePlanStore(file: string): PlanStore {
         selectToken: db.prepare(`SELECT ${PLAN_COLUMNS} FROM client_plans WHERE view_token = ?`),
         selectSubmission: db.prepare(`SELECT ${PLAN_COLUMNS} FROM client_plans WHERE submission_id = ?`),
         list: db.prepare(`SELECT ${PLAN_COLUMNS} FROM client_plans ORDER BY updated_at DESC`),
-        update: db.prepare(`UPDATE client_plans SET status = ?, goals = ?, ideal_outcome = ?, fitness_plan = ?, meals = ?, schedule = ?, coach_notes = ?, updated_at = ?, published_at = ? WHERE id = ?`),
+        update: db.prepare(`UPDATE client_plans SET status = ?, goals = ?, ideal_outcome = ?, fitness_plan = ?, meals = ?, schedule = ?, coach_notes = ?, updated_at = ?, published_at = ?, agreement_selection = ? WHERE id = ?`),
       };
     })();
     return opening;
@@ -268,13 +286,13 @@ export function createSqlitePlanStore(file: string): PlanStore {
       const { selectToken } = await api();
       return read(selectToken, token);
     },
-    async save(id, content, status) {
+    async save(id, content, status, agreementSelection) {
       const current = await store.get(id);
       if (!current) return null;
       const now = new Date().toISOString();
       const publishedAt = status === "published" ? current.publishedAt ?? now : null;
       const { update } = await api();
-      update.run(status, content.goals, content.idealOutcome, content.fitnessPlan, content.meals, content.schedule, content.coachNotes, now, publishedAt, id);
+      update.run(status, content.goals, content.idealOutcome, content.fitnessPlan, content.meals, content.schedule, content.coachNotes, now, publishedAt, JSON.stringify(agreementSelection ?? current.agreementSelection), id);
       return store.get(id);
     },
   };
@@ -348,14 +366,14 @@ export function createNeonPlanStore(connectionString: string): PlanStore {
     async getByToken(token) {
       return one(`SELECT ${PLAN_COLUMNS} FROM client_plans WHERE view_token = $1`, [token]);
     },
-    async save(id, content, status) {
+    async save(id, content, status, agreementSelection) {
       const current = await this.get(id);
       if (!current) return null;
       const now = new Date().toISOString();
       const publishedAt = status === "published" ? current.publishedAt ?? now : null;
       await (await sql()).query(
-        `UPDATE client_plans SET status = $1, goals = $2, ideal_outcome = $3, fitness_plan = $4, meals = $5, schedule = $6, coach_notes = $7, updated_at = $8::timestamptz, published_at = $9::timestamptz WHERE id = $10`,
-        [status, content.goals, content.idealOutcome, content.fitnessPlan, content.meals, content.schedule, content.coachNotes, now, publishedAt, id],
+        `UPDATE client_plans SET status = $1, goals = $2, ideal_outcome = $3, fitness_plan = $4, meals = $5, schedule = $6, coach_notes = $7, updated_at = $8::timestamptz, published_at = $9::timestamptz, agreement_selection = $10::jsonb WHERE id = $11`,
+        [status, content.goals, content.idealOutcome, content.fitnessPlan, content.meals, content.schedule, content.coachNotes, now, publishedAt, JSON.stringify(agreementSelection ?? current.agreementSelection), id],
       );
       return this.get(id);
     },
@@ -371,4 +389,3 @@ export function resolvePlanStore(env: NodeJS.ProcessEnv = process.env): PlanStor
   const file = env.INTAKE_SQLITE_PATH || path.join(process.cwd(), "data", "client-intake.sqlite");
   return createSqlitePlanStore(file);
 }
-

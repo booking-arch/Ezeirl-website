@@ -146,6 +146,30 @@ describe("coach desk access", () => {
     expect((await handleCoachGet(request(`http://ezeirl.test/api/coach/plans/${flagged.id}`), deps, flagged.id)).status).toBe(200);
   });
 
+  it("saves only service-appropriate agreement choices for the selected client", async () => {
+    const plans = createMemoryPlanStore();
+    const personalTraining = await plans.ensureDraft(submission, "agreement-submission-1");
+    const saved = await handleCoachSave(
+      request(`http://ezeirl.test/api/coach/plans/${personalTraining.id}`, "PUT", {
+        agreementSelection: ["personal-training-agreement", "media-release", "personal-training-agreement"],
+      }),
+      coachDeps(plans),
+      personalTraining.id,
+    );
+    expect(saved.status).toBe(200);
+    expect((await saved.json()).plan.agreementSelection).toEqual(["personal-training-agreement", "media-release"]);
+    expect((await plans.get(personalTraining.id))?.agreementSelection).toEqual(["personal-training-agreement", "media-release"]);
+
+    const nutrition = await plans.ensureDraft({ ...submission, service: "nutrition-coaching" }, "agreement-submission-2");
+    const rejected = await handleCoachSave(
+      request(`http://ezeirl.test/api/coach/plans/${nutrition.id}`, "PUT", { agreementSelection: ["location-equipment"] }),
+      coachDeps(plans),
+      nutrition.id,
+    );
+    expect(rejected.status).toBe(422);
+    expect((await plans.get(nutrition.id))?.agreementSelection).toEqual([]);
+  });
+
   it("creates a draft from a portal submission and from an older saved questionnaire", async () => {
     const plans = createMemoryPlanStore();
     const intake = createMemoryIntakeStore();
@@ -169,6 +193,8 @@ describe("coach desk access", () => {
     const opened = await disk.get(listed[0].id);
     expect(opened?.submissionId).toBe(savedId);
     expect(toPublicPlan(opened).status).toBe("draft");
+    await disk.save(opened!.id, opened!, "draft", ["personal-training-agreement", "media-release"]);
+    expect((await disk.get(opened!.id))?.agreementSelection).toEqual(["personal-training-agreement", "media-release"]);
   });
 });
 
