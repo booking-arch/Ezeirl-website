@@ -1,6 +1,12 @@
-# Domain routing findings (read-only investigation, 2026-09-21)
+# Domain routing findings
 
 **Nothing was changed.** No DNS, nameserver, Squarespace, Vercel-domain or Google Workspace setting was modified.
+
+## Update 2026-09-30 (current)
+
+`www.ezeirl.com` is a CNAME to `eze-irl.web.app`. The apex A record is `199.36.158.100`. Both serve a Firebase Hosting Vite build, and `www` redirects to the apex. `https://ezeirl-website.vercel.app` still serves this Next.js repository. Nameservers remain `nse1-4.squarespacedns.com`. Mail still points at Google (`smtp.google.com`, SPF, `google._domainkey`). There is no `_dmarc` record. Do not “correct” the domain toward Vercel until the Firebase project `eze-irl` is accounted for. The canonical tags inside this repo still say `https://www.ezeirl.com`, which is the intended primary host for this Next.js site, not a description of today’s Firebase redirect.
+
+## Investigation 2026-09-21 (historical)
 
 ## Observed
 

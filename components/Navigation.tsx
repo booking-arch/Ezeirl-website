@@ -176,7 +176,7 @@ export default function Navigation() {
               })}
             </ul>
 
-            <ul className="mb-6 flex gap-6 font-mono text-xs tracking-[0.25em] text-white/70">
+            <ul className="mb-6 flex flex-wrap gap-x-6 gap-y-1 font-mono text-xs tracking-[0.25em] text-white/70">
               {secondaryNav.map((s) => (
                 <li key={s.label}>
                   <Link href={s.href} onClick={() => setMenuOpen(false)} className="inline-flex min-h-[44px] items-center hover:text-white">

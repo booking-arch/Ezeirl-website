@@ -6,5 +6,9 @@ Sitemap: https://www.ezeirl.com/sitemap.xml
 # Disallow internal draft pages
 Disallow: /gym-collaboration-draft
 
+# Health-data intake and the direct-link client portal stay out of the crawl
+Disallow: /intake
+Disallow: /client-portal
+
 # Technical endpoints are not content
 Disallow: /api/

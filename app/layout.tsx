@@ -37,7 +37,6 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "EZE IRL | Discipline Creates Freedom",
     description: "Fitness. Lifestyle. Discipline. EZE IRL.",
-    creator: "@ezeirl",
   },
   icons: {
     icon: [

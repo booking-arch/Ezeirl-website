@@ -60,5 +60,5 @@ All pages in app/(legal)/ are drafts requiring attorney review before data colle
 - R3F/React 19 peer dep conflict — use --legacy-peer-deps on install
 - No email provider connected — CommunitySection shows "coming soon" state (the EZE-FIT / EZE // FORM waitlist is separate: see ARCHITECTURE.md)
 - No real social URLs — Footer shows "SOON" badges
-- No real creator images — data-placeholder attributes mark where assets go
+- Approved EZE IRL photographs are in `public/eze-irl/photos/` and indexed at `/content`. Do not generate replacements. Video and social URLs stay unset until confirmed in `config/social.ts`
 - No analytics provider — events are emitted through `lib/analytics.ts` and dropped until a provider is approved

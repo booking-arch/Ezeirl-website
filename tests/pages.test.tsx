@@ -27,8 +27,9 @@ describe("navigation", () => {
   it("uses absolute anchors so links work from /eze-fit and /merch", () => {
     for (const n of [...navItems, ...secondaryNav]) expect(n.href.startsWith("/")).toBe(true);
   });
-  it("keeps WATCH and COMMUNITY reachable", () => {
-    expect(secondaryNav.map((s) => s.label)).toEqual(["WATCH", "COMMUNITY"]);
+  it("keeps WATCH, CONTENT and COMMUNITY reachable", () => {
+    expect(secondaryNav.map((s) => s.label)).toEqual(["WATCH", "CONTENT", "COMMUNITY"]);
+    expect(secondaryNav.find((s) => s.label === "CONTENT")?.href).toBe("/content");
   });
 });
 
@@ -179,6 +180,8 @@ describe("homepage evolution", () => {
   it("presents the approved EZE IRL identity and keeps every existing section", () => {
     for (const t of ["DISCIPLINE", "CREATES", "Freedom", "EXPLORE EZE IRL", "JOIN THE MOVEMENT", "THIS IS", "Real training.", "FITNESS. COMEDY.", "LIVE", "BIGGER.", "never"]) expect(out).toContain(t);
     for (const id of ['id="home"', 'id="story"', 'id="irl"', 'id="lifestyle"', 'id="stream"', 'id="watch"', 'id="partnerships"', 'id="community"', 'id="lab"', 'id="eze-fit"', 'id="eze-form"']) expect(out).toContain(id);
+    expect(out).toContain('href="/content"');
+    expect(out).toContain("EXPLORE THE PHOTOS");
     // one h1, and it starts with the brand
     expect((out.match(/<h1/g) ?? []).length).toBe(1);
   });
@@ -210,17 +213,21 @@ describe("homepage evolution", () => {
 describe("SEO artifacts", () => {
   it("sitemap lists the new routes and preserves the existing ones", () => {
     const urls = sitemap().map((s) => s.url);
-    for (const u of ["", "/eze-fit", "/merch", "/partnerships", "/privacy", "/terms", "/sponsorship-disclosure", "/filming-policy", "/accessibility"]) {
+    for (const u of ["", "/eze-fit", "/merch", "/partnerships", "/content", "/privacy", "/terms", "/sponsorship-disclosure", "/filming-policy", "/accessibility"]) {
       expect(urls).toContain(`https://www.ezeirl.com${u}`);
     }
     expect(urls.some((u) => u.includes("/api"))).toBe(false);
     expect(urls.some((u) => u.includes("gym-collaboration-draft"))).toBe(false);
+    expect(urls.some((u) => u.includes("/intake"))).toBe(false);
+    expect(urls.some((u) => u.includes("/client-portal"))).toBe(false);
   });
   it("robots keeps the sitemap and draft rule, and hides API endpoints", () => {
     const robots = readFileSync("public/robots.txt", "utf8");
     expect(robots).toContain("Allow: /");
     expect(robots).toContain("Sitemap: https://www.ezeirl.com/sitemap.xml");
     expect(robots).toContain("Disallow: /gym-collaboration-draft");
+    expect(robots).toContain("Disallow: /intake");
+    expect(robots).toContain("Disallow: /client-portal");
     expect(robots).toContain("Disallow: /api/");
   });
 });

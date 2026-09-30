@@ -32,7 +32,9 @@ Official website for EZE IRL — the fitness, competition, comedy, and real-life
 
 ## Routes
 
-`/` · `/eze-fit` · `/merch` · `/api/waitlist` (POST) · legal pages · `/sitemap.xml`
+`/` · `/eze-fit` · `/merch` · `/partnerships` · `/content` · `/api/waitlist` (POST) · legal pages · `/sitemap.xml`
+
+`/intake` and `/client-portal` exist, are `noindex`, and are disallowed in `robots.txt`. Both stay off unless their environment gates are set.
 
 ## Local Development
 

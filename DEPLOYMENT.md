@@ -1,21 +1,32 @@
 # DEPLOYMENT.md — EZE IRL
 
-## STATUS: LIVE ON VERCEL
+## STATUS: CUSTOM DOMAIN IS NOT THIS REPOSITORY
 
-Corrected 2026-09-21. This file previously said "NOT DEPLOYED"; that was stale.
+Re-checked 2026-09-30. Read-only. Nothing was changed.
 
-Observed on 2026-09-21 (HTTP, not assumed):
+The 2026-09-21 note below is historical. It is not the current domain behavior.
 
-| Host | Result |
-|------|--------|
-| `https://www.ezeirl.com` | `301` → `https://ezeirl-website.vercel.app/` |
-| `https://ezeirl.com` | `301` → `https://ezeirl-website.vercel.app/` |
-| `https://ezeirl-website.vercel.app` | serves the site (`server: Vercel`) |
+| Host | Result on 2026-09-30 |
+|------|----------------------|
+| `https://ezeirl.com` | `200` Vite shell (`/assets/index-CQcPpWHX.js`), `last-modified` 2026-09-22. Same bytes as `https://eze-irl.web.app/`. |
+| `https://www.ezeirl.com` | `301` → `https://ezeirl.com/` |
+| `https://ezeirl-website.vercel.app` | `200` this Next.js app, `server: Vercel`, still the older `master` deployment |
 
-- **Production branch / commit at the time:** `master` @ `62d182061f7adeb0f8d7d3ca0b0fcc469b7c95d4`.
+DNS (Squarespace nameservers, unchanged by this repo):
+
+- `ezeirl.com` A → `199.36.158.100` (Firebase Hosting)
+- `www.ezeirl.com` CNAME → `eze-irl.web.app`
+- TXT `hosting-site=eze-irl`
+- MX → `smtp.google.com`. SPF includes Google. `google._domainkey` is present. No `_dmarc` TXT record was found.
+
+**Do not point ezeirl.com or www at this Next.js project until the Firebase project `eze-irl` source is identified.** Replacing that site from this repo would take down the current public homepage. `feat/ecosystem` is local and ahead of `origin/master`.
+
+### Historical observation (2026-09-21)
+
+At that time both hostnames `301`’d to `https://ezeirl-website.vercel.app/`, and `master` was `62d182061f7adeb0f8d7d3ca0b0fcc469b7c95d4`. That redirect is no longer what the domain does.
+
 - **Repository:** `github.com/ezequielcruz91343-max/Ezeirl-website`.
-- **Not verifiable from the repo:** the Vercel project/deployment IDs, plan, whether GitHub auto-deploy is connected, and which domains are attached. Read these from the Vercel dashboard and record them here.
-- **Open question for the owner:** the custom domains *redirect* to the `.vercel.app` host instead of serving the site under `www.ezeirl.com`, while the site's canonical/OG/sitemap URLs all say `https://www.ezeirl.com`. That mismatch is probably unintended (search engines will see the redirect target as the real site). It is a Vercel domain setting, not something the code changes; it has been left untouched.
+- **Not verifiable from the repo:** the Vercel project id, plan, and whether GitHub auto-deploy is connected.
 
 ## Hard boundaries (unchanged)
 

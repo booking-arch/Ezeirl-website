@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import Button from "./UI/Button";
 import { social } from "@/config/social";
+import { track } from "@/lib/analytics";
 
 const categories = [
   { id: "challenges", label: "CHALLENGES", accent: "#58f0a6" },
@@ -200,8 +201,22 @@ export default function WatchSection() {
           transition={{ duration: 0.7 }}
           className="flex flex-col sm:flex-row gap-4 items-start sm:items-center"
         >
+          <Button
+            variant="primary"
+            size="md"
+            href="/content"
+            onClick={() => track("content_click", { surface: "watch", location: "journal" })}
+          >
+            EXPLORE THE PHOTOS
+          </Button>
           {social.youtube.url ? (
-            <Button variant="primary" size="md" href={social.youtube.url} external>
+            <Button
+              variant="secondary"
+              size="md"
+              href={social.youtube.url}
+              external
+              onClick={() => track("social_click", { surface: "watch", location: "youtube" })}
+            >
               WATCH ON YOUTUBE
             </Button>
           ) : (
@@ -210,7 +225,13 @@ export default function WatchSection() {
             </span>
           )}
           {social.tiktok.url ? (
-            <Button variant="secondary" size="md" href={social.tiktok.url} external>
+            <Button
+              variant="secondary"
+              size="md"
+              href={social.tiktok.url}
+              external
+              onClick={() => track("social_click", { surface: "watch", location: "tiktok" })}
+            >
               FOLLOW ON TIKTOK
             </Button>
           ) : (
@@ -219,7 +240,13 @@ export default function WatchSection() {
             </span>
           )}
           {social.instagram.url ? (
-            <Button variant="ghost" size="md" href={social.instagram.url} external>
+            <Button
+              variant="ghost"
+              size="md"
+              href={social.instagram.url}
+              external
+              onClick={() => track("social_click", { surface: "watch", location: "instagram" })}
+            >
               FOLLOW ON INSTAGRAM
             </Button>
           ) : null}

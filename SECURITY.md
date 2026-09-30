@@ -45,6 +45,10 @@ Every signup form on the site (`CommunitySection.tsx`, `/eze-fit`, `/merch`) is 
 
 No email address is ever logged to console, written to a file, or passed to any third-party without the above steps completed.
 
+## Crawl exclusions
+
+`public/robots.txt` disallows `/api/`, `/gym-collaboration-draft`, `/intake`, and `/client-portal`. The intake and client-portal routes also send `noindex`. They are not in `sitemap.ts`. Disallowing them does not disable the forms; `INTAKE_ENABLED` still defaults off.
+
 ## No-Secrets Policy
 
 - `.env`, `.env.local`, `.env.production`, `*.env` are all listed in `.gitignore`.

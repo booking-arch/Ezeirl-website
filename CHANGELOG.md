@@ -6,6 +6,13 @@ All notable changes to this project are documented here.
 
 ## [Unreleased] — `feat/ecosystem` — EZE ecosystem (EZE IRL · EZE-FIT · EZE // FORM)
 
+### 2026-09-30 — public content journal
+- **`/content`**: index of the ten approved EZE IRL photographs, grouped as training, fitness, and lifestyle. Each card links back to the homepage section that already shows that photo. No video is listed. `config/content.ts` rejects a video entry unless its URL is the confirmed account in `config/social.ts`.
+- Homepage Watch section’s primary action is now **EXPLORE THE PHOTOS** (`content_click`). YouTube, TikTok, and Instagram buttons still render only when those URLs are set, and then fire `social_click`. Footer social links do the same.
+- Mobile menu includes CONTENT. The header **JOIN IRL** button now goes to `/#community` from every page, including `/partnerships` and `/content`.
+- Removed the unconfirmed `twitter.creator` value `@ezeirl`. X is still `url: null` in `config/social.ts`.
+- `robots.txt` now disallows `/intake` and `/client-portal`. Neither route is in the sitemap.
+
 ### 2026-09-22 — production-launch completion pass
 - **New `/partnerships`** page: dedicated route reusing the verified `PartnershipSection` content, own SEO metadata, `ContactPage`/`ContactPoint` structured data (email only, no phone), nav updated to link here instead of the homepage anchor.
 - **Community signup fixed**: `CommunitySection` previously checked a never-configured `env.emailProvider` and faked a success response with `setTimeout` — collected nothing, ever. Rewired to the real gated `/api/waitlist` (interest `eze_irl_community`, source `homepage`) via the shared `WaitlistForm`, which gained an `"irl"` tone. Verified end-to-end (invalid email, valid + consent, success state, real POST body) against a live dev server.

@@ -6,6 +6,7 @@ import { ezeIrlBrand } from "@/config/assets";
 import { brand } from "@/config/brand";
 import { social } from "@/config/social";
 import { links } from "@/config/links";
+import { track } from "@/lib/analytics";
 
 const legalLinks = [
   { label: "Privacy", href: links.privacy },
@@ -48,6 +49,7 @@ export default function Footer() {
                   { href: "/", name: "EZE IRL", role: "the lifestyle" },
                   { href: "/eze-fit", name: "EZE-FIT", role: "the technology" },
                   { href: "/merch", name: "EZE // FORM", role: "the apparel" },
+                  { href: "/content", name: "CONTENT", role: "the photographs" },
                 ].map((l) => (
                   <li key={l.href}>
                     <Link href={l.href} className="inline-flex min-h-[44px] items-center text-brand-muted hover:text-brand-white text-sm transition-colors duration-200">
@@ -67,7 +69,7 @@ export default function Footer() {
                 {Object.entries(social).map(([key, entry]) => (
                   <li key={key}>
                     {entry.url ? (
-                      <a href={entry.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-brand-muted hover:text-brand-white text-sm transition-colors duration-200 group" aria-label={`Follow EZE IRL on ${entry.label}`}>
+                      <a href={entry.url} target="_blank" rel="noopener noreferrer" onClick={() => track("social_click", { surface: "footer", location: key })} className="flex items-center gap-3 text-brand-muted hover:text-brand-white text-sm transition-colors duration-200 group" aria-label={`Follow EZE IRL on ${entry.label}`}>
                         <span className="text-brand-subtle group-hover:text-brand-red transition-colors duration-200">{socialIcons[key]}</span>
                         {entry.label}
                       </a>
