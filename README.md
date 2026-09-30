@@ -34,6 +34,8 @@ Official website for EZE IRL — the fitness, competition, comedy, and real-life
 
 `/` · `/eze-fit` · `/merch` · `/partnerships` · `/content` · `/api/waitlist` (POST) · legal pages · `/sitemap.xml`
 
+`/login` · `/register` · `/account` — EZE IRL website accounts. Not the private EZE-FIT app.
+
 `/intake` and `/client-portal` exist, are `noindex`, and are disallowed in `robots.txt`. Both stay off unless their environment gates are set.
 
 ## Local Development

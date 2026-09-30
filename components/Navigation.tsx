@@ -8,6 +8,7 @@ import Image from "next/image";
 import { ezeIrlBrand } from "@/config/assets";
 import { navItems, navCta, secondaryNav } from "@/config/ecosystem";
 import { track } from "@/lib/analytics";
+import AuthLink from "@/components/auth/AuthLink";
 
 type Tone = "irl" | "fit" | "form";
 
@@ -110,11 +111,12 @@ export default function Navigation() {
               })}
             </ul>
 
-            <div className="hidden items-center gap-3 lg:flex">
+            <div className="flex items-center gap-3">
+              <AuthLink />
               <Link
                 href={cta.href}
                 onClick={onCta}
-                className={`inline-flex min-h-[40px] items-center border px-4 py-2 text-xs font-semibold uppercase tracking-widest transition-colors duration-200 ${ctaClass[tone]}`}
+                className={`hidden min-h-[40px] items-center border px-4 py-2 text-xs font-semibold uppercase tracking-widest transition-colors duration-200 lg:inline-flex ${ctaClass[tone]}`}
               >
                 {cta.label}
               </Link>
@@ -186,6 +188,7 @@ export default function Navigation() {
               ))}
             </ul>
 
+            <AuthLink onNavigate={() => setMenuOpen(false)} className="mb-4 inline-flex min-h-[44px] items-center font-mono text-xs tracking-[0.25em] text-white/70" />
             <Link
               href={cta.href}
               onClick={onCta}

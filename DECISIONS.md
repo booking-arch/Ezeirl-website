@@ -52,6 +52,18 @@
 
 **Trade-off:** Any content change requires a redeploy. Acceptable at this stage.
 
+**Update 2026-09-30:** The marketing pages stay static. `/login`, `/register`, `/account`, and `/api/auth/*` are dynamic. See “Why website accounts stay on this site.”
+
+---
+
+## Why website accounts stay on this site
+
+**Decision:** `/login`, `/register`, and `/account` are EZE IRL website accounts. They are not EZE-FIT accounts, and this site does not link to the private app.
+
+**Reason:** The owner asked for a login that is ready to use on this Next.js site. The private EZE-FIT app stays invitation-only and off the public pages. `/eze-fit` remains a beta-interest page with no login. `/client-portal` stays a coaching questionnaire, not an account gate.
+
+**How it works:** Passwords are scrypt hashes. The `eze_session` cookie is HttpOnly and holds a random token; the database stores only the SHA-256 of that token. Changing the password ends the older sessions and sets a new cookie. With no `DATABASE_URL`, this computer stores accounts in `data/site-accounts.sqlite` (gitignored). When `DATABASE_URL` is set, migration `0004_site_accounts.sql` is the Postgres schema. On Vercel, with no database URL, sign-in returns unavailable instead of pretending an account was saved. Waitlist and health intake stay off.
+
 ---
 
 ## Why No Gym/Venue is Named

@@ -6,6 +6,11 @@ All notable changes to this project are documented here.
 
 ## [Unreleased] — `feat/ecosystem` — EZE ecosystem (EZE IRL · EZE-FIT · EZE // FORM)
 
+### 2026-09-30 — EZE IRL website accounts
+- **Log in** is at `/login`. **Create account** is at `/register`. A signed-in person lands on `/account`, can change their password, and can log out.
+- Accounts live in `site_accounts` / `site_sessions` (migration `0004`). On this machine they are stored in `data/site-accounts.sqlite`, which is not committed. When `DATABASE_URL` is set, they use that Postgres database instead. On Vercel, with no database configured, sign-in answers that accounts are unavailable. Changing a password ends the older sessions.
+- This login is the public website only. `/eze-fit` still has no login and does not link to the private app.
+
 ### 2026-09-30 — public content journal
 - **`/content`**: index of the ten approved EZE IRL photographs, grouped as training, fitness, and lifestyle. Each card links back to the homepage section that already shows that photo. No video is listed. `config/content.ts` rejects a video entry unless its URL is the confirmed account in `config/social.ts`.
 - Homepage Watch section’s primary action is now **EXPLORE THE PHOTOS** (`content_click`). YouTube, TikTok, and Instagram buttons still render only when those URLs are set, and then fire `social_click`. Footer social links do the same.

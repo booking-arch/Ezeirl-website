@@ -14,7 +14,7 @@ export default function PrivacyPage() {
         </div>
         <div>
           <h2 className="text-brand-white text-lg font-semibold mb-2">Information We May Collect</h2>
-          <p className="text-brand-muted text-sm leading-relaxed">When an email signup is activated: email addresses submitted voluntarily for updates. We do not currently collect payment, health, or biometric data. We do not sell personal information.</p>
+          <p className="text-brand-muted text-sm leading-relaxed">If you create an EZE IRL website account, we store your email address and a hash of your password so you can log in. That account is only for this website. It is not an EZE-FIT account and it does not include health or fitness data. Email signup for the waitlist stays off until that collection is turned on. We do not sell personal information.</p>
         </div>
         <div>
           <h2 className="text-brand-white text-lg font-semibold mb-2">How Information Is Used</h2>

@@ -6,6 +6,9 @@ import HomePage from "@/app/page";
 import MerchPage from "@/app/merch/page";
 import PartnershipsPage from "@/app/partnerships/page";
 import ContentPage from "@/app/content/page";
+import LoginPage from "@/app/login/page";
+import RegisterPage from "@/app/register/page";
+import AccountPage from "@/app/account/page";
 import IntakePage from "@/app/intake/page";
 import ClientPortalPage from "@/app/client-portal/page";
 
@@ -38,6 +41,9 @@ const PAGES: [string, React.ReactElement][] = [
   ["/merch", <MerchPage key="merch" />],
   ["/partnerships", <PartnershipsPage key="partnerships" />],
   ["/content", <ContentPage key="content" />],
+  ["/login", <LoginPage key="login" />],
+  ["/register", <RegisterPage key="register" />],
+  ["/account", <AccountPage key="account" />],
   ["/intake", <IntakePage key="intake" />],
   ["/client-portal", <ClientPortalPage key="portal" />],
 ];

@@ -15,6 +15,7 @@ const legalLinks = [
   { label: "Filming Policy", href: links.filmingPolicy },
   { label: "Accessibility", href: links.accessibility },
   { label: "Contact", href: links.contact },
+  { label: "Log in", href: "/login" },
   { label: "Sponsorships", href: links.sponsorships },
   { label: "Business Inquiries", href: links.business },
 ];

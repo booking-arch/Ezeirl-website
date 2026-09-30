@@ -21,6 +21,7 @@ EZE IRL public website at www.ezeirl.com. Next.js 15 / React 19 / TypeScript.
 - **Do not invent EZE // FORM prices, materials, sizes, inventory or release dates**
 - **Waitlist is gated by `WAITLIST_ENABLED`** (default off). Do not enable it until the privacy policy is attorney-reviewed
 - **Client intake (`/intake`, `POST /api/intake`) collects HEALTH data and is gated by `INTAKE_ENABLED` (default off).** Do not enable until the privacy policy is attorney-reviewed. Data goes only to `client_intake_submissions` (migration 0003), never the waitlist tables
+- **Website login (`/login`, `/register`) is an EZE IRL account only.** Do not connect it to the private EZE-FIT app or put that app's address anywhere public
 - **Never change DNS, nameservers, Squarespace, or Google Workspace records**
 - **Install with --legacy-peer-deps** (R3F 8.x / React 19 peer conflict)
 

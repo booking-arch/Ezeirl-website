@@ -27,6 +27,9 @@ yarn-error.log*
 # Env catch-all
 *.env
 
+# Local account database (never commit)
+/data/
+
 # Local
 .DS_Store
 *.pem

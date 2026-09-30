@@ -29,6 +29,10 @@ app/
   client-portal/        — /client-portal and /client-portal/[service] (noindex, direct-link onboarding)
   api/waitlist/route.ts — POST /api/waitlist (gated by WAITLIST_ENABLED)
   api/intake/route.ts   — POST /api/intake (gated by INTAKE_ENABLED)
+  login/page.tsx        — /login
+  register/page.tsx     — /register
+  account/page.tsx      — /account
+  api/auth/*            — register, login, logout, session, password change
   (legal)/              — Route group: shared layout with back navigation
     layout.tsx          — Legal layout: header, back link, footer
     privacy/            — /privacy

@@ -49,6 +49,10 @@ No email address is ever logged to console, written to a file, or passed to any 
 
 `public/robots.txt` disallows `/api/`, `/gym-collaboration-draft`, `/intake`, and `/client-portal`. The intake and client-portal routes also send `noindex`. They are not in `sitemap.ts`. Disallowing them does not disable the forms; `INTAKE_ENABLED` still defaults off.
 
+## Website accounts
+
+`/login`, `/register`, and `/account` are EZE IRL accounts. Passwords are stored as scrypt hashes. The session cookie `eze_session` is HttpOnly and holds a random token; the database stores only its SHA-256 hash. Changing the password ends the older sessions and sets a new cookie. These tables are not the private EZE-FIT user database and hold no health data. The routes are `noindex` and disallowed in `robots.txt`.
+
 ## No-Secrets Policy
 
 - `.env`, `.env.local`, `.env.production`, `*.env` are all listed in `.gitignore`.
