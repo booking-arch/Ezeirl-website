@@ -6,6 +6,7 @@ import HomePage from "@/app/page";
 import MerchPage from "@/app/merch/page";
 import PartnershipsPage from "@/app/partnerships/page";
 import IntakePage from "@/app/intake/page";
+import ClientPortalPage from "@/app/client-portal/page";
 
 /**
  * Critical security rule (explicit project requirement): the public website must never expose
@@ -36,6 +37,7 @@ const PAGES: [string, React.ReactElement][] = [
   ["/merch", <MerchPage key="merch" />],
   ["/partnerships", <PartnershipsPage key="partnerships" />],
   ["/intake", <IntakePage key="intake" />],
+  ["/client-portal", <ClientPortalPage key="portal" />],
 ];
 
 describe("security boundary: no private infrastructure ever reaches the public site", () => {

@@ -1,0 +1,63 @@
+.portal { min-height: 100svh; overflow: hidden; position: relative; isolation: isolate; background: #090d0b; }
+.ambient { position: absolute; inset: 0; pointer-events: none; z-index: -1; background: radial-gradient(ellipse at 12% 45%, #163c283a, transparent 55%), radial-gradient(ellipse at 95% 100%, #73834e15, transparent 50%); }
+.header { position: relative; z-index: 3; max-width: 1320px; margin: auto; padding: 30px 48px; display: flex; align-items: center; justify-content: space-between; }
+.header img { width: 150px; height: auto; }
+.headerLabel, .eyebrow, .cardTop, .artLabel, .cardAction, .footer { font-family: var(--font-jetbrains), monospace; }
+.headerLabel { color: #a8b4ad; font-size: 10px; letter-spacing: .2em; display: flex; align-items: center; gap: 10px; }
+.statusDot { width: 5px; height: 5px; background: #1fe082; border-radius: 50%; box-shadow: 0 0 10px #1fe08280; }
+.content { position: relative; z-index: 3; max-width: 1184px; padding: 15px 48px 0; margin: 0 auto; }
+.intro { display: flex; align-items: flex-end; justify-content: space-between; padding: 20px 0 40px; gap: 20px; }
+.eyebrow { font-size: 9px; letter-spacing: .22em; color: #82aa93; margin-bottom: 17px; }
+.intro h1 { font-family: var(--font-bebas); font-size: clamp(64px, 6.3vw, 90px); line-height: .94; letter-spacing: -.01em; white-space: nowrap; color: #efeee7; }
+.intro h1 span { display: inline-block; color: #1fe082; font-family: var(--font-script); font-size: .78em; letter-spacing: -.05em; transform: rotate(-5deg); padding-right: 8px; }
+.introCopy { font-size: 13px; line-height: 1.9; color: #a8b4ad; padding-bottom: 2px; }
+.cards { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; perspective: 1500px; }
+.card { --accent: #50edaa; --rx: 0deg; --ry: 0deg; position: relative; display: block; min-width: 0; overflow: hidden; border: 1px solid #354f41; border-radius: 4px; background: radial-gradient(ellipse at 65% 28%, #2b57414d, transparent 60%), linear-gradient(145deg, #182b20, #0e1813 65%); transform: rotateX(var(--rx)) rotateY(var(--ry)); transition: transform .3s ease-out, border-color .3s, box-shadow .3s; text-decoration: none; }
+.nutrition { --accent: #d6e9a0; border-color: #4a5038; background: radial-gradient(ellipse at 55% 25%, #707b3540, transparent 60%), linear-gradient(145deg, #262c1c, #141a11 70%); }
+.card::after { position: absolute; inset: 0; content: ''; pointer-events: none; background: radial-gradient(400px circle at var(--mx, 50%) var(--my, 50%), #d7ffe208, transparent 60%); }
+.card:hover, .card:focus-visible { border-color: var(--accent); box-shadow: 0 18px 65px #0005, 0 0 25px #3f9c6110; }
+.cardTop { display: flex; align-items: center; justify-content: space-between; padding: 22px 28px 0; font-size: 9px; color: var(--accent); letter-spacing: .18em; }
+.number { color: #a1b1a7; font-size: 11px; }
+.art { height: 220px; position: relative; margin: 0 10px; }
+.art::before { content: ''; position: absolute; width: 65%; height: 34px; border-radius: 50%; background: #0005; filter: blur(15px); bottom: 16px; left: 17.5%; }
+.artLabel { position: absolute; bottom: 2px; left: 18px; font-size: 7px; letter-spacing: .2em; color: #8ca393; }
+.sculpture { position: absolute; inset: -12px -10px 0; }
+.sculpture canvas { position: relative; z-index: 1; width: 100%; height: 100%; }
+.sculptureFallback { position: absolute; inset: 20% 24%; transform: rotate(-25deg); }
+.sculptureFallback span { position: absolute; inset: 0; border: 15px solid #8aaf9180; border-radius: 50%; box-shadow: inset 8px 6px 18px #0008, 0 6px 10px #0005; transform: rotateY(45deg); }
+.sculptureFallback span:nth-child(2) { inset: 12%; border-color: #4de4a780; }
+.sculptureFallback span:nth-child(3) { inset: 24%; border-color: #cee5b080; }
+.sculpture[data-ready='true'] .sculptureFallback { display: none; }
+.cardContent { padding: 14px 28px 0; }
+.cardContent h2 { font-family: var(--font-bebas); font-size: clamp(44px, 4.2vw, 60px); line-height: .96; letter-spacing: .015em; color: #efeee7; }
+.cardContent h2 span { color: var(--accent); }
+.cardContent > p { margin-top: 13px; font-size: 12px; color: #b0bdb4; }
+.cardAction { border-top: 1px solid #b6d3b926; padding: 17px 0; margin-top: 22px; display: flex; align-items: center; justify-content: space-between; font-size: 10px; font-weight: 600; letter-spacing: .16em; color: var(--accent); }
+.arrow { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border: 1px solid #b6d3b933; border-radius: 50%; font-size: 22px; font-weight: 400; transition: color .2s, background .2s, transform .2s; }
+.card:hover .arrow, .card:focus-visible .arrow { background: var(--accent); color: #102318; transform: rotate(45deg); }
+.footer { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 28px 0; font-size: 8px; letter-spacing: .12em; color: #879a8e; }
+.signature { font-family: var(--font-script); font-size: 16px; letter-spacing: -.03em; color: #c0c9b9; transform: rotate(-3deg); }
+.formPage { min-height: 100svh; background: radial-gradient(ellipse at top right, #183a2633, transparent 65%), #090d0b; }
+.formContainer { max-width: 760px; padding: 20px 28px 80px; margin: auto; }
+.backLink { display: inline-block; font-size: 12px; color: #b4c7bb; margin-bottom: 36px; padding: 8px 0; }
+.backLink:hover { color: #50edaa; }
+.formTitle { font-family: var(--font-bebas); font-size: clamp(48px, 6vw, 72px); line-height: 1; color: #efeee7; }
+.formIntro { font-size: 14px; line-height: 1.8; color: #a7b7ac; margin: 16px 0 32px; }
+@media (min-width: 1500px) and (min-height: 900px) { .content { padding-top: 50px; } .art { height: 265px; } }
+@media (min-width: 761px) and (max-height: 800px) { .header { padding-block: 20px; } .intro { padding-top: 5px; padding-bottom: 28px; } .intro h1 { font-size: 72px; } .art { height: 160px; } .cardContent h2 { font-size: 48px; } .footer { padding-block: 20px; } }
+@media (max-width: 760px) {
+  .header { padding: 23px 24px; } .header img { width: 124px; } .headerLabel { font-size: 8px; letter-spacing: .1em; }
+  .content { padding: 8px 24px 0; } .intro { display: block; padding: 20px 0 28px; } .eyebrow { font-size: 8px; margin-bottom: 15px; }
+  .intro h1 { font-size: clamp(54px, 10.5vw, 78px); } .introCopy { margin-top: 20px; font-size: 12px; } .introCopy br { display: none; }
+  .cards { gap: 16px; } .cardTop { padding: 20px 18px 0; font-size: 7px; } .art { height: 175px; } .artLabel { display: none; }
+  .cardContent { padding: 10px 18px 0; } .cardContent h2 { font-size: 40px; } .cardContent > p { font-size: 11px; min-height: 36px; }
+  .cardAction { margin-top: 16px; font-size: 9px; } .footer > span:last-child { display: none; } .signature { font-size: 14px; }
+}
+@media (max-width: 540px) {
+  .cards { grid-template-columns: 1fr; } .card { min-height: 222px; } .cardTop { padding: 18px 20px 0; font-size: 8px; }
+  .art { position: absolute; width: 51%; height: 150px; right: 0; top: 37px; margin: 0; } .sculpture { inset: 0 -5px; }
+  .cardContent { padding: 23px 20px 0; } .cardContent h2 { font-size: 38px; position: relative; z-index: 2; } .cardContent > p { font-size: 10px; min-height: 0; position: relative; z-index: 2; margin-top: 14px; }
+  .cardAction { padding: 12px 0; margin-top: 16px; } .arrow { width: 28px; height: 28px; font-size: 19px; }
+  .footer { padding: 25px 0; font-size: 8px; gap: 8px; } .signature { font-size: 12px; } .formContainer { padding-inline: 24px; }
+}
+@media (prefers-reduced-motion: reduce) { .card { transform: none !important; } .arrow { transform: none !important; } }

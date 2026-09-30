@@ -1,0 +1,36 @@
+{
+  "report": [
+    {
+      "service": "personal-training",
+      "result": "pass",
+      "answerCount": 25,
+      "submission": 200
+    },
+    {
+      "service": "nutrition-coaching",
+      "result": "pass",
+      "answerCount": 20,
+      "submission": 200
+    }
+  ],
+  "widths": [
+    320,
+    390,
+    768,
+    1440
+  ],
+  "errors": [],
+  "checks": [
+    "required focus",
+    "back retains answers",
+    "goal cap",
+    "review edit",
+    "consent before network",
+    "failure retains answers",
+    "real local memory POST",
+    "success focus and answer clearing",
+    "mobile overflow",
+    "reduced motion",
+    "invalid service 404"
+  ]
+}

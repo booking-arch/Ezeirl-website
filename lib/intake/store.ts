@@ -1,4 +1,4 @@
-import { INTAKE_CONSENT_VERSION } from "@/config/intake";
+import { getCoachingIntake } from "@/config/coaching";
 import type { IntakeSubmission } from "./validate";
 
 export interface IntakeStore {
@@ -30,7 +30,7 @@ export function resolveIntakeStore(env: NodeJS.ProcessEnv = process.env): Intake
         await sql.query(
           `INSERT INTO client_intake_submissions (email_normalized, full_name, answers, consent_at, consent_text_version)
            VALUES ($1, $2, $3::jsonb, now(), $4)`,
-          [s.email, s.fullName, JSON.stringify(s.answers), INTAKE_CONSENT_VERSION],
+          [s.email, s.fullName, JSON.stringify({ ...s.answers, coachingService: s.service }), getCoachingIntake(s.service).consentVersion],
         );
       },
     };

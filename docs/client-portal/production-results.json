@@ -1,0 +1,17 @@
+{
+  "result": "pass",
+  "checks": [
+    "production routes",
+    "exactly two choices",
+    "keyboard navigation",
+    "noindex",
+    "both forms gated",
+    "API refuses intake while disabled",
+    "320/390/768/1280/1440px overflow",
+    "reduced motion",
+    "WebGL fallback",
+    "no-JavaScript links",
+    "homepage loads"
+  ],
+  "errors": []
+}

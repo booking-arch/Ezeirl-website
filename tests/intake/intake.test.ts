@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { INTAKE_SECTIONS } from "@/config/intake";
+import { getCoachingIntake } from "@/config/coaching";
 import { handleIntakeRequest, type IntakeDeps } from "@/lib/intake/handler";
 import { createMemoryIntakeStore, isIntakeEnabled } from "@/lib/intake/store";
 import { parseIntakePayload } from "@/lib/intake/validate";
@@ -52,6 +53,32 @@ describe("legal gate (INTAKE_ENABLED)", () => {
 });
 
 describe("validation", () => {
+  it("keeps legacy requests on the personal-training path", () => {
+    const result = parseIntakePayload(good);
+    expect(result.ok && !result.honeypot && result.data.service).toBe("personal-training");
+  });
+  it("rejects an unknown service, including a null service", () => {
+    for (const service of ["unknown", "__proto__", null, {}, []]) {
+      const result = parseIntakePayload({ ...good, service });
+      expect(!result.ok && result.errors.service).toBeTruthy();
+    }
+  });
+  it("validates nutrition against its own questionnaire and discards unrelated answers", () => {
+    const nutritionAnswers = Object.fromEntries(getCoachingIntake("nutrition-coaching").sections.flatMap((section) => section.questions).map((q) => [q.id,
+      q.type === "multi" ? [q.options[0].value] : q.type === "radio" ? q.options[0].value : q.type === "scale" ? "3" : q.type === "email" ? "sample@example.com" : q.type === "tel" ? "+15550101234" : "Sample answer",
+    ]));
+    const payload = { service: "nutrition-coaching", consent: true, answers: { ...nutritionAnswers, parqHeart: "yes", coachingService: "spoofed" } };
+    const result = parseIntakePayload(payload);
+    expect(result.ok).toBe(true);
+    if (result.ok && !result.honeypot) {
+      expect(result.data.service).toBe("nutrition-coaching");
+      expect(result.data.answers).not.toHaveProperty("parqHeart");
+      expect(result.data.answers).not.toHaveProperty("coachingService");
+    }
+    const missingAllergies = parseIntakePayload({ ...payload, answers: { ...nutritionAnswers, foodAllergies: "" } });
+    expect(!missingAllergies.ok && missingAllergies.errors.foodAllergies).toBeTruthy();
+    expect(parseIntakePayload({ ...good, service: "nutrition-coaching" }).ok).toBe(false);
+  });
   it("accepts a complete submission and normalizes email", () => {
     const r = parseIntakePayload(good);
     expect(r.ok && !r.honeypot && r.data.email).toBe("jane@example.com");

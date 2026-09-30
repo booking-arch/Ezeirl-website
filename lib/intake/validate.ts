@@ -1,10 +1,12 @@
-import { INTAKE_SECTIONS, type IntakeQuestion } from "@/config/intake";
+import { type IntakeQuestion } from "@/config/intake";
+import { getCoachingIntake, isCoachingService, type CoachingService } from "@/config/coaching";
 import { normalizeEmail } from "@/lib/waitlist/normalize";
 
 export type IntakeAnswer = string | string[];
 export type IntakeAnswers = Record<string, IntakeAnswer>;
 
 export interface IntakeSubmission {
+  service: CoachingService;
   email: string; // normalized
   fullName: string;
   answers: IntakeAnswers;
@@ -17,7 +19,6 @@ export type IntakeParseResult =
   | { ok: true; honeypot: true }
   | { ok: false; errors: IntakeErrors };
 
-const QUESTIONS: readonly IntakeQuestion[] = INTAKE_SECTIONS.flatMap((s) => s.questions);
 const CONTROL_RE = /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/;
 
 /** Validate one answer. Returns the cleaned value, `null` for "left blank", or an error string. */
@@ -68,12 +69,15 @@ export function parseIntakePayload(body: unknown): IntakeParseResult {
   if (typeof body !== "object" || body === null || Array.isArray(body)) return { ok: false, errors: { form: "Invalid request." } };
   const b = body as Record<string, unknown>;
   if (typeof b.website === "string" && b.website.trim() !== "") return { ok: true, honeypot: true };
+  // Older /intake clients remain personal-training submissions. Never accept arbitrary service ids.
+  const service = b.service === undefined ? "personal-training" : b.service;
+  if (!isCoachingService(service)) return { ok: false, errors: { service: "Choose a coaching option." } };
 
   const errors: IntakeErrors = {};
   const answers: IntakeAnswers = {};
   const given = typeof b.answers === "object" && b.answers !== null && !Array.isArray(b.answers) ? (b.answers as Record<string, unknown>) : {};
 
-  for (const q of QUESTIONS) {
+  for (const q of getCoachingIntake(service).sections.flatMap((s) => s.questions)) {
     const r = validateAnswer(q, given[q.id]);
     if ("error" in r) errors[q.id] = r.error;
     else if (r.value !== null) answers[q.id] = r.value;
@@ -84,6 +88,6 @@ export function parseIntakePayload(body: unknown): IntakeParseResult {
   return {
     ok: true,
     honeypot: false,
-    data: { email: answers.email as string, fullName: answers.fullName as string, answers },
+    data: { service, email: answers.email as string, fullName: answers.fullName as string, answers },
   };
 }
