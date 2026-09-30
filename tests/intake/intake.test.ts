@@ -1,8 +1,11 @@
+import { mkdtempSync } from "node:fs";
+import { tmpdir } from "node:os";
+import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { INTAKE_SECTIONS } from "@/config/intake";
 import { getCoachingIntake } from "@/config/coaching";
 import { handleIntakeRequest, type IntakeDeps } from "@/lib/intake/handler";
-import { createMemoryIntakeStore, isIntakeEnabled } from "@/lib/intake/store";
+import { createMemoryIntakeStore, createSqliteIntakeStore, isIntakeEnabled } from "@/lib/intake/store";
 import { parseIntakePayload } from "@/lib/intake/validate";
 import { createMemoryRateLimiter } from "@/lib/waitlist/rate-limit";
 
@@ -35,6 +38,17 @@ describe("intake schema", () => {
     ]);
     const ids = INTAKE_SECTIONS.flatMap((s) => s.questions.map((q) => q.id));
     expect(new Set(ids).size).toBe(ids.length);
+  });
+});
+
+describe("local intake file", () => {
+  it("writes a submission that is still there after reopen", async () => {
+    const file = path.join(mkdtempSync(path.join(tmpdir(), "eze-intake-")), "intake.sqlite");
+    const submission = { service: "personal-training" as const, email: "jane@example.com", fullName: "Jane Doe", answers: { fullName: "Jane Doe" } };
+    await createSqliteIntakeStore(file).insert(submission);
+    const { DatabaseSync } = await import("node:sqlite");
+    const row = new DatabaseSync(file).prepare("SELECT email_normalized, full_name FROM client_intake_submissions").get() as { email_normalized: string; full_name: string };
+    expect(row).toEqual({ email_normalized: "jane@example.com", full_name: "Jane Doe" });
   });
 });
 

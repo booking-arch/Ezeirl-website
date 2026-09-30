@@ -1,3 +1,6 @@
+import { randomUUID } from "node:crypto";
+import { mkdirSync } from "node:fs";
+import path from "node:path";
 import { getCoachingIntake } from "@/config/coaching";
 import type { IntakeSubmission } from "./validate";
 
@@ -20,6 +23,55 @@ export function createMemoryIntakeStore(): IntakeStore & { rows: IntakeSubmissio
 
 let memory: ReturnType<typeof createMemoryIntakeStore> | null = null;
 
+type SqliteStatement = { run(...args: unknown[]): unknown };
+type SqliteDatabase = { exec(sql: string): void; prepare(sql: string): SqliteStatement };
+
+const sqlitePools = new Map<string, IntakeStore>();
+
+/** Local file used by `next start` on this computer when Neon is not configured. Not used on Vercel. */
+export function createSqliteIntakeStore(file: string): IntakeStore {
+  const cached = sqlitePools.get(file);
+  if (cached) return cached;
+  mkdirSync(path.dirname(file), { recursive: true });
+  let insert: Promise<SqliteStatement> | null = null;
+  function statement(): Promise<SqliteStatement> {
+    insert ??= (async () => {
+      const { DatabaseSync } = await import("node:sqlite");
+      const db = new DatabaseSync(file) as unknown as SqliteDatabase;
+      db.exec(`
+        CREATE TABLE IF NOT EXISTS client_intake_submissions (
+          id text PRIMARY KEY,
+          email_normalized text NOT NULL,
+          full_name text NOT NULL,
+          answers text NOT NULL,
+          consent_text_version text NOT NULL,
+          created_at text NOT NULL
+        );
+      `);
+      return db.prepare(
+        `INSERT INTO client_intake_submissions
+         (id, email_normalized, full_name, answers, consent_text_version, created_at)
+         VALUES (?, ?, ?, ?, ?, ?)`,
+      );
+    })();
+    return insert;
+  }
+  const store: IntakeStore = {
+    async insert(s) {
+      (await statement()).run(
+        randomUUID(),
+        s.email,
+        s.fullName,
+        JSON.stringify({ ...s.answers, coachingService: s.service }),
+        getCoachingIntake(s.service).consentVersion,
+        new Date().toISOString(),
+      );
+    },
+  };
+  sqlitePools.set(file, store);
+  return store;
+}
+
 export function resolveIntakeStore(env: NodeJS.ProcessEnv = process.env): IntakeStore | null {
   if (env.DATABASE_URL) {
     // Lazy import keeps the Neon driver out of paths that never need it.
@@ -36,5 +88,7 @@ export function resolveIntakeStore(env: NodeJS.ProcessEnv = process.env): Intake
     };
   }
   if (env.NODE_ENV !== "production") return (memory ??= createMemoryIntakeStore());
-  return null;
+  if (env.VERCEL) return null;
+  const file = env.INTAKE_SQLITE_PATH || path.join(process.cwd(), "data", "client-intake.sqlite");
+  return createSqliteIntakeStore(file);
 }
