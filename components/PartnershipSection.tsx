@@ -34,7 +34,7 @@ export default function PartnershipSection() {
           <motion.span initial={{ opacity: 0, x: -20 }} animate={headerInView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.6 }} className="block text-brand-gold text-xs font-mono tracking-[0.3em] uppercase mb-4">
             PARTNERSHIPS
           </motion.span>
-          <motion.h2 id="partnership-heading" initial={{ opacity: 0, y: 30 }} animate={headerInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay: 0.1 }} className="text-brand-white leading-[0.92] font-display mb-6" style={{ fontFamily: "var(--font-bebas)", fontSize: "clamp(36px, 7vw, 80px)", letterSpacing: "0.02em" }}>
+          <motion.h2 id="partnership-heading" initial={{ opacity: 0, y: 30 }} animate={headerInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay: 0.1 }} className="text-brand-white leading-[0.92] font-display mb-6" style={{ fontFamily: "var(--font-oswald)", fontSize: "clamp(36px, 7vw, 80px)", letterSpacing: "0.02em" }}>
             BUILT ON
             <br />
             <span className="text-brand-gold">AUTHENTICITY.</span>

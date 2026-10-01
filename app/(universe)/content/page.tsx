@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
 import Photo from "@/components/irl/Photo";
 import ContentLink from "@/components/content/ContentLink";
 import { contentEntries, type ContentCategory } from "@/config/content";
@@ -45,13 +43,12 @@ export default function ContentPage() {
 
   return (
     <>
-      <Navigation />
-      <main id="main-content" className="bg-brand-black">
+      <div className="bg-brand-black">
         <header className="mx-auto max-w-6xl px-4 pb-4 pt-28 sm:pt-32">
           <p className="mb-4 font-mono text-xs tracking-[0.3em] text-brand-red-bright">EZE IRL</p>
           <h1
             className="font-display leading-[0.92] text-brand-white"
-            style={{ fontFamily: "var(--font-bebas)", fontSize: "clamp(40px, 8vw, 88px)" }}
+            style={{ fontFamily: "var(--font-oswald)", fontSize: "clamp(40px, 8vw, 88px)" }}
           >
             THE WORK,
             <br />
@@ -85,7 +82,7 @@ export default function ContentPage() {
                       <div className="p-4 sm:p-5">
                         <h3
                           className="font-display text-2xl tracking-widest text-brand-white"
-                          style={{ fontFamily: "var(--font-bebas)" }}
+                          style={{ fontFamily: "var(--font-oswald)" }}
                         >
                           {entry.title}
                         </h3>
@@ -105,8 +102,7 @@ export default function ContentPage() {
         <p className="mx-auto max-w-6xl px-4 pb-24 pt-4 font-mono text-xs leading-relaxed text-brand-subtle">
           YouTube, TikTok, Instagram, Twitch, and X are not linked here. Those buttons appear only after the account URL is confirmed.
         </p>
-      </main>
-      <Footer />
+      </div>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(structured) }} />
     </>
   );

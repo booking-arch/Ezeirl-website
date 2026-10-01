@@ -8,6 +8,8 @@ import "./globals.css";
 const inter = localFont({ src: "./fonts/inter-latin-variable.woff2", weight: "100 900", variable: "--font-inter", display: "swap", adjustFontFallback: "Arial" });
 const bebas = localFont({ src: "./fonts/bebas-neue-400-latin.woff2", weight: "400", variable: "--font-bebas", display: "swap", adjustFontFallback: "Arial" });
 const script = localFont({ src: "./fonts/permanent-marker-latin.woff2", weight: "400", variable: "--font-script", display: "swap", adjustFontFallback: false, fallback: ["cursive"] });
+const oswald = localFont({ src: "./fonts/oswald-latin-variable.woff2", weight: "200 700", variable: "--font-oswald", display: "swap", adjustFontFallback: "Arial" });
+const caveat = localFont({ src: "./fonts/caveat-latin-variable.woff2", weight: "500 700", variable: "--font-caveat", display: "swap", adjustFontFallback: false, fallback: ["cursive"] });
 const jetbrains = localFont({ src: "./fonts/jetbrains-mono-latin-variable.woff2", weight: "100 800", variable: "--font-jetbrains", display: "swap", adjustFontFallback: "Arial" });
 
 export const metadata: Metadata = {
@@ -56,7 +58,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`scroll-smooth ${inter.variable} ${bebas.variable} ${jetbrains.variable} ${script.variable}`}>
+    <html lang="en" className={`scroll-smooth ${inter.variable} ${bebas.variable} ${oswald.variable} ${caveat.variable} ${jetbrains.variable} ${script.variable}`}>
       <body className="bg-brand-black text-brand-white antialiased">
         <a
           href="#main-content"

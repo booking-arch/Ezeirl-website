@@ -5,7 +5,9 @@ import postcss from "postcss";
 
 const [input, output] = process.argv.slice(2);
 const root = postcss.parse(fs.readFileSync(input, "utf8"));
-const SCOPE = ".universe";
+// :where() gives the scope zero specificity, so each live rule keeps the specificity it had on the original site
+// and Tailwind utilities (pt-28, mx-auto, ...) on portal/legal pages can still override the live reset.
+const SCOPE = ":where(.universe)";
 
 function scope(selector) {
   const s = selector.trim();

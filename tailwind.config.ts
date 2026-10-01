@@ -17,8 +17,8 @@ const config: Config = {
           card: "#1a1a1a",
           border: "#2a2a2a",
           // Token NAMES are legacy (red/gold); VALUES follow the approved EZE IRL template: neon green accent, warm off-white.
-          red: "#1fe082",
-          "red-bright": "#58f0a6",
+          red: "#15c96a",
+          "red-bright": "#7cff55",
           "red-dim": "#0d5c38",
           gold: "#d9d6cf",
           "gold-bright": "#f1eee8",
@@ -50,9 +50,9 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
-        display: ["var(--font-bebas)", "var(--font-inter)", "sans-serif"],
+        display: ["var(--font-oswald)", "var(--font-inter)", "sans-serif"],
         mono: ["var(--font-jetbrains)", "monospace"],
-        script: ["var(--font-script)", "cursive"],
+        script: ["var(--font-caveat)", "cursive"],
       },
       letterSpacing: {
         widest: "0.25em",

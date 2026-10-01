@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
 import PartnershipSection from "@/components/PartnershipSection";
 import EcosystemStrip from "@/components/ecosystem/EcosystemStrip";
 import { jsonLd, SITE_URL } from "@/lib/json-ld";
@@ -36,15 +34,13 @@ export default function PartnershipsPage() {
 
   return (
     <>
-      <Navigation />
-      <main id="main-content">
+      <div>
         {/* PartnershipSection's own heading is an <h2> (it also appears inline on the homepage,
             which has its own <h1> elsewhere) — this page needs its own top-level heading. */}
         <h1 className="sr-only">Partnerships — EZE IRL</h1>
         <PartnershipSection />
         <EcosystemStrip />
-      </main>
-      <Footer />
+      </div>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(structured) }} />
     </>
   );

@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
 import IntakeForm from "@/components/intake/IntakeForm";
 import { INTAKE_INTRO } from "@/config/intake";
 import { isIntakeEnabled } from "@/lib/intake/config";
@@ -19,16 +17,14 @@ export const metadata: Metadata = {
 export default function IntakePage() {
   return (
     <>
-      <Navigation />
-      <main id="main-content" className="bg-brand-black">
+      <div className="bg-brand-black">
         <div className="mx-auto max-w-3xl px-4 pb-24 pt-32 sm:pt-40">
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-brand-red-bright">Personal Training</p>
           <h1 className="mt-2 font-display text-5xl tracking-[0.06em] text-brand-white sm:text-6xl">NEW CLIENT INTAKE</h1>
           <p className="mb-12 mt-4 text-base leading-relaxed text-white/70">{INTAKE_INTRO}</p>
           <IntakeForm enabled={isIntakeEnabled()} />
         </div>
-      </main>
-      <Footer />
+      </div>
     </>
   );
 }

@@ -4,7 +4,7 @@ export const metadata: Metadata = { title: "Accessibility | EZE IRL" };
 export default function AccessibilityPage() {
   return (
     <article>
-      <h1 className="text-3xl font-display tracking-widest mb-2" style={{ fontFamily: "var(--font-bebas)" }}>Accessibility</h1>
+      <h1 className="text-3xl font-display tracking-widest mb-2" style={{ fontFamily: "var(--font-oswald)" }}>Accessibility</h1>
       <p className="text-brand-muted text-xs font-mono mb-8">Commitment as of August 2026</p>
       <div className="space-y-6">
         <div>

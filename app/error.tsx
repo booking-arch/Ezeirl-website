@@ -33,7 +33,7 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
         <p className="mb-6 text-xs font-mono uppercase tracking-[0.35em] text-brand-red-bright">Something went wrong</p>
         <h1
           className="mb-4 font-display leading-none text-brand-white"
-          style={{ fontFamily: "var(--font-bebas)", fontSize: "clamp(48px, 12vw, 110px)", letterSpacing: "0.04em" }}
+          style={{ fontFamily: "var(--font-oswald)", fontSize: "clamp(48px, 12vw, 110px)", letterSpacing: "0.04em" }}
         >
           WE HIT A<br />
           <span className="text-brand-red">SNAG.</span>

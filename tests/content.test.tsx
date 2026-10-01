@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
-import ContentPage from "@/app/content/page";
+import ContentPage from "@/app/(universe)/content/page";
 import { ezeIrlPhotos } from "@/config/assets";
 import { contentEntries, contentProblems } from "@/config/content";
 

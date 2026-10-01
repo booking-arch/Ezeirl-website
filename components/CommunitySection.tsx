@@ -30,7 +30,7 @@ export default function CommunitySection({ enabled }: { enabled: boolean }) {
             THE EZE CREW
           </motion.span>
 
-          <motion.h2 id="community-heading" initial={{ opacity: 0, y: 30 }} animate={headerInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay: 0.1 }} className="text-brand-white leading-[0.92] font-display mb-6" style={{ fontFamily: "var(--font-bebas)", fontSize: "clamp(36px, 7vw, 80px)", letterSpacing: "0.02em" }}>
+          <motion.h2 id="community-heading" initial={{ opacity: 0, y: 30 }} animate={headerInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay: 0.1 }} className="text-brand-white leading-[0.92] font-display mb-6" style={{ fontFamily: "var(--font-oswald)", fontSize: "clamp(36px, 7vw, 80px)", letterSpacing: "0.02em" }}>
             THIS ISN&apos;T JUST CONTENT.
             <br />
             <span className="text-brand-muted/80">IT&apos;S A MOVEMENT.</span>

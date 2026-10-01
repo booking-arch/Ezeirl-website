@@ -78,7 +78,7 @@ function LabCard({ cat, index }: { cat: typeof labCategories[0]; index: number }
       {/* Label */}
       <h3
         className="text-brand-white text-lg font-display tracking-widest mb-1"
-        style={{ fontFamily: "var(--font-bebas)", color: cat.accent === "#d9d6cf" ? "#f1eee8" : "#f5f5f5" }}
+        style={{ fontFamily: "var(--font-oswald)", color: cat.accent === "#d9d6cf" ? "#f1eee8" : "#f5f5f5" }}
       >
         {cat.label}
       </h3>
@@ -140,7 +140,7 @@ export default function PerformanceLab() {
             transition={{ duration: 0.8, delay: 0.1 }}
             className="text-brand-white leading-[0.92] font-display mb-6"
             style={{
-              fontFamily: "var(--font-bebas)",
+              fontFamily: "var(--font-oswald)",
               fontSize: "clamp(36px, 7vw, 80px)",
               letterSpacing: "0.02em",
             }}

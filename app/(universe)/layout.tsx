@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import Script from "next/script";
 import Footer from "@/components/universe/Footer";
 import Nav from "@/components/universe/Nav";
@@ -7,10 +6,7 @@ import SoundDock from "@/components/universe/SoundDock";
 import UniverseMotion from "@/components/universe/UniverseMotion";
 import { SITE_ORIGIN } from "@/lib/universe/site";
 import "./universe.css";
-
-// Self-hosted latin subsets (docs/fonts.md). Oswald = display/condensed, Caveat = handwritten accent.
-const oswald = localFont({ src: "../fonts/oswald-latin-variable.woff2", weight: "200 700", variable: "--font-oswald", display: "swap", adjustFontFallback: "Arial" });
-const caveat = localFont({ src: "../fonts/caveat-latin-variable.woff2", weight: "500 700", variable: "--font-caveat", display: "swap", adjustFontFallback: false, fallback: ["cursive"] });
+import "./universe-extra.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_ORIGIN),
@@ -22,7 +18,7 @@ const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 export default function UniverseLayout({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className={`universe ${oswald.variable} ${caveat.variable}`}
+      className="universe"
       style={{ "--font-display": 'var(--font-oswald), "Bebas Neue", system-ui, sans-serif', "--font-condensed": "var(--font-oswald), sans-serif", "--font-script": "var(--font-caveat), cursive", "--font-body": "var(--font-inter), system-ui, sans-serif" } as React.CSSProperties}
     >
       <noscript>

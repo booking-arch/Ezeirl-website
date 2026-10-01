@@ -107,7 +107,7 @@ export default function AccountPanel() {
       </div>
 
       <form onSubmit={changePassword} className="border border-brand-border/60 bg-brand-card/20 p-5 sm:p-7">
-        <h2 className="font-display text-2xl tracking-widest text-brand-white" style={{ fontFamily: "var(--font-bebas)" }}>CHANGE PASSWORD</h2>
+        <h2 className="font-display text-2xl tracking-widest text-brand-white" style={{ fontFamily: "var(--font-oswald)" }}>CHANGE PASSWORD</h2>
         <label className="mt-4 block text-xs font-mono tracking-[0.2em] text-brand-muted" htmlFor="current-password">
           CURRENT PASSWORD
           <input id="current-password" type="password" autoComplete="current-password" value={currentPassword} onChange={(event) => setCurrentPassword(event.target.value)} className={inputClass} required />

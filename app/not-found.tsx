@@ -40,7 +40,7 @@ export default function NotFound() {
         <h1
           className="text-brand-white leading-none font-display mb-4"
           style={{
-            fontFamily: "var(--font-bebas)",
+            fontFamily: "var(--font-oswald)",
             fontSize: "clamp(64px, 18vw, 160px)",
             letterSpacing: "0.04em",
           }}

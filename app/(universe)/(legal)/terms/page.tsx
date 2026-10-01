@@ -4,7 +4,7 @@ export const metadata: Metadata = { title: "Terms of Use | EZE IRL" };
 export default function TermsPage() {
   return (
     <article>
-      <h1 className="text-3xl font-display tracking-widest mb-2" style={{ fontFamily: "var(--font-bebas)" }}>Terms of Use</h1>
+      <h1 className="text-3xl font-display tracking-widest mb-2" style={{ fontFamily: "var(--font-oswald)" }}>Terms of Use</h1>
       <p className="text-brand-muted text-xs font-mono mb-8">Last reviewed: August 2026 — Draft pending attorney review. Not legal advice.</p>
       <div className="space-y-6">
         <div>

@@ -52,7 +52,7 @@ export default function AgreementPacket({ plan, onSaved }: { plan: PlanRecord; o
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <p className="font-mono text-[10px] tracking-[0.2em] text-brand-red-bright">CLIENT PAPERWORK · E-SIGNATURE</p>
-          <h3 id="agreements-heading" className="mt-2 font-display text-3xl tracking-wide text-brand-white" style={{ fontFamily: "var(--font-bebas)" }}>
+          <h3 id="agreements-heading" className="mt-2 font-display text-3xl tracking-wide text-brand-white" style={{ fontFamily: "var(--font-oswald)" }}>
             BUILD SIGNING PACKET
           </h3>
           <p className="mt-1 text-sm text-brand-muted">Choose the forms for {plan.clientName}. Your selection is saved with this client’s plan.</p>

@@ -7,7 +7,7 @@ import UniverseFit, { metadata as uFitMeta } from "@/app/(universe)/eze-fit/page
 import UniverseForm, { metadata as uFormMeta } from "@/app/(universe)/eze-form/page";
 import Footer from "@/components/universe/Footer";
 import nextConfig from "@/next.config";
-import PartnershipsPage, { metadata as partnershipsMeta } from "@/app/partnerships/page";
+import PartnershipsPage, { metadata as partnershipsMeta } from "@/app/(universe)/partnerships/page";
 import sitemap from "@/app/sitemap";
 import { existsSync } from "node:fs";
 import * as universe from "@/lib/universe/content";

@@ -161,7 +161,7 @@ export default function CoachDesk() {
         >
           <div>
             <p className="font-mono text-[10px] tracking-[0.22em] text-brand-muted">{plan.email}</p>
-            <h2 className="mt-1 font-display text-4xl tracking-wide text-brand-white" style={{ fontFamily: "var(--font-bebas)" }}>
+            <h2 className="mt-1 font-display text-4xl tracking-wide text-brand-white" style={{ fontFamily: "var(--font-oswald)" }}>
               {plan.clientName}
             </h2>
             <p className="mt-2 text-sm text-brand-muted">{plan.status === "published" ? "The client can see the published sections." : "The client link is a waiting page until you publish."}</p>

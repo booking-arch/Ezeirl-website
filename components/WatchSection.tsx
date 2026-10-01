@@ -100,7 +100,7 @@ function ContentCard({
       <div className="p-4 sm:p-5">
         <h3
           className="text-brand-white text-lg font-display tracking-widest mb-1"
-          style={{ fontFamily: "var(--font-bebas)" }}
+          style={{ fontFamily: "var(--font-oswald)" }}
         >
           {content.title}
         </h3>
@@ -144,7 +144,7 @@ export default function WatchSection() {
             transition={{ duration: 0.8, delay: 0.1 }}
             className="text-brand-white leading-[0.92] font-display mb-6"
             style={{
-              fontFamily: "var(--font-bebas)",
+              fontFamily: "var(--font-oswald)",
               fontSize: "clamp(36px, 7vw, 80px)",
               letterSpacing: "0.02em",
             }}

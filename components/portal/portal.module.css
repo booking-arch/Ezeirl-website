@@ -8,7 +8,7 @@
 .content { position: relative; z-index: 3; max-width: 1184px; padding: 15px 48px 0; margin: 0 auto; }
 .intro { display: flex; align-items: flex-end; justify-content: space-between; padding: 20px 0 40px; gap: 20px; }
 .eyebrow { font-size: 9px; letter-spacing: .22em; color: #82aa93; margin-bottom: 17px; }
-.intro h1 { font-family: var(--font-bebas); font-size: clamp(64px, 6.3vw, 90px); line-height: .94; letter-spacing: -.01em; white-space: nowrap; color: #efeee7; }
+.intro h1 { font-family: var(--font-oswald); font-size: clamp(64px, 6.3vw, 90px); line-height: .94; letter-spacing: -.01em; white-space: nowrap; color: #efeee7; }
 .intro h1 span { display: inline-block; color: #1fe082; font-family: var(--font-script); font-size: .78em; letter-spacing: -.05em; transform: rotate(-5deg); padding-right: 8px; }
 .introCopy { font-size: 13px; line-height: 1.9; color: #a8b4ad; padding-bottom: 2px; }
 .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; perspective: 1500px; }
@@ -29,7 +29,7 @@
 .sculptureFallback span:nth-child(3) { inset: 24%; border-color: #cee5b080; }
 .sculpture[data-ready='true'] .sculptureFallback { display: none; }
 .cardContent { padding: 14px 28px 0; }
-.cardContent h2 { font-family: var(--font-bebas); font-size: clamp(44px, 4.2vw, 60px); line-height: .96; letter-spacing: .015em; color: #efeee7; }
+.cardContent h2 { font-family: var(--font-oswald); font-size: clamp(44px, 4.2vw, 60px); line-height: .96; letter-spacing: .015em; color: #efeee7; }
 .cardContent h2 span { color: var(--accent); }
 .cardContent > p { margin-top: 13px; font-size: 12px; color: #b0bdb4; }
 .cardAction { border-top: 1px solid #b6d3b926; padding: 17px 0; margin-top: 22px; display: flex; align-items: center; justify-content: space-between; font-size: 10px; font-weight: 600; letter-spacing: .16em; color: var(--accent); }
@@ -41,7 +41,7 @@
 .formContainer { max-width: 760px; padding: 20px 28px 80px; margin: auto; }
 .backLink { display: inline-block; font-size: 12px; color: #b4c7bb; margin-bottom: 36px; padding: 8px 0; }
 .backLink:hover { color: #50edaa; }
-.formTitle { font-family: var(--font-bebas); font-size: clamp(48px, 6vw, 72px); line-height: 1; color: #efeee7; }
+.formTitle { font-family: var(--font-oswald); font-size: clamp(48px, 6vw, 72px); line-height: 1; color: #efeee7; }
 .formIntro { font-size: 14px; line-height: 1.8; color: #a7b7ac; margin: 16px 0 32px; }
 @media (min-width: 1500px) and (min-height: 900px) { .content { padding-top: 50px; } .art { height: 265px; } }
 @media (min-width: 761px) and (max-height: 800px) { .header { padding-block: 20px; } .intro { padding-top: 5px; padding-bottom: 28px; } .intro h1 { font-size: 72px; } .art { height: 160px; } .cardContent h2 { font-size: 48px; } .footer { padding-block: 20px; } }
