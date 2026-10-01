@@ -5,7 +5,7 @@ export const brand = {
   community: "The EZE Crew",
   tagline: "Discipline creates freedom.",
   taglineAlt: "Real Life. No Filter.",
-  domain: "https://www.ezeirl.com",
+  domain: "https://ezeirl.com",
   email: "booking@ezeirl.com",
   description:
     "EZE IRL is a fitness, competition, comedy, and real-life media brand. Gym challenges, IRL adventures, real conversations, and the wins and mistakes that make life worth watching.",

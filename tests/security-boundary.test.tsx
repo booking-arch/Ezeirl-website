@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { renderToStaticMarkup } from "react-dom/server";
-import EzeFitPage from "@/app/eze-fit/page";
-import HomePage from "@/app/page";
-import MerchPage from "@/app/merch/page";
+import EzeFitPage from "@/app/eze-fit/beta/page";
+import HomePage from "@/app/(universe)/page";
+import UniverseFitPage from "@/app/(universe)/eze-fit/page";
+import UniverseFormPage from "@/app/(universe)/eze-form/page";
+import Footer from "@/components/universe/Footer";
 import PartnershipsPage from "@/app/partnerships/page";
 import ContentPage from "@/app/content/page";
 import LoginPage from "@/app/login/page";
@@ -36,11 +38,16 @@ const PRIVATE_PATTERNS = [
   /\b192\.168\.\d+\.\d+\b/,
 ];
 
+/** Public hosts a page may link to: our own domain, font CDN, and the music/social profiles already published on the live site. */
+const PUBLIC_HOSTS = /^https:\/\/((www\.)?ezeirl\.com|fonts\.g|open\.spotify\.com|music\.apple\.com|music\.youtube\.com|soundcloud\.com|(www\.)?instagram\.com|(www\.)?tiktok\.com|(www\.)?youtube\.com|x\.com)(\/|$|\?)/;
+
 const html = (el: React.ReactElement) => renderToStaticMarkup(el);
 const PAGES: [string, React.ReactElement][] = [
   ["/", <HomePage key="home" />],
-  ["/eze-fit", <EzeFitPage key="fit" />],
-  ["/merch", <MerchPage key="merch" />],
+  ["/eze-fit", <UniverseFitPage key="ufit" />],
+  ["/eze-form", <UniverseFormPage key="uform" />],
+  ["/eze-fit/beta", <EzeFitPage key="fit" />],
+  ["(footer)", <Footer key="footer" />],
   ["/partnerships", <PartnershipsPage key="partnerships" />],
   ["/content", <ContentPage key="content" />],
   ["/login", <LoginPage key="login" />],
@@ -64,11 +71,11 @@ describe("security boundary: no private infrastructure ever reaches the public s
   it("no page links directly into the private EZE-Fit application", () => {
     for (const [route, el] of PAGES) {
       const out = html(el);
-      // Every outbound href/src must be same-origin (relative, or the public ezeirl.com host) —
-      // never an app host, an IP, or a bare port.
+      // Every outbound href/src must be same-origin (relative, or the public ezeirl.com host) or one of the
+      // named public music / social hosts below — never an app host, an IP, or a bare port.
       const urls = [...out.matchAll(/(?:href|src)="(https?:\/\/[^"]+)"/g)].map((m) => m[1]);
       for (const u of urls) {
-        expect(u, `${route} links off-site to ${u}`).toMatch(/^https:\/\/(www\.)?ezeirl\.com|fonts\.g/);
+        expect(u, `${route} links off-site to ${u}`).toMatch(PUBLIC_HOSTS);
       }
     }
   });

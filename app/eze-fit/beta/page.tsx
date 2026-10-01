@@ -22,8 +22,9 @@ const description =
 export const metadata: Metadata = {
   title,
   description,
-  alternates: { canonical: "/eze-fit" },
-  openGraph: { type: "website", url: `${SITE_URL}/eze-fit`, siteName: "EZE IRL", title, description },
+  alternates: { canonical: "/eze-fit/beta" },
+  robots: { index: false, follow: true }, // duplicate of the /eze-fit brand page; kept for the gated beta waitlist form
+  openGraph: { type: "website", url: `${SITE_URL}/eze-fit/beta`, siteName: "EZE IRL", title, description },
   twitter: { card: "summary_large_image", title, description },
 };
 
@@ -46,7 +47,7 @@ export default function EzeFitPage() {
     description,
     applicationCategory: "LifestyleApplication",
     operatingSystem: "Web",
-    url: `${SITE_URL}/eze-fit`,
+    url: `${SITE_URL}/eze-fit/beta`,
     publisher: { "@type": "Organization", name: "EZE Media", url: SITE_URL },
   };
 

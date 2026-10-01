@@ -1,14 +1,16 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
 import { readFileSync } from "node:fs";
-import EzeFitPage, { metadata as fitMeta } from "@/app/eze-fit/page";
-import MerchPage, { metadata as merchMeta } from "@/app/merch/page";
+import EzeFitPage, { metadata as fitMeta } from "@/app/eze-fit/beta/page";
+import UniverseHome, { metadata as irlMeta } from "@/app/(universe)/page";
+import UniverseFit, { metadata as uFitMeta } from "@/app/(universe)/eze-fit/page";
+import UniverseForm, { metadata as uFormMeta } from "@/app/(universe)/eze-form/page";
+import Footer from "@/components/universe/Footer";
+import nextConfig from "@/next.config";
 import PartnershipsPage, { metadata as partnershipsMeta } from "@/app/partnerships/page";
-import HomePage from "@/app/page";
 import sitemap from "@/app/sitemap";
-import ProductGrid from "@/components/merch/ProductGrid";
-import { ezeFormAssets, ezeIrlPhotos, type FormProduct } from "@/config/assets";
-import { navItems, secondaryNav } from "@/config/ecosystem";
+import { existsSync } from "node:fs";
+import * as universe from "@/lib/universe/content";
 
 const html = (el: React.ReactElement) => renderToStaticMarkup(el);
 /** Page-specific content only: the shared EZE IRL header/footer legitimately mention gym challenges etc. */
@@ -16,22 +18,6 @@ const main = (el: React.ReactElement) =>
   (html(el).match(/<main[\s\S]*<\/main>/)?.[0] ?? "").split('aria-labelledby="ecosystem-heading"')[0]; // drop the cross-link strip: it describes the *other* brands
 
 afterEach(() => vi.unstubAllEnvs());
-
-describe("navigation", () => {
-  it("has the agreed primary structure and routes", () => {
-    expect(navItems.map((n) => n.label)).toEqual(["EZE IRL", "EZE-FIT", "MERCH", "STREAM", "PARTNERSHIPS"]);
-    expect(navItems.find((n) => n.id === "eze-fit")?.href).toBe("/eze-fit");
-    expect(navItems.find((n) => n.id === "merch")?.href).toBe("/merch");
-    expect(navItems.find((n) => n.id === "partnerships")?.href).toBe("/partnerships");
-  });
-  it("uses absolute anchors so links work from /eze-fit and /merch", () => {
-    for (const n of [...navItems, ...secondaryNav]) expect(n.href.startsWith("/")).toBe(true);
-  });
-  it("keeps WATCH, CONTENT and COMMUNITY reachable", () => {
-    expect(secondaryNav.map((s) => s.label)).toEqual(["WATCH", "CONTENT", "COMMUNITY"]);
-    expect(secondaryNav.find((s) => s.label === "CONTENT")?.href).toBe("/content");
-  });
-});
 
 describe("/partnerships", () => {
   it("renders the real partnership content, contact, and disclosure — no fake contact details", () => {
@@ -49,7 +35,7 @@ describe("/partnerships", () => {
   });
 });
 
-describe("/eze-fit (exact replica of the real app's own landing page, per owner request)", () => {
+describe("/eze-fit/beta (exact replica of the real app's own landing page, kept for the gated waitlist)", () => {
   it("renders the real app's hero, panel and section copy verbatim", () => {
     const out = html(<EzeFitPage />);
     for (const s of [
@@ -94,7 +80,8 @@ describe("/eze-fit (exact replica of the real app's own landing page, per owner 
   });
 
   it("has SEO metadata, canonical and structured data without ratings/offers", () => {
-    expect(fitMeta.alternates?.canonical).toBe("/eze-fit");
+    expect(fitMeta.alternates?.canonical).toBe("/eze-fit/beta");
+    expect(fitMeta.robots).toMatchObject({ index: false }); // duplicate of the /eze-fit brand page
     expect(String(fitMeta.title)).toContain("EZE-FIT");
     expect(String(fitMeta.description).length).toBeGreaterThan(80);
     const out = html(<EzeFitPage />);
@@ -104,119 +91,115 @@ describe("/eze-fit (exact replica of the real app's own landing page, per owner 
   });
 });
 
-describe("/merch", () => {
-  it("renders the launch page content", () => {
-    const out = html(<MerchPage />);
-    for (const s of ["EZE // FORM", "DROP 001", "COMING SOON", "GET EARLY ACCESS", "GET FIRST ACCESS TO DROP 001", "THE COLLECTION"]) expect(out).toContain(s);
-    expect(out).toContain('id="early-access"');
+describe("EZE Universe pages (rebuild of the live ezeirl.com)", () => {
+  /** "checkout" is only allowed in the honest phrase "without fake checkout". */
+  const hasRealCheckout = (out: string) => /(?<!fake )checkout/i.test(out);
+  const BANNED_CLAIMS = ["testimonial", "guaranteed", "add to cart", "free shipping", "in stock", "sold out", "size chart", "fit-mate", "fitmate"];
+
+  describe("/ (EZE IRL)", () => {
+    const out = html(<UniverseHome />);
+    it("carries the live headline, hero copy and every section anchor", () => {
+      for (const s of ["DISCIPLINE CREATES", "FREEDOM", "MORE THAN A WORKOUT. A HIGHER STATE.", "THE EZE UNIVERSE", "THIS IS", "THE SOUNDTRACK TO THE", "REAL LIFE. NO FILTER.", "Three pathways. One standard."]) {
+        expect(out, `missing: ${s}`).toContain(s);
+      }
+      for (const id of ['id="home"', 'id="about"', 'id="music"', 'id="content"']) expect(out).toContain(id);
+      expect((out.match(/<h1/g) ?? []).length).toBe(1);
+    });
+    it("links to the other brand pages and never to the retired /merch", () => {
+      expect(out).toContain('href="/eze-fit"');
+      expect(out).toContain('href="/eze-form"');
+      expect(out).not.toContain('href="/merch"');
+    });
+    it("makes no invented claims (YouTube is honest about zero uploads)", () => {
+      expect(out).toContain("Zero uploads at ship");
+      for (const banned of BANNED_CLAIMS) expect(out.toLowerCase(), `unexpected: ${banned}`).not.toContain(banned);
+      expect(hasRealCheckout(out)).toBe(false);
+    });
+    it("has SEO metadata", () => {
+      expect(irlMeta.alternates?.canonical).toBe("/");
+      expect(String(irlMeta.title)).toContain("Discipline Creates Freedom");
+    });
   });
 
-  it("does not invent price, material, size, stock or a release date", () => {
-    const out = main(<MerchPage />);
-    expect(out.length).toBeGreaterThan(1000);
-    expect(out).not.toMatch(/\$\s?\d/);
-    for (const banned of ["cotton", "polyester", "fleece", "fabric", "oversized fit", "in stock", "sold out", "add to cart", "checkout", "free shipping", "size chart", "xxl"]) {
-      expect(out.toLowerCase(), `unexpected: ${banned}`).not.toContain(banned);
-    }
-    expect(out).not.toMatch(/\b(S|M|L|XL)\s*[\/,]\s*(M|L|XL)\b/);
+  describe("/eze-fit (brand page)", () => {
+    const out = html(<UniverseFit />);
+    it("labels the phone as a demo, never as real app UI", () => {
+      for (const s of ["DEMO · PRIVATE BETA", "Stylized HUD · not live data"]) expect(out).toContain(s);
+      expect(out).toContain("Campaign stills · not live app UI");
+    });
+    it("is honest about what is still being built", () => {
+      for (const s of ["STILL BUILDING", "Barcode scanner", "AI coach", "Not fully autonomous yet"]) expect(out).toContain(s);
+    });
+    it("makes no unconfirmed claims, prices or private links", () => {
+      for (const banned of [...BANNED_CLAIMS, "9:41", "real-time form feedback", "muscle visualization"]) expect(out.toLowerCase(), `unexpected: ${banned}`).not.toContain(banned);
+      expect(out).not.toMatch(/\$\s?\d/);
+    });
+    it("has SEO metadata with a canonical", () => {
+      expect(uFitMeta.alternates?.canonical).toBe("/eze-fit");
+      expect(String(uFitMeta.title)).toContain("EZE-FIT");
+    });
   });
 
-  it("collects the waitlist for eze_form from source 'merch' when enabled", () => {
-    vi.stubEnv("WAITLIST_ENABLED", "true");
-    const out = html(<MerchPage />);
-    expect(out).toContain("JOIN THE WAITLIST");
-    expect(out).toContain("Email me about Drop 001");
+  describe("/eze-form (brand page)", () => {
+    const out = html(<UniverseForm />);
+    it("is a capsule preview, not a shop: no price, stock, checkout or release date", () => {
+      for (const s of ["UNDER CONSTRUCTION", "not a live shop. No prices. No", "COMING"]) expect(out).toContain(s);
+      expect(out).not.toMatch(/\$\s?\d/);
+      for (const banned of BANNED_CLAIMS) expect(out.toLowerCase(), `unexpected: ${banned}`).not.toContain(banned);
+      expect(out).not.toMatch(/\b(S|M|L|XL)\s*[\/,]\s*(M|L|XL)\b/); // no size runs
+    });
+    it("shows every board with a COMING badge and a notify link", () => {
+      expect((out.match(/form__badge">COMING</g) ?? []).length).toBe(universe.FORM_PRODUCTS.length);
+      expect(out).toContain("mailto:");
+    });
+    it("has SEO metadata with a canonical", () => {
+      expect(uFormMeta.alternates?.canonical).toBe("/eze-form");
+    });
   });
 
-  it("in PRODUCTION never renders placeholder product slots, only typographic content", () => {
-    vi.stubEnv("NODE_ENV", "production");
-    const out = html(<MerchPage />);
-    expect(out).not.toContain("data-asset-placeholder");
-    expect(out).not.toContain("AWAITING APPROVED ASSET");
-    expect(out).toContain("PRODUCT IMAGERY IS ON THE WAY.");
-    expect(ezeFormAssets.products).toHaveLength(0);
+  describe("shared shell", () => {
+    it("footer links the legal pages and only public social hosts", () => {
+      const out = html(<Footer />);
+      for (const href of ["/privacy", "/terms", "/accessibility", "/contact"]) expect(out).toContain(`href="${href}"`);
+      for (const s of universe.SOCIALS) expect(out).toContain(s.href);
+    });
+    it("/merch permanently redirects to /eze-form", async () => {
+      const redirects = await nextConfig.redirects!();
+      expect(redirects).toContainEqual({ source: "/merch", destination: "/eze-form", permanent: true });
+    });
   });
 
-  it("in development labels the missing assets so the gap is obvious", () => {
-    vi.stubEnv("NODE_ENV", "development");
-    expect(html(<MerchPage />)).toContain("AWAITING APPROVED ASSET");
-  });
-
-  it("has SEO metadata and a CollectionPage with no products listed", () => {
-    expect(merchMeta.alternates?.canonical).toBe("/merch");
-    const out = html(<MerchPage />);
-    expect(out).toContain("CollectionPage");
-    expect(out).not.toContain('"Product"');
-  });
-});
-
-describe("ProductGrid (activates only when real assets are supplied)", () => {
-  const img = (n: string) => ({ src: `/eze-form/products/${n}.webp`, width: 800, height: 1000, alt: `Test fixture ${n}` });
-  const fixture: FormProduct[] = [
-    { id: "t1", name: null, colorway: null, description: null, views: { front: img("front"), back: img("back") } },
-    { id: "t2", name: null, colorway: null, description: null, views: { front: null } }, // no image → not shown
-  ];
-
-  it("shows only products with a real front image, always as COMING SOON, with no price", () => {
-    const out = html(<ProductGrid products={fixture} />);
-    expect(out).toContain("COMING SOON");
-    expect(out).toContain("DROP 001 / 01");
-    expect(out).not.toContain("DROP 001 / 02");
-    expect(out).not.toMatch(/\$\s?\d/);
-  });
-});
-
-describe("homepage evolution", () => {
-  const out = html(<HomePage />);
-  it("presents EZE-FIT as private beta with both CTAs", () => {
-    for (const s of ["EZE-FIT — NOW IN BETA", "YOUR FITNESS.", "YOUR DATA.", "YOUR EVOLUTION.", "REQUEST BETA ACCESS", "EXPLORE EZE-FIT", "PRIVATE BETA — AVAILABLE BY INVITATION"]) expect(out).toContain(s);
-    expect(out).toContain('href="/eze-fit"');
-    expect(out).toContain('href="/eze-fit#beta-signup"');
-  });
-  it("presents EZE // FORM as Drop 001 coming soon with both CTAs", () => {
-    for (const s of ["EZE // FORM", "DROP 001", "COMING SOON", "EXPLORE THE COLLECTION", "GET EARLY ACCESS"]) expect(out).toContain(s);
-    expect(out).toContain('href="/merch"');
-  });
-  it("presents the approved EZE IRL identity and keeps every existing section", () => {
-    for (const t of ["DISCIPLINE", "CREATES", "Freedom", "EXPLORE EZE IRL", "JOIN THE MOVEMENT", "THIS IS", "Real training.", "FITNESS. COMEDY.", "LIVE", "BIGGER.", "never"]) expect(out).toContain(t);
-    for (const id of ['id="home"', 'id="story"', 'id="irl"', 'id="lifestyle"', 'id="stream"', 'id="watch"', 'id="partnerships"', 'id="community"', 'id="lab"', 'id="eze-fit"', 'id="eze-form"']) expect(out).toContain(id);
-    expect(out).toContain('href="/content"');
-    expect(out).toContain("EXPLORE THE PHOTOS");
-    // one h1, and it starts with the brand
-    expect((out.match(/<h1/g) ?? []).length).toBe(1);
-  });
-  it("uses only registered professional photos, each with real alt text", () => {
-    const srcs = [...out.matchAll(/eze-irl%2Fphotos%2F([^&"]+)/g)].map((m) => decodeURIComponent(m[1]));
-    expect(srcs.length).toBeGreaterThan(5);
-    for (const s of new Set(srcs)) expect(Object.values(ezeIrlPhotos).some((p) => p.src.endsWith(s)), `unregistered photo ${s}`).toBe(true);
-    for (const img of out.match(/<img[^>]*>/g) ?? []) expect(img, "image without alt attribute").toMatch(/\balt=/);
-  });
-  it("removed the legacy Fit-Mate visuals and unverified claims", () => {
-    const lower = out.toLowerCase();
-    for (const gone of ["fit-mate", "ai coach", "muscle visualization", "real-time form feedback", "challenges & streaks", "eze fitness app", "train with eze", "performance fabrics", "9:41"]) {
-      expect(lower, `legacy claim still present: ${gone}`).not.toContain(gone);
-    }
-  });
-  it("community section uses the real gated waitlist, not the old fake stub", () => {
-    expect(out).not.toContain("env.emailProvider");
-    // Default test env has WAITLIST_ENABLED unset, so the real WaitlistForm shows its honest disabled panel.
-    expect(out).toContain("UPDATES COMING SOON");
-  });
-  it("community section renders the real single-source-of-truth form once the gate is open", () => {
-    vi.stubEnv("WAITLIST_ENABLED", "true");
-    const enabledOut = html(<HomePage />);
-    expect(enabledOut).toContain('name="email"');
-    expect(enabledOut).toContain("Send me EZE IRL updates");
+  describe("content integrity", () => {
+    const local = (src: string) => src.startsWith("/");
+    const allImages = [
+      ...Object.values(universe.IMG),
+      ...universe.CATEGORIES.map((c) => c.img),
+      ...universe.FRAMES.map((f) => f.src),
+      ...universe.FIT_CREATIVES.map((c) => c.src),
+      ...universe.FORM_PRODUCTS.map((p) => p.img),
+      ...universe.FORM_LOOKS.map((l) => l.img),
+    ];
+    it("every referenced image exists under public/ (no broken images)", () => {
+      for (const src of allImages) expect(local(src) && existsSync(`public${src}`), `missing asset ${src}`).toBe(true);
+    });
+    it("every product has alt text and a mode", () => {
+      for (const p of universe.FORM_PRODUCTS) { expect(p.alt.length).toBeGreaterThan(10); expect(["form", "chaos"]).toContain(p.mode); }
+    });
+    it("ambient audio stays unset until a real file exists", () => {
+      if (universe.AMBIENT_AUDIO_SRC) expect(existsSync(`public${universe.AMBIENT_AUDIO_SRC}`)).toBe(true);
+    });
   });
 });
 
 describe("SEO artifacts", () => {
   it("sitemap lists the new routes and preserves the existing ones", () => {
     const urls = sitemap().map((s) => s.url);
-    for (const u of ["", "/eze-fit", "/merch", "/partnerships", "/content", "/privacy", "/terms", "/sponsorship-disclosure", "/filming-policy", "/accessibility"]) {
-      expect(urls).toContain(`https://www.ezeirl.com${u}`);
+    for (const u of ["", "/eze-fit", "/eze-form", "/partnerships", "/content", "/privacy", "/terms", "/sponsorship-disclosure", "/filming-policy", "/accessibility"]) {
+      expect(urls).toContain(`https://ezeirl.com${u}`);
     }
     expect(urls.some((u) => u.includes("/api"))).toBe(false);
+    expect(urls.some((u) => u.includes("/merch"))).toBe(false); // redirected to /eze-form
+    expect(urls.some((u) => u.includes("/eze-fit/beta"))).toBe(false);
     expect(urls.some((u) => u.includes("gym-collaboration-draft"))).toBe(false);
     expect(urls.some((u) => u.includes("/intake"))).toBe(false);
     expect(urls.some((u) => u.includes("/client-portal"))).toBe(false);
@@ -228,7 +211,7 @@ describe("SEO artifacts", () => {
   it("robots keeps the sitemap and draft rule, and hides API endpoints", () => {
     const robots = readFileSync("public/robots.txt", "utf8");
     expect(robots).toContain("Allow: /");
-    expect(robots).toContain("Sitemap: https://www.ezeirl.com/sitemap.xml");
+    expect(robots).toContain("Sitemap: https://ezeirl.com/sitemap.xml");
     expect(robots).toContain("Disallow: /gym-collaboration-draft");
     expect(robots).toContain("Disallow: /intake");
     expect(robots).toContain("Disallow: /client-portal");

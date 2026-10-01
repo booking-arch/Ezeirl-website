@@ -3,4 +3,4 @@ export function jsonLd(data: Record<string, unknown>): string {
   return JSON.stringify(data).replace(/</g, "\\u003c");
 }
 
-export const SITE_URL = "https://www.ezeirl.com";
+export const SITE_URL = "https://ezeirl.com";

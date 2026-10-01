@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.ezeirl.com/sitemap.xml
+Sitemap: https://ezeirl.com/sitemap.xml
 
 # Disallow internal draft pages
 Disallow: /gym-collaboration-draft

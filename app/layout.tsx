@@ -11,7 +11,7 @@ const script = localFont({ src: "./fonts/permanent-marker-latin.woff2", weight: 
 const jetbrains = localFont({ src: "./fonts/jetbrains-mono-latin-variable.woff2", weight: "100 800", variable: "--font-jetbrains", display: "swap", adjustFontFallback: "Arial" });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.ezeirl.com"),
+  metadataBase: new URL("https://ezeirl.com"),
   title: "EZE IRL | Discipline Creates Freedom",
   description:
     "EZE IRL is a fitness, lifestyle and real-life media brand: training, adventure and the discipline behind it. Home of EZE-FIT, the fitness app in private beta, and EZE // FORM apparel.",
@@ -20,14 +20,14 @@ export const metadata: Metadata = {
     "fitness comedy", "real conversations", "Los Angeles fitness creator",
     "EZE Media", "gym challenge stream", "real life content creator",
   ],
-  authors: [{ name: "EZE IRL", url: "https://www.ezeirl.com" }],
+  authors: [{ name: "EZE IRL", url: "https://ezeirl.com" }],
   creator: "EZE IRL",
   publisher: "EZE Media",
   robots: { index: true, follow: true },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://www.ezeirl.com",
+    url: "https://ezeirl.com",
     siteName: "EZE IRL",
     title: "EZE IRL | Discipline Creates Freedom",
     description:
