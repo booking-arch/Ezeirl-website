@@ -24,7 +24,7 @@ maintained, and the user and trainer portals were integrated.
 1. **Billing**: Firebase App Hosting needs the Blaze plan. Neon plan/cost also unconfirmed.
 2. **Domain cutover**: requires DNS records at Squarespace (TXT/CNAME/A). Zero-downtime flow in the runbook. Not started.
 3. **Social handles**: carried from the live site into `lib/universe/content.ts` (IG `itsezeirl`, TikTok `@itsezeirl`, YouTube `@ItsEzeIRL`, X `@EzeIRL`, plus Spotify / Apple / YouTube Music / SoundCloud). `config/social.ts` is still null per the old rule — confirm or remove.
-4. **Business mailbox**: live CTAs used `hello@ezeirl.com`; the rebuild uses `booking@ezeirl.com`. Which one receives mail?
+4. **Business mailbox**: live CTAs used `hello@ezeirl.com`; the rebuild uses `booking@ezeirl.com`, which the owner confirmed (2026-10-01) is the Firebase/Google account, so it is a real mailbox. Remaining question: does `hello@` also exist (alias)?
 5. **Google Analytics**: live site loads GA `G-QQK088RQ5E`. The rebuild loads nothing unless `NEXT_PUBLIC_GA_ID` is set (needs the privacy policy to cover it).
 6. **Ambient audio**: `/audio/site-bed.mp3` never existed on the live site; the SOUND toggle is hidden until a licensed file is supplied (`AMBIENT_AUDIO_SRC`).
 7. **Legal gates** stay closed: `WAITLIST_ENABLED=false`, `INTAKE_ENABLED=false` until the privacy policy (currently a draft that says health data is not collected) is attorney-reviewed.

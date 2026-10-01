@@ -1,6 +1,6 @@
 /** Site-wide constants for the EZE Universe shell. */
 // The live site used hello@ezeirl.com; the repo's documented business address is booking@ezeirl.com (config/brand.ts).
-// We use the documented one. OWNER: confirm which mailbox actually receives mail (hello@ was never verified here).
+// We use the documented one: the owner confirmed booking@ is their real Google/Firebase account. hello@ was never verified.
 export const SITE_EMAIL = "booking@ezeirl.com";
 export const SITE_ORIGIN = "https://ezeirl.com";
 

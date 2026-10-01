@@ -17,7 +17,7 @@ GitHub, and lets the domain stay in Firebase (Squarespace remains the registrar/
 | **Privacy policy** | `WAITLIST_ENABLED` / `INTAKE_ENABLED` stay `false` until attorney-reviewed. Accounts store only email + password hash. |
 
 ## Steps (each is reversible until step 6)
-1. **Upgrade the project to Blaze** (console → Usage and billing). *Owner.*
+1. **Upgrade the project to Blaze** (console → Usage and billing). *Owner — sign in as `booking@ezeirl.com`, the Firebase account.*
 2. **Create the database.** Neon project → copy the pooled connection string. Then, locally:
    `DATABASE_URL=… npm run db:migrate` (additive; safe to re-run).
 3. **Create secrets** (never commit values):
