@@ -1,32 +1,15 @@
 # DEPLOYMENT.md — EZE IRL
 
-## STATUS: CUSTOM DOMAIN IS NOT THIS REPOSITORY
+## STATUS (2026-10-01): rebuilt, NOT deployed
 
-Re-checked 2026-09-30. Read-only. Nothing was changed.
-
-The 2026-09-21 note below is historical. It is not the current domain behavior.
-
-| Host | Result on 2026-09-30 |
-|------|----------------------|
-| `https://ezeirl.com` | `200` Vite shell (`/assets/index-CQcPpWHX.js`), `last-modified` 2026-09-22. Same bytes as `https://eze-irl.web.app/`. |
-| `https://www.ezeirl.com` | `301` → `https://ezeirl.com/` |
-| `https://ezeirl-website.vercel.app` | `200` this Next.js app, `server: Vercel`, still the older `master` deployment |
-
-DNS (Squarespace nameservers, unchanged by this repo):
-
-- `ezeirl.com` A → `199.36.158.100` (Firebase Hosting)
-- `www.ezeirl.com` CNAME → `eze-irl.web.app`
-- TXT `hosting-site=eze-irl`
-- MX → `smtp.google.com`. SPF includes Google. `google._domainkey` is present. No `_dmarc` TXT record was found.
-
-**Do not point ezeirl.com or www at this Next.js project until the Firebase project `eze-irl` source is identified.** Replacing that site from this repo would take down the current public homepage. `feat/ecosystem` is local and ahead of `origin/master`.
-
-### Historical observation (2026-09-21)
-
-At that time both hostnames `301`’d to `https://ezeirl-website.vercel.app/`, and `master` was `62d182061f7adeb0f8d7d3ca0b0fcc469b7c95d4`. That redirect is no longer what the domain does.
-
-- **Repository:** `github.com/ezequielcruz91343-max/Ezeirl-website`.
-- **Not verifiable from the repo:** the Vercel project id, plan, and whether GitHub auto-deploy is connected.
+- **Live site today:** `ezeirl.com` is a static Vite SPA on **Firebase Hosting** (project `eze-irl`, site `eze-irl`; `www` redirects to the apex).
+  Its source was never recovered, so this repository **replicates it** (captured bundle, copy and assets) as the Next.js "EZE Universe" pages
+  and adds the user and trainer portals.
+- **Target:** Firebase App Hosting in the same project. Config is prepared (`apphosting.yaml`, `firebase.json`, `.firebaserc`).
+  **Runbook, costs and rollback: [docs/firebase-app-hosting-runbook.md](docs/firebase-app-hosting-runbook.md).**
+- **Vercel** (`ezeirl-website.vercel.app`) still serves an old `master` build and is not the production domain. Older notes in
+  `docs/domain-routing.md` and `docs/production-baseline-2026-09-21.md` describe a redirect that no longer exists — ignore them.
+- Summary of the rebuild and the decisions awaiting the owner: [docs/rebuild-2026-10.md](docs/rebuild-2026-10.md).
 
 ## Hard boundaries (unchanged)
 

@@ -13,7 +13,7 @@ EZE IRL public website at www.ezeirl.com. Next.js 15 / React 19 / TypeScript.
 - **Do not fabricate** follower counts, sponsors, testimonials, or product claims
 - **Do not claim EOS Fitness or any gym has approved filming**
 - **Do not claim Twitch account exists** — platformUrl is null in config/stream.ts
-- **Do not connect social accounts** — all are null in config/social.ts
+- **Social handles**: `config/social.ts` is still null (legacy). The rebuilt pages (`lib/universe/content.ts`) carry the Instagram / TikTok / YouTube / X / music links that were already public on the live site — owner sign-off pending (see docs/rebuild-2026-10.md). Do not add any account that is not already public
 - **Do not send outreach** — gym-collaboration-draft is for internal review only
 - **No secrets or credentials** in committed files
 - **Do not market any EZE-FIT feature** that is not CONFIRMED (or explicitly beta-labelled) in `docs/eze-fit-feature-matrix.md`
@@ -22,7 +22,10 @@ EZE IRL public website at www.ezeirl.com. Next.js 15 / React 19 / TypeScript.
 - **Waitlist is gated by `WAITLIST_ENABLED`** (default off). Do not enable it until the privacy policy is attorney-reviewed
 - **Client intake (`/intake`, `POST /api/intake`) collects HEALTH data and is gated by `INTAKE_ENABLED` (default off).** Do not enable until the privacy policy is attorney-reviewed. Data goes only to `client_intake_submissions` (migration 0003), never the waitlist tables
 - **Website login (`/login`, `/register`) is an EZE IRL account only.** Do not connect it to the private EZE-FIT app or put that app's address anywhere public
-- **`/coach` is the owner's review desk.** Plans stay unpublished until the coach publishes them. Do not link `/coach` from marketing pages or from `/eze-fit`
+- **`/coach` is the staff review desk.** Plans stay unpublished until a coach publishes them. Do not link `/coach` from marketing pages or from `/eze-fit`. Access = database role `coach`/`admin` (migration 0007) or an email in `COACH_EMAILS` (always admin). Admins grant/revoke coach access in the desk; **admin is never grantable from the UI**
+- **Plans link to accounts by account id only** (signed-in submission, or claiming a plan by its private link) — **never by matching an email address** (emails are unverified). Staff actions on client data go through `lib/audit.ts` (ids only, never names/emails/content)
+- **Stores must not fall back to local SQLite on Cloud Run / Vercel** (`lib/runtime-env.ts`): without `DATABASE_URL` they report "unavailable"
+- **The public pages are the "EZE Universe" shell** (`app/(universe)`, `components/universe`, copy in `lib/universe/content.ts`). The live-site stylesheet is generated into `app/(universe)/universe.css` (`scripts/scope-universe-css.mjs`, scoped with `:where(.universe)`); put hand-written CSS in `universe-extra.css`
 - **Never change DNS, nameservers, Squarespace, or Google Workspace records**
 - **Install with --legacy-peer-deps** (R3F 8.x / React 19 peer conflict)
 
@@ -61,6 +64,6 @@ All pages in app/(legal)/ are drafts requiring attorney review before data colle
 
 - R3F/React 19 peer dep conflict — use --legacy-peer-deps on install
 - No email provider connected — CommunitySection shows "coming soon" state (the EZE-FIT / EZE // FORM waitlist is separate: see ARCHITECTURE.md)
-- No real social URLs — Footer shows "SOON" badges
+- Hosting target is Firebase App Hosting (project `eze-irl`): see docs/firebase-app-hosting-runbook.md. `apphosting.yaml` is prepared; nothing is deployed
 - Approved EZE IRL photographs are in `public/eze-irl/photos/` and indexed at `/content`. Do not generate replacements. Video and social URLs stay unset until confirmed in `config/social.ts`
 - No analytics provider — events are emitted through `lib/analytics.ts` and dropped until a provider is approved
