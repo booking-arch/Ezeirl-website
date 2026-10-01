@@ -22,7 +22,7 @@
 | Variable | Scope | Purpose |
 |----------|-------|---------|
 | `WAITLIST_ENABLED` | server | Legal gate. Must be exactly `true` to collect emails. Default/unset = forms show "opening soon" and `/api/waitlist` answers `503`. |
-| `DATABASE_URL` | server | Neon Postgres connection string. Required only when `WAITLIST_ENABLED=true`. |
+| `DATABASE_URL` | server | Neon Postgres connection string. Required in production for accounts, client portal, coach desk, intake and the waitlist (without it they report "unavailable"; nothing is written to local disk on Cloud Run). |
 | `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_EMAIL_*`, `NEXT_PUBLIC_ANALYTICS_ID` | public | Existing, unchanged; analytics/email provider remain unconfigured. |
 
 Vercel applies environment variable changes to the **next** deployment only, so enabling the waitlist is: set variables → redeploy.
