@@ -1,5 +1,6 @@
 import { readCookie } from "@/lib/auth/handler";
-import type { SessionRecord } from "@/lib/auth/store";
+import { audit } from "@/lib/audit";
+import type { AccountRole, AuthStore, SessionRecord } from "@/lib/auth/store";
 import { normalizeEmail } from "@/lib/waitlist/normalize";
 import { AGREEMENT_FORMS } from "@/config/agreements";
 import type { PlanContent, PlanStatus } from "./public";
@@ -19,7 +20,10 @@ const ID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a
 export interface CoachDeps {
   plans: PlanStore | null;
   findSession: (token: string) => Promise<SessionRecord | null>;
+  /** Bootstrap list from COACH_EMAILS. These emails are always admins, so a database mistake can never lock the owner out. */
   coachEmails: string[];
+  /** Needed only by the team endpoints (grant / revoke coach access). */
+  auth?: Pick<AuthStore, "setRole" | "listStaff"> | null;
 }
 
 function json(status: number, body: Record<string, unknown>) {
@@ -49,20 +53,70 @@ function sameOrigin(req: Request): boolean {
   }
 }
 
-async function coach(req: Request, deps: CoachDeps): Promise<{ email: string } | Response> {
+/** The staff role a session holds. Env-listed emails are admins; otherwise the database role decides. */
+export function staffRole(session: Pick<SessionRecord, "emailNormalized" | "role">, bootstrapEmails: string[]): AccountRole {
+  if (isCoachEmail(session.emailNormalized, bootstrapEmails)) return "admin";
+  return session.role;
+}
+
+interface Staff {
+  accountId: string;
+  email: string;
+  role: "coach" | "admin";
+}
+
+async function coach(req: Request, deps: CoachDeps, need: "coach" | "admin" = "coach"): Promise<Staff | Response> {
   if (!deps.plans) return json(503, { ok: false, message: "The coach desk is not available on this server." });
   const token = readCookie(req);
   const session = token ? await deps.findSession(token) : null;
   if (!session) return json(401, { ok: false, message: "Log in to open the coach desk." });
-  if (!isCoachEmail(session.emailNormalized, deps.coachEmails)) {
-    return json(403, { ok: false, message: "This account cannot open the coach desk." });
+  const role = staffRole(session, deps.coachEmails);
+  if (role === "client" || (need === "admin" && role !== "admin")) {
+    return json(403, { ok: false, message: need === "admin" ? "Only an admin can manage the coaching team." : "This account cannot open the coach desk." });
   }
-  return { email: session.emailNormalized };
+  return { accountId: session.accountId, email: session.emailNormalized, role };
 }
 
 export async function handleCoachMe(req: Request, deps: CoachDeps): Promise<Response> {
   const who = await coach(req, deps);
   if (who instanceof Response) return who;
+  return json(200, { ok: true, role: who.role });
+}
+
+/** GET: who has staff access. Admin only. */
+export async function handleTeamList(req: Request, deps: CoachDeps): Promise<Response> {
+  const who = await coach(req, deps, "admin");
+  if (who instanceof Response) return who;
+  if (!deps.auth) return json(503, { ok: false, message: "Team management is not available on this server." });
+  const staff = await deps.auth.listStaff();
+  const bootstrap = new Set(deps.coachEmails);
+  const rows = staff.map((member) => ({ email: member.emailDisplay, role: bootstrap.has(member.emailNormalized) ? "admin" : member.role, fixed: bootstrap.has(member.emailNormalized) }));
+  for (const email of bootstrap) if (!rows.some((r) => r.email.toLowerCase() === email)) rows.push({ email, role: "admin", fixed: true });
+  return json(200, { ok: true, staff: rows });
+}
+
+/** POST {email, role: "coach" | "client"}: grant or revoke coach access for an existing account. Admin only. */
+export async function handleTeamSet(req: Request, deps: CoachDeps): Promise<Response> {
+  if (!sameOrigin(req)) return json(403, { ok: false, message: "Request not allowed." });
+  const who = await coach(req, deps, "admin");
+  if (who instanceof Response) return who;
+  if (!deps.auth) return json(503, { ok: false, message: "Team management is not available on this server." });
+  if (!(req.headers.get("content-type") ?? "").toLowerCase().startsWith("application/json")) return json(415, { ok: false, message: "Invalid request." });
+  const raw = await req.text();
+  if (raw.length > 1024) return json(413, { ok: false, message: "Invalid request." });
+  let body: { email?: unknown; role?: unknown };
+  try {
+    body = JSON.parse(raw) as typeof body;
+  } catch {
+    return json(400, { ok: false, message: "Invalid request." });
+  }
+  const email = typeof body.email === "string" ? normalizeEmail(body.email) : null;
+  if (!email) return json(422, { ok: false, message: "Enter a valid email address." });
+  if (body.role !== "coach" && body.role !== "client") return json(422, { ok: false, message: "Choose coach or client." });
+  if (deps.coachEmails.includes(email)) return json(422, { ok: false, message: "That account is an owner admin set in the server settings." });
+  const changed = await deps.auth.setRole(email, body.role);
+  if (!changed) return json(404, { ok: false, message: "No account uses that email yet. Ask them to create an account first." });
+  audit("team.role_set", { actor: who.accountId, role: body.role });
   return json(200, { ok: true });
 }
 
@@ -132,5 +186,7 @@ export async function handleCoachSave(req: Request, deps: CoachDeps, id: string)
     }
   }
   const saved = await deps.plans!.save(id, content, status, agreementSelection);
+  const action = status === "published" ? "plan.published" : current.status === "published" ? "plan.unpublished" : "plan.saved";
+  audit(action, { actor: who.accountId, plan: id });
   return json(200, { ok: true, plan: saved });
 }

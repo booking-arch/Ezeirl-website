@@ -4,11 +4,28 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { PlanRecord, PlanSummary } from "@/lib/plans/public";
 import AgreementPacket from "./AgreementPacket";
+import CoachTeam from "./CoachTeam";
 
 const field =
   "mt-2 w-full border border-brand-border bg-brand-graphite/60 px-3 py-3 text-base leading-relaxed text-brand-white focus:border-brand-red/60 focus:outline-none";
 
 type Detail = PlanRecord;
+type Filter = "all" | "review" | "draft" | "published";
+
+const FILTERS: readonly { id: Filter; label: string }[] = [
+  { id: "all", label: "All" },
+  { id: "review", label: "Needs review" },
+  { id: "draft", label: "Drafts" },
+  { id: "published", label: "Published" },
+];
+
+function matches(item: PlanSummary, filter: Filter, query: string): boolean {
+  if (filter === "review" && !item.needsReview) return false;
+  if (filter === "draft" && item.status !== "draft") return false;
+  if (filter === "published" && item.status !== "published") return false;
+  const q = query.trim().toLowerCase();
+  return !q || item.clientName.toLowerCase().includes(q) || item.email.toLowerCase().includes(q);
+}
 
 export default function CoachDesk() {
   const [ready, setReady] = useState(false);
@@ -20,6 +37,9 @@ export default function CoachDesk() {
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
   const [reviewed, setReviewed] = useState(false);
+  const [filter, setFilter] = useState<Filter>("all");
+  const [query, setQuery] = useState("");
+  const [role, setRole] = useState<"coach" | "admin">("coach");
 
   async function loadList() {
     const response = await fetch("/api/coach/plans", { cache: "no-store" });
@@ -34,6 +54,8 @@ export default function CoachDesk() {
     const data = (await response.json()) as { plans: PlanSummary[] };
     setPlans(data.plans);
     setDenied(null);
+    const me = await fetch("/api/coach/me", { cache: "no-store" }).then((r) => (r.ok ? (r.json() as Promise<{ role?: string }>) : null)).catch(() => null);
+    setRole(me?.role === "admin" ? "admin" : "coach");
   }
 
   useEffect(() => {
@@ -118,6 +140,8 @@ export default function CoachDesk() {
   }
 
   const link = plan ? `${window.location.origin}/plan/${plan.viewToken}` : "";
+  const visible = plans.filter((item) => matches(item, filter, query));
+  const count = (id: Filter) => plans.filter((item) => matches(item, id, "")).length;
 
   return (
     <div className="grid gap-8 lg:grid-cols-[280px_minmax(0,1fr)]">
@@ -128,11 +152,28 @@ export default function CoachDesk() {
             Log out
           </button>
         </div>
+        {plans.length > 0 ? (
+          <div className="mb-4 space-y-3">
+            <label className="block text-[10px] font-mono tracking-[0.18em] text-brand-muted" htmlFor="coach-search">
+              SEARCH
+              <input id="coach-search" type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Name or email" className="mt-2 w-full border border-brand-border bg-brand-graphite/60 px-3 py-2 text-sm text-brand-white focus:border-brand-red/60 focus:outline-none" />
+            </label>
+            <div className="flex flex-wrap gap-2" role="tablist" aria-label="Filter clients">
+              {FILTERS.map((f) => (
+                <button key={f.id} type="button" role="tab" aria-selected={filter === f.id} onClick={() => setFilter(f.id)} className={`min-h-[36px] rounded-full border px-3 text-[10px] font-semibold uppercase tracking-[0.14em] ${filter === f.id ? "border-brand-red/70 text-brand-white" : "border-brand-border/60 text-brand-muted"}`}>
+                  {f.label} ({count(f.id)})
+                </button>
+              ))}
+            </div>
+          </div>
+        ) : null}
         {plans.length === 0 ? (
           <p className="text-sm leading-relaxed text-brand-muted">No questionnaires yet. A draft appears here after someone submits the portal form.</p>
+        ) : visible.length === 0 ? (
+          <p className="text-sm leading-relaxed text-brand-muted">No clients match that filter.</p>
         ) : (
           <ul className="space-y-2">
-            {plans.map((item) => (
+            {visible.map((item) => (
               <li key={item.id}>
                 <button
                   type="button"
@@ -143,12 +184,14 @@ export default function CoachDesk() {
                   <span className="mt-1 block font-mono text-[10px] tracking-[0.14em] text-brand-muted">
                     {item.status === "published" ? "PUBLISHED" : "DRAFT"}
                     {item.needsReview ? " · REVIEW HEALTH" : ""}
+                    {item.linked ? " · ACCOUNT" : ""}
                   </span>
                 </button>
               </li>
             ))}
           </ul>
         )}
+        {role === "admin" ? <CoachTeam /> : null}
       </aside>
 
       {plan ? (

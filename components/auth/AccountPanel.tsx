@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import MyCoaching from "@/components/account/MyCoaching";
 
 const inputClass =
   "mt-2 w-full border border-brand-border bg-brand-graphite/60 px-3 py-3 text-base text-brand-white focus:border-brand-red/60 focus:outline-none";
@@ -89,6 +90,7 @@ export default function AccountPanel() {
 
   return (
     <div className="max-w-lg space-y-8">
+      <MyCoaching />
       <div className="border border-brand-border/60 bg-brand-card/20 p-5 sm:p-7">
         <p className="font-mono text-xs tracking-[0.2em] text-brand-muted">SIGNED IN AS</p>
         <p className="mt-2 break-all text-lg text-brand-white">{email}</p>

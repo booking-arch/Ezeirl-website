@@ -6,10 +6,14 @@ import { isCoachingService } from "@/config/coaching";
 import { AGREEMENT_FORMS } from "@/config/agreements";
 import type { IntakeAnswer, IntakeSubmission } from "@/lib/intake/validate";
 import { describeIntake, draftPlan } from "./draft";
-import type { PlanContent, PlanRecord, PlanStatus, PlanSummary } from "./public";
+import type { AccountPlanSummary, LinkPlanResult, PlanContent, PlanRecord, PlanStatus, PlanSummary } from "./public";
 
 export interface PlanStore {
-  ensureDraft(submission: IntakeSubmission, submissionId: string): Promise<PlanRecord>;
+  /** `accountId` links a NEW plan to the signed-in account that submitted it; an existing plan is never re-linked here. */
+  ensureDraft(submission: IntakeSubmission, submissionId: string, accountId?: string | null): Promise<PlanRecord>;
+  listByAccount(accountId: string): Promise<AccountPlanSummary[]>;
+  /** Claim a plan by its private link. The first account to claim wins; the same account claiming again is a no-op. */
+  linkToAccount(viewToken: string, accountId: string): Promise<LinkPlanResult>;
   list(): Promise<PlanSummary[]>;
   get(id: string): Promise<PlanRecord | null>;
   getByToken(token: string): Promise<PlanRecord | null>;
@@ -22,7 +26,7 @@ function newToken(): string {
   return randomBytes(24).toString("base64url");
 }
 
-function buildRecord(submission: IntakeSubmission, submissionId: string, existing?: StoredPlan): StoredPlan {
+function buildRecord(submission: IntakeSubmission, submissionId: string, existing?: StoredPlan, accountId: string | null = null): StoredPlan {
   const draft = draftPlan(submission);
   const now = new Date().toISOString();
   if (existing) return { ...existing, intake: describeIntake(submission), needsReview: draft.needsReview };
@@ -46,18 +50,34 @@ function buildRecord(submission: IntakeSubmission, submissionId: string, existin
     updatedAt: now,
     publishedAt: null,
     agreementSelection: [],
+    accountId,
   };
+}
+
+function toAccountSummary(plan: StoredPlan): AccountPlanSummary {
+  return { viewToken: plan.viewToken, service: plan.service, status: plan.status, createdAt: plan.createdAt, publishedAt: plan.publishedAt };
 }
 
 export function createMemoryPlanStore(): PlanStore {
   const plans = new Map<string, StoredPlan>();
   return {
-    async ensureDraft(submission, submissionId) {
+    async ensureDraft(submission, submissionId, accountId = null) {
       const found = [...plans.values()].find((plan) => plan.submissionId === submissionId);
       if (found) return buildRecord(submission, submissionId, found);
-      const created = buildRecord(submission, submissionId);
+      const created = buildRecord(submission, submissionId, undefined, accountId);
       plans.set(created.id, created);
       return created;
+    },
+    async listByAccount(accountId) {
+      return [...plans.values()].filter((p) => p.accountId === accountId).sort((a, b) => b.createdAt.localeCompare(a.createdAt)).map(toAccountSummary);
+    },
+    async linkToAccount(viewToken, accountId) {
+      const plan = [...plans.values()].find((p) => p.viewToken === viewToken);
+      if (!plan) return "missing";
+      if (plan.accountId === accountId) return "already";
+      if (plan.accountId) return "taken";
+      plan.accountId = accountId;
+      return "linked";
     },
     async list() {
       return [...plans.values()]
@@ -98,6 +118,7 @@ function summarize(plan: StoredPlan): PlanSummary {
     needsReview: plan.needsReview,
     updatedAt: plan.updatedAt,
     viewToken: plan.viewToken,
+    linked: Boolean(plan.accountId),
   };
 }
 
@@ -127,6 +148,7 @@ type PlanRow = {
   updated_at: string;
   published_at: string | null;
   agreement_selection: string | string[] | null;
+  account_id: string | null;
 };
 
 function parseAgreementSelection(raw: string | string[] | null | undefined): string[] {
@@ -182,10 +204,11 @@ function rowToRecord(row: PlanRow): PlanRecord | null {
     updatedAt: row.updated_at,
     publishedAt: row.published_at,
     agreementSelection: parseAgreementSelection(row.agreement_selection),
+    accountId: row.account_id ?? null,
   };
 }
 
-const PLAN_COLUMNS = `id, submission_id, view_token, status, service, client_name, email, goals, ideal_outcome, fitness_plan, meals, schedule, coach_notes, intake_json, created_at, updated_at, published_at, agreement_selection`;
+const PLAN_COLUMNS = `id, submission_id, view_token, status, service, client_name, email, goals, ideal_outcome, fitness_plan, meals, schedule, coach_notes, intake_json, created_at, updated_at, published_at, agreement_selection, account_id`;
 
 const sqlitePools = new Map<string, PlanStore>();
 
@@ -193,7 +216,7 @@ export function createSqlitePlanStore(file: string): PlanStore {
   const cached = sqlitePools.get(file);
   if (cached) return cached;
   mkdirSync(path.dirname(file), { recursive: true });
-  let opening: Promise<{ db: SqliteDatabase; insert: SqliteStatement; selectId: SqliteStatement; selectToken: SqliteStatement; selectSubmission: SqliteStatement; list: SqliteStatement; update: SqliteStatement }> | null = null;
+  let opening: Promise<{ db: SqliteDatabase; insert: SqliteStatement; selectId: SqliteStatement; selectToken: SqliteStatement; selectSubmission: SqliteStatement; list: SqliteStatement; update: SqliteStatement; byAccount: SqliteStatement; claim: SqliteStatement }> | null = null;
   function api() {
     opening ??= (async () => {
       const { DatabaseSync } = await import("node:sqlite");
@@ -217,17 +240,21 @@ export function createSqlitePlanStore(file: string): PlanStore {
           created_at text NOT NULL,
           updated_at text NOT NULL,
           published_at text,
-          agreement_selection text NOT NULL DEFAULT '[]'
+          agreement_selection text NOT NULL DEFAULT '[]',
+          account_id text
         );
       `);
       try { db.exec("ALTER TABLE client_plans ADD COLUMN agreement_selection text NOT NULL DEFAULT '[]'"); } catch { /* already present */ }
+      try { db.exec("ALTER TABLE client_plans ADD COLUMN account_id text"); } catch { /* already present */ }
       return {
         db,
-        insert: db.prepare(`INSERT INTO client_plans (id, submission_id, view_token, status, service, client_name, email, goals, ideal_outcome, fitness_plan, meals, schedule, coach_notes, intake_json, created_at, updated_at, published_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`),
+        insert: db.prepare(`INSERT INTO client_plans (id, submission_id, view_token, status, service, client_name, email, goals, ideal_outcome, fitness_plan, meals, schedule, coach_notes, intake_json, created_at, updated_at, published_at, account_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`),
         selectId: db.prepare(`SELECT ${PLAN_COLUMNS} FROM client_plans WHERE id = ?`),
         selectToken: db.prepare(`SELECT ${PLAN_COLUMNS} FROM client_plans WHERE view_token = ?`),
         selectSubmission: db.prepare(`SELECT ${PLAN_COLUMNS} FROM client_plans WHERE submission_id = ?`),
         list: db.prepare(`SELECT ${PLAN_COLUMNS} FROM client_plans ORDER BY updated_at DESC`),
+        byAccount: db.prepare(`SELECT ${PLAN_COLUMNS} FROM client_plans WHERE account_id = ? ORDER BY created_at DESC`),
+        claim: db.prepare(`UPDATE client_plans SET account_id = ? WHERE view_token = ? AND account_id IS NULL`),
         update: db.prepare(`UPDATE client_plans SET status = ?, goals = ?, ideal_outcome = ?, fitness_plan = ?, meals = ?, schedule = ?, coach_notes = ?, updated_at = ?, published_at = ?, agreement_selection = ? WHERE id = ?`),
       };
     })();
@@ -241,16 +268,16 @@ export function createSqlitePlanStore(file: string): PlanStore {
   }
 
   const store: PlanStore = {
-    async ensureDraft(submission, submissionId) {
+    async ensureDraft(submission, submissionId, accountId = null) {
       const { insert, selectSubmission } = await api();
       const existing = await read(selectSubmission, submissionId);
       if (existing) return { ...existing, intake: describeIntake(submission), needsReview: draftPlan(submission).needsReview };
-      const created = buildRecord(submission, submissionId);
+      const created = buildRecord(submission, submissionId, undefined, accountId);
       try {
         insert.run(
           created.id, created.submissionId, created.viewToken, created.status, created.service, created.clientName, created.email,
           created.goals, created.idealOutcome, created.fitnessPlan, created.meals, created.schedule, created.coachNotes,
-          snapshot(submission), created.createdAt, created.updatedAt, created.publishedAt,
+          snapshot(submission), created.createdAt, created.updatedAt, created.publishedAt, created.accountId,
         );
       } catch (error) {
         if (String(error).toLowerCase().includes("unique")) {
@@ -260,6 +287,20 @@ export function createSqlitePlanStore(file: string): PlanStore {
         throw error;
       }
       return created;
+    },
+    async listByAccount(accountId) {
+      const { byAccount } = await api();
+      return (byAccount.all(accountId) as PlanRow[]).map(rowToRecord).filter((p): p is PlanRecord => Boolean(p)).map(toAccountSummary);
+    },
+    async linkToAccount(viewToken, accountId) {
+      const { selectToken, claim } = await api();
+      const plan = await read(selectToken, viewToken);
+      if (!plan) return "missing";
+      if (plan.accountId === accountId) return "already";
+      if (plan.accountId) return "taken";
+      const result = claim.run(accountId, viewToken) as { changes?: number | bigint };
+      if (Number(result.changes ?? 0) > 0) return "linked";
+      return (await read(selectToken, viewToken))?.accountId === accountId ? "already" : "taken"; // lost a race
     },
     async list() {
       const { db, list } = await api();
@@ -325,15 +366,15 @@ export function createNeonPlanStore(connectionString: string): PlanStore {
     return rows[0] ? rowToRecord(rows[0]) : null;
   }
   return {
-    async ensureDraft(submission, submissionId) {
+    async ensureDraft(submission, submissionId, accountId = null) {
       const existing = await one(`SELECT ${PLAN_COLUMNS} FROM client_plans WHERE submission_id = $1`, [submissionId]);
       if (existing) return { ...existing, intake: describeIntake(submission), needsReview: draftPlan(submission).needsReview };
-      const created = buildRecord(submission, submissionId);
+      const created = buildRecord(submission, submissionId, undefined, accountId);
       try {
         await (await sql()).query(
-          `INSERT INTO client_plans (id, submission_id, view_token, status, service, client_name, email, goals, ideal_outcome, fitness_plan, meals, schedule, coach_notes, intake_json, created_at, updated_at)
-           VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14::jsonb,$15::timestamptz,$16::timestamptz)`,
-          [created.id, created.submissionId, created.viewToken, created.status, created.service, created.clientName, created.email, created.goals, created.idealOutcome, created.fitnessPlan, created.meals, created.schedule, created.coachNotes, snapshot(submission), created.createdAt, created.updatedAt],
+          `INSERT INTO client_plans (id, submission_id, view_token, status, service, client_name, email, goals, ideal_outcome, fitness_plan, meals, schedule, coach_notes, intake_json, created_at, updated_at, account_id)
+           VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14::jsonb,$15::timestamptz,$16::timestamptz,$17::uuid)`,
+          [created.id, created.submissionId, created.viewToken, created.status, created.service, created.clientName, created.email, created.goals, created.idealOutcome, created.fitnessPlan, created.meals, created.schedule, created.coachNotes, snapshot(submission), created.createdAt, created.updatedAt, created.accountId],
         );
       } catch (error) {
         const message = String(error).toLowerCase();
@@ -344,6 +385,19 @@ export function createNeonPlanStore(connectionString: string): PlanStore {
         throw error;
       }
       return created;
+    },
+    async listByAccount(accountId) {
+      const rows = await (await sql()).query(`SELECT ${PLAN_COLUMNS} FROM client_plans WHERE account_id = $1::uuid ORDER BY created_at DESC`, [accountId]);
+      return rows.map(rowToRecord).filter((p): p is PlanRecord => Boolean(p)).map(toAccountSummary);
+    },
+    async linkToAccount(viewToken, accountId) {
+      const plan = await one(`SELECT ${PLAN_COLUMNS} FROM client_plans WHERE view_token = $1`, [viewToken]);
+      if (!plan) return "missing";
+      if (plan.accountId === accountId) return "already";
+      if (plan.accountId) return "taken";
+      const claimed = await (await sql()).query(`UPDATE client_plans SET account_id = $1::uuid WHERE view_token = $2 AND account_id IS NULL RETURNING id`, [accountId, viewToken]);
+      if (claimed.length > 0) return "linked";
+      return (await one(`SELECT ${PLAN_COLUMNS} FROM client_plans WHERE view_token = $1`, [viewToken]))?.accountId === accountId ? "already" : "taken"; // lost a race
     },
     async list() {
       const db = await sql();

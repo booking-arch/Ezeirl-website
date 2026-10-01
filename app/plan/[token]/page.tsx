@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import SavePlanToAccount from "@/components/account/SavePlanToAccount";
 import PlanDocument from "@/components/plans/PlanDocument";
 import { toPublicPlan } from "@/lib/plans/public";
 import { resolvePlanStore } from "@/lib/plans/store";
@@ -18,5 +19,11 @@ export default async function PlanPage({ params }: { params: Promise<{ token: st
   const { token } = await params;
   const store = resolvePlanStore();
   const plan = store && TOKEN_RE.test(token) ? await store.getByToken(token) : null;
-  return <PlanDocument plan={toPublicPlan(plan)} />;
+  const view = toPublicPlan(plan);
+  return (
+    <>
+      <PlanDocument plan={view} />
+      {view.status === "published" && TOKEN_RE.test(token) ? <SavePlanToAccount token={token} /> : null}
+    </>
+  );
 }

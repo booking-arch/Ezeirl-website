@@ -50,7 +50,7 @@ function coachDeps(plans = createMemoryPlanStore(), email = "coach@ezeirl.com") 
   return {
     plans,
     coachEmails: ["coach@ezeirl.com"],
-    findSession: async (token: string) => (token === "coach-token" ? { emailDisplay: email, emailNormalized: email } : null),
+    findSession: async (token: string) => (token === "coach-token" ? { accountId: "00000000-0000-4000-8000-000000000001", emailDisplay: email, emailNormalized: email, role: "client" as const } : null),
   };
 }
 

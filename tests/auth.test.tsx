@@ -114,6 +114,13 @@ describe("site accounts", () => {
     expect(safeNext("https://evil.example")).toBeNull();
     expect(safeNext("//evil.example")).toBeNull();
   });
+
+  it("rejects control characters that browsers strip, which would turn /\\t/evil into //evil", () => {
+    for (const bad of ["/\t/evil.example", "/\n/evil.example", "/\r/evil.example", "/\u0000/evil.example", "/account\u007f"]) {
+      expect(safeNext(bad), JSON.stringify(bad)).toBeNull();
+    }
+    expect(safeNext("/plan/abc_DEF-123")).toBe("/plan/abc_DEF-123");
+  });
 });
 
 describe("login pages", () => {

@@ -25,7 +25,20 @@ export interface PlanRecord extends PlanContent {
   updatedAt: string;
   publishedAt: string | null;
   agreementSelection: string[];
+  /** Website account this plan is saved to (null = only reachable by its private link). */
+  accountId: string | null;
 }
+
+/** What a signed-in client sees in their own list. Draft plans reveal nothing but their existence. */
+export interface AccountPlanSummary {
+  viewToken: string;
+  service: CoachingService;
+  status: PlanStatus;
+  createdAt: string;
+  publishedAt: string | null;
+}
+
+export type LinkPlanResult = "linked" | "already" | "taken" | "missing";
 
 export interface PlanSummary {
   id: string;
@@ -36,6 +49,7 @@ export interface PlanSummary {
   needsReview: boolean;
   updatedAt: string;
   viewToken: string;
+  linked: boolean;
 }
 
 export type PublicPlan =

@@ -1,4 +1,6 @@
 import type { RateLimiter } from "@/lib/waitlist/rate-limit";
+import { readCookie } from "@/lib/auth/handler";
+import type { SessionRecord } from "@/lib/auth/store";
 import type { PlanStore } from "@/lib/plans/store";
 import type { IntakeStore } from "./store";
 import { parseIntakePayload } from "./validate";
@@ -8,6 +10,8 @@ export interface IntakeDeps {
   store: IntakeStore | null;
   rateLimiter: RateLimiter;
   plans?: PlanStore | null;
+  /** When given, a submission made while signed in is linked to that account (never inferred from the email). */
+  findSession?: (token: string) => Promise<SessionRecord | null>;
 }
 
 const MAX_BODY_BYTES = 40_000;
@@ -78,7 +82,9 @@ export async function handleIntakeRequest(req: Request, deps: IntakeDeps): Promi
   }
   if (deps.plans && submissionId) {
     try {
-      await deps.plans.ensureDraft(parsed.data, submissionId);
+      const token = deps.findSession ? readCookie(req) : null;
+      const session = token && deps.findSession ? await deps.findSession(token).catch(() => null) : null;
+      await deps.plans.ensureDraft(parsed.data, submissionId, session?.accountId ?? null);
     } catch (err) {
       console.error("[intake] plan draft failure:", err instanceof Error ? err.name : "unknown");
     }

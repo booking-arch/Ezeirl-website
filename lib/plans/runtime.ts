@@ -7,6 +7,7 @@ export function coachDeps(): CoachDeps {
   return {
     plans: resolvePlanStore(),
     coachEmails: coachEmailList(),
+    auth: auth.store,
     findSession: async (token) => auth.store?.findSession(token) ?? null,
   };
 }
