@@ -1,3 +1,4 @@
+import { isEphemeralHost } from "@/lib/runtime-env";
 import { randomUUID } from "node:crypto";
 import { mkdirSync } from "node:fs";
 import path from "node:path";
@@ -93,7 +94,7 @@ export function resolveIntakeStore(env: NodeJS.ProcessEnv = process.env): Intake
     };
   }
   if (env.NODE_ENV !== "production") return (memory ??= createMemoryIntakeStore());
-  if (env.VERCEL) return null;
+  if (isEphemeralHost(env)) return null;
   const file = env.INTAKE_SQLITE_PATH || path.join(process.cwd(), "data", "client-intake.sqlite");
   return createSqliteIntakeStore(file);
 }

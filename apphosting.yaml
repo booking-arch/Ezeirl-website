@@ -1,0 +1,38 @@
+# Firebase App Hosting backend config for ezeirl.com (project: eze-irl).
+# Runbook: docs/firebase-app-hosting-runbook.md. NOTHING deploys until a backend is created and its live branch is
+# pushed — this file alone changes nothing. Defaults below keep every gated feature OFF.
+runConfig:
+  cpu: 1
+  memoryMiB: 512
+  minInstances: 0      # scale to zero: no idle cost. Set to 1 later if cold starts matter.
+  maxInstances: 4      # cost ceiling while traffic is small
+  concurrency: 80
+
+env:
+  - variable: NEXT_PUBLIC_SITE_URL
+    value: https://ezeirl.com
+    availability: [BUILD, RUNTIME]
+
+  # Legal gates (AGENTS.md): must stay "false" until the privacy policy is attorney-reviewed.
+  - variable: WAITLIST_ENABLED
+    value: "false"
+    availability: [RUNTIME]
+  - variable: INTAKE_ENABLED
+    value: "false"
+    availability: [RUNTIME]
+
+  # --- Enable ONLY after creating each secret: `firebase apphosting:secrets:set <name> --project eze-irl`.
+  # A reference to a secret that does not exist fails the rollout, so these stay commented until then.
+  # Without DATABASE_URL, accounts / intake / plans report "unavailable" (they never write to local disk on Cloud Run).
+  #
+  # - variable: DATABASE_URL          # Neon Postgres connection string (pooled)
+  #   secret: ezeirl-database-url
+  #   availability: [RUNTIME]
+  # - variable: COACH_EMAILS          # comma-separated emails allowed into /coach (bootstrap list)
+  #   secret: ezeirl-coach-emails
+  #   availability: [RUNTIME]
+  #
+  # Google Analytics (the live site used G-QQK088RQ5E). Build-time value; a privacy-policy decision (AGENTS.md).
+  # - variable: NEXT_PUBLIC_GA_ID
+  #   value: G-QQK088RQ5E
+  #   availability: [BUILD]

@@ -1,3 +1,4 @@
+import { isEphemeralHost } from "@/lib/runtime-env";
 import { createHash, randomBytes, randomUUID } from "node:crypto";
 import { mkdirSync } from "node:fs";
 import path from "node:path";
@@ -278,7 +279,7 @@ let memory: AuthStore | null = null;
 
 export function resolveAuthStore(env: NodeJS.ProcessEnv = process.env): AuthStore | null {
   if (env.DATABASE_URL) return createNeonAuthStore(env.DATABASE_URL);
-  if (env.NODE_ENV === "production" && env.VERCEL) return null;
+  if (env.NODE_ENV === "production" && isEphemeralHost(env)) return null;
   if (env.NODE_ENV === "test") return (memory ??= createMemoryAuthStore());
   const file = env.AUTH_SQLITE_PATH || path.join(process.cwd(), "data", "site-accounts.sqlite");
   return createSqliteAuthStore(file);

@@ -1,3 +1,4 @@
+import { isEphemeralHost } from "@/lib/runtime-env";
 import { randomBytes, randomUUID } from "node:crypto";
 import { mkdirSync } from "node:fs";
 import path from "node:path";
@@ -385,7 +386,7 @@ let memory: PlanStore | null = null;
 export function resolvePlanStore(env: NodeJS.ProcessEnv = process.env): PlanStore | null {
   if (env.DATABASE_URL) return createNeonPlanStore(env.DATABASE_URL);
   if (env.NODE_ENV !== "production") return (memory ??= createMemoryPlanStore());
-  if (env.VERCEL) return null;
+  if (isEphemeralHost(env)) return null;
   const file = env.INTAKE_SQLITE_PATH || path.join(process.cwd(), "data", "client-intake.sqlite");
   return createSqlitePlanStore(file);
 }
