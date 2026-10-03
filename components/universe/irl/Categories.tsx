@@ -4,6 +4,7 @@ import TrackedLink from "../TrackedLink";
 export default function Categories() {
   return (
     <section className="cats" aria-label="Explore EZE IRL">
+      <h2 className="sr-only">Explore EZE IRL</h2>
       <div className="cats__grid">
         {CATEGORIES.map((c) => (
           <TrackedLink

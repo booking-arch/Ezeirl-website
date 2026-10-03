@@ -30,6 +30,7 @@ export default function FitPage() {
             </div>
           </header>
           <div className="fit__stage reveal">
+            <h2 className="sr-only">What EZE-FIT does</h2>
             <div className="fit__copy-left">
               <p className="section-label">PILLARS</p>
               <ul className="fit__pillars">

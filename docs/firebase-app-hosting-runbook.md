@@ -20,9 +20,11 @@ GitHub, and lets the domain stay in Firebase (Squarespace remains the registrar/
 1. **Upgrade the project to Blaze** (console → Usage and billing). *Owner — sign in as `booking@ezeirl.com`, the Firebase account.*
 2. **Create the database.** Neon project → copy the pooled connection string. Then, locally:
    `DATABASE_URL=… npm run db:migrate` (additive; safe to re-run).
-3. **Create secrets** (never commit values):
-   `firebase apphosting:secrets:set ezeirl-database-url --project eze-irl` and
-   `firebase apphosting:secrets:set ezeirl-coach-emails --project eze-irl`; then uncomment those two entries in `apphosting.yaml`.
+3. **Create the database secret** (never commit values): `firebase apphosting:secrets:set ezeirl-database-url --project eze-irl`, then uncomment that entry in `apphosting.yaml`.
+   **First admin — do NOT use `COACH_EMAILS` in production.** Sign-up does not verify emails (no email provider yet), so whoever registers a listed
+   address first would become admin. Instead: (a) the real owner registers at `/register` first; (b) someone with database access runs
+   `DATABASE_URL=… npm run account:role -- <email> admin`; (c) from then on the owner grants `coach` to trainers in the coach desk's team panel.
+   (`COACH_EMAILS` still works for local development.)
 4. **Create the backend** pointed at a **non-production branch** first:
    `firebase apphosting:backends:create --project eze-irl` → backend id `ezeirl-web`, pick a US region, connect the GitHub repo, set the
    live branch to `deploy/preview` (NOT `master`). Pushing to that branch builds and gives a private-by-obscurity `*.hosted.app` URL.

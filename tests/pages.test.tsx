@@ -157,6 +157,33 @@ describe("EZE Universe pages (rebuild of the live ezeirl.com)", () => {
     });
   });
 
+  describe("accessibility regressions (axe findings, Oct 2026)", () => {
+    it("the two brand switchers on a page have different landmark names", () => {
+      const out = html(<UniverseHome />);
+      expect(out).toContain('aria-label="The EZE Universe"');
+      expect(out).toContain('aria-label="More from the EZE Universe"');
+      expect(out).toContain('aria-label="Brands"');
+      expect(out).toContain('aria-label="More brands"');
+      const labels = [...out.matchAll(/<(?:section|nav)[^>]*aria-label="([^"]+)"/g)].map((m) => m[1]);
+      expect(new Set(labels).size).toBe(labels.length); // no duplicate landmark names
+    });
+    it("headings never jump from h1 straight to h3", () => {
+      for (const el of [<UniverseHome key="h" />, <UniverseFit key="f" />, <UniverseForm key="r" />]) {
+        const levels = [...html(el).matchAll(/<h([1-6])[\s>]/g)].map((m) => Number(m[1]));
+        for (let i = 1; i < levels.length; i++) expect(levels[i] - levels[i - 1], `h${levels[i - 1]} -> h${levels[i]}`).toBeLessThanOrEqual(1);
+      }
+    });
+    it("the dim greys stay at WCAG AA contrast on the near-black background", () => {
+      const css = readFileSync("app/(universe)/universe-extra.css", "utf8");
+      const lum = (hex: string) => { const c = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255).map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4)); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; };
+      const ratio = (fg: string, bg: string) => { const [a, b] = [lum(fg), lum(bg)].sort((x, y) => y - x); return (a + 0.05) / (b + 0.05); };
+      for (const grey of ["#8a8b8b", "#8d908e", "#8c8d8c"]) {
+        expect(css).toContain(grey);
+        expect(ratio(grey, "#0b100d")).toBeGreaterThanOrEqual(4.5); // lightest of the backgrounds axe reported
+      }
+    });
+  });
+
   describe("shared shell", () => {
     it("footer links the legal pages and only public social hosts", () => {
       const out = html(<Footer />);

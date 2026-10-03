@@ -28,9 +28,9 @@ env:
   # - variable: DATABASE_URL          # Neon Postgres connection string (pooled)
   #   secret: ezeirl-database-url
   #   availability: [RUNTIME]
-  # - variable: COACH_EMAILS          # comma-separated emails allowed into /coach (bootstrap list)
-  #   secret: ezeirl-coach-emails
-  #   availability: [RUNTIME]
+  # COACH_EMAILS is deliberately NOT listed: sign-up does not verify emails, so anyone could register an address on
+  # that list first and become admin. Promote the real owner's account with `npm run account:role` instead
+  # (docs/firebase-app-hosting-runbook.md, step 3).
   #
   # Google Analytics (the live site used G-QQK088RQ5E). Build-time value; a privacy-policy decision (AGENTS.md).
   # - variable: NEXT_PUBLIC_GA_ID

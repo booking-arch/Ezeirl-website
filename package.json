@@ -9,7 +9,8 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "db:migrate": "node db/migrate.mjs"
+    "db:migrate": "node db/migrate.mjs",
+    "account:role": "node scripts/set-account-role.mjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",

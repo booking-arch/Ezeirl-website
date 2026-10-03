@@ -40,6 +40,7 @@ maintained, and the user and trainer portals were integrated.
 - Fixed an open-redirect hole in `safeNext` (`/\t/evil.example` slipped through; browsers strip the tab → `//evil.example`).
 - Cloud Run safe: stores refuse to fall back to a local SQLite file (data would be lost).
 - Plans link to accounts by id, never by email (emails are not verified — there is no email provider yet).
+- For the same reason the first admin is promoted by `npm run account:role` after the owner registers, not by the `COACH_EMAILS` list (anyone could register a listed address first).
 
 ## Not done / backlog
 - **Email**: no provider → no password reset, email verification, or notifications. Needs a provider choice + privacy review.
