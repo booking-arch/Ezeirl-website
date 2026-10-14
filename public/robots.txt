@@ -6,6 +6,10 @@ Sitemap: https://ezeirl.com/sitemap.xml
 # Disallow internal draft pages
 Disallow: /gym-collaboration-draft
 
+# Unreleased offers — review copies, not public yet
+Disallow: /guide
+Disallow: /cookbook
+
 # Health-data intake and the direct-link client portal stay out of the crawl
 Disallow: /intake
 Disallow: /client-portal

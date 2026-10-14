@@ -234,6 +234,8 @@ describe("SEO artifacts", () => {
     expect(urls.some((u) => u.includes("/account"))).toBe(false);
     expect(urls.some((u) => u.includes("/coach"))).toBe(false);
     expect(urls.some((u) => u.includes("/plan"))).toBe(false);
+    expect(urls.some((u) => u.includes("/guide"))).toBe(false);
+    expect(urls.some((u) => u.includes("/cookbook"))).toBe(false);
   });
   it("robots keeps the sitemap and draft rule, and hides API endpoints", () => {
     const robots = readFileSync("public/robots.txt", "utf8");
@@ -248,5 +250,7 @@ describe("SEO artifacts", () => {
     expect(robots).toContain("Disallow: /coach");
     expect(robots).toContain("Disallow: /plan");
     expect(robots).toContain("Disallow: /api/");
+    expect(robots).toContain("Disallow: /guide");
+    expect(robots).toContain("Disallow: /cookbook");
   });
 });

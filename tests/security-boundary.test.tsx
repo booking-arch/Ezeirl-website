@@ -12,6 +12,8 @@ import LoginPage from "@/app/(universe)/login/page";
 import RegisterPage from "@/app/(universe)/register/page";
 import AccountPage from "@/app/(universe)/account/page";
 import IntakePage from "@/app/(universe)/intake/page";
+import GuidePage from "@/app/(universe)/guide/page";
+import CookbookPage from "@/app/(universe)/cookbook/page";
 import ClientPortalPage from "@/app/client-portal/page";
 import CoachPage from "@/app/coach/page";
 import PlanDocument from "@/components/plans/PlanDocument";
@@ -54,6 +56,8 @@ const PAGES: [string, React.ReactElement][] = [
   ["/register", <RegisterPage key="register" />],
   ["/account", <AccountPage key="account" />],
   ["/intake", <IntakePage key="intake" />],
+  ["/guide", <GuidePage key="guide" />],
+  ["/cookbook", <CookbookPage key="cookbook" />],
   ["/client-portal", <ClientPortalPage key="portal" />],
   ["/coach", <CoachPage key="coach" />],
   ["/plan/waiting", <PlanDocument key="waiting" plan={{ status: "draft", clientName: "Alex" }} />],
