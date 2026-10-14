@@ -13,3 +13,45 @@
 :where(.universe) .nav__links a.nav__secondary,:where(.universe) .nav__drawer a.nav__secondary{color:#8a8b8b}
 :where(.universe) .hub__social-label{color:#8d908e}
 :where(.universe) .footer__legal,:where(.universe) .footer__legal span{color:#8c8d8c}
+
+/* ---- Unreleased offer pages (/guide, /cookbook). Review-only; not in the public nav. ---- */
+:where(.universe) .offer__hero{min-height:min(88svh,780px);padding:calc(var(--nav-h) + 2.75rem) 0 3.25rem;display:grid;align-items:end;position:relative;overflow:hidden}
+:where(.universe) .offer__bg{position:absolute;inset:0;z-index:0}
+:where(.universe) .offer__bg img{width:100%;height:100%;object-fit:cover;object-position:center 18%;filter:grayscale(.35) contrast(1.05) brightness(.7)}
+:where(.universe) .offer__veil{position:absolute;inset:0;background:linear-gradient(90deg,#050706f2 0%,#0507068c 48%,#050706c7 100%),linear-gradient(#05070666 0%,#0000 30%,#050706 100%)}
+:where(.universe) .offer__hero-copy{position:relative;z-index:1;max-width:40rem}
+:where(.universe) .offer__title{font-family:var(--font-display);letter-spacing:.02em;font-size:clamp(2.7rem,7.4vw,5.2rem);line-height:.92;margin:0 0 1rem;display:flex;flex-direction:column;gap:.15rem}
+:where(.universe) .offer__title .script{font-size:.72em;line-height:1}
+:where(.universe) .offer__tagline{color:var(--white);font-size:clamp(1.7rem,3.6vw,2.45rem);margin:0 0 .85rem}
+:where(.universe) .offer__lede{color:var(--white);font-size:clamp(1.05rem,2vw,1.28rem);max-width:38rem;margin:0 0 .85rem}
+:where(.universe) .offer__quiet{letter-spacing:.14em;text-transform:uppercase;color:var(--lime);font-size:.78rem;margin:0}
+:where(.universe) .offer__section{padding:clamp(3rem,7vw,5rem) 0}
+:where(.universe) .offer__section--band{border-top:1px solid var(--line)}
+:where(.universe) .offer__layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(180px,240px);gap:clamp(1rem,3vw,2rem);align-items:start}
+:where(.universe) .offer__layout .form__pillar-grid{grid-template-columns:1fr 1fr;margin-top:0}
+:where(.universe) .offer__placeholder{aspect-ratio:3/4;border:1px dashed var(--line-strong);border-radius:var(--radius);background:#0b100d;display:grid;align-content:center;justify-items:center;gap:.75rem;text-align:center;padding:1.25rem;color:var(--muted);font-size:.92rem}
+:where(.universe) .offer__split{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(1.25rem,4vw,3rem);align-items:start}
+:where(.universe) .offer__badge{display:inline-flex;align-items:center;border:1px solid var(--lime);color:var(--lime);letter-spacing:.16em;text-transform:uppercase;font-size:.62rem;font-weight:600;padding:.35rem .7rem;border-radius:var(--radius-pill);margin:0 0 .85rem}
+:where(.universe) .offer__flag{border:1px solid var(--line-strong);border-left:3px solid var(--lime);border-radius:var(--radius);padding:.95rem 1rem;margin:0 0 1.25rem;color:var(--white);font-size:.95rem;max-width:68ch}
+:where(.universe) .offer__price{display:flex;flex-wrap:wrap;gap:1.5rem 2.5rem;margin:0 0 1rem}
+:where(.universe) .offer__price span{display:block;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-size:.68rem;margin-bottom:.2rem}
+:where(.universe) .offer__price strong{font-family:var(--font-display);font-size:clamp(2.2rem,4vw,3rem);letter-spacing:.04em;font-weight:500}
+:where(.universe) .offer__form{border:1px solid var(--line-strong);border-radius:var(--radius);background:#0b100dd9;padding:1.35rem 1.25rem}
+:where(.universe) .offer__form label{display:block;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-size:.68rem;margin:0 0 .4rem}
+:where(.universe) .offer__form input[type="email"]{width:100%;min-height:48px;background:#050706;border:1px solid var(--line);color:var(--white);border-radius:10px;padding:.75rem 1rem;font:inherit;font-size:1rem;margin:0 0 1rem}
+:where(.universe) .offer__check{display:flex;align-items:flex-start;gap:.7rem;text-transform:none;letter-spacing:0;font-size:.9rem;line-height:1.45;color:var(--muted);margin:0 0 1rem}
+:where(.universe) .offer__check input{width:1.15rem;height:1.15rem;margin-top:.15rem;flex:none}
+:where(.universe) .offer__optional{color:var(--muted)}
+:where(.universe) .offer__note,:where(.universe) .offer__disclaimer{color:var(--muted);font-size:.9rem;line-height:1.55;margin:.85rem 0 0;max-width:62ch}
+:where(.universe) .offer__form .offer__note{margin-top:0}
+:where(.universe) .offer__form .offer__note + label{margin-top:1rem}
+:where(.universe) .offer a{text-decoration:underline;text-underline-offset:3px}
+:where(.universe) .offer a:hover{color:var(--lime)}
+:where(.universe) .offer button:disabled,:where(.universe) .offer .btn:disabled{opacity:.72;cursor:not-allowed;transform:none;box-shadow:none}
+:where(.universe) .offer__form .btn{margin-top:.25rem}
+@media (width<=900px){
+  :where(.universe) .offer__layout,:where(.universe) .offer__split{grid-template-columns:1fr}
+  :where(.universe) .offer__layout .form__pillar-grid{grid-template-columns:1fr}
+  :where(.universe) .offer__placeholder{aspect-ratio:16/9;max-width:100%}
+  :where(.universe) .offer__hero{min-height:0;padding-top:calc(var(--nav-h) + 1.75rem)}
+}
