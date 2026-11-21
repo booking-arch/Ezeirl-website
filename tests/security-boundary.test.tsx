@@ -39,7 +39,7 @@ const PRIVATE_PATTERNS = [
 ];
 
 /** Public hosts a page may link to: our own domain, font CDN, and the music/social profiles already published on the live site. */
-const PUBLIC_HOSTS = /^https:\/\/((www\.)?ezeirl\.com|fonts\.g|open\.spotify\.com|music\.apple\.com|music\.youtube\.com|soundcloud\.com|(www\.)?instagram\.com|(www\.)?tiktok\.com|(www\.)?youtube\.com|x\.com)(\/|$|\?)/;
+const PUBLIC_HOSTS = /^https:\/\/((www\.)?ezeirl\.com|fonts\.g|open\.spotify\.com|docs\.google\.com|music\.apple\.com|music\.youtube\.com|soundcloud\.com|(www\.)?instagram\.com|(www\.)?tiktok\.com|(www\.)?youtube\.com|x\.com)(\/|$|\?)/;
 
 const html = (el: React.ReactElement) => renderToStaticMarkup(el);
 const PAGES: [string, React.ReactElement][] = [

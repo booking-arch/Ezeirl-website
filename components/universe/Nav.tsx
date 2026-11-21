@@ -62,6 +62,9 @@ export default function Nav() {
           {active === "irl" && HOME_SECTIONS.map((s) => (
             <Link key={s.href} href={s.href} className="nav__secondary" onClick={() => setOpen(false)}>{s.label}</Link>
           ))}
+          <Link href="/intake" className={`nav__intake${pathname === "/intake" ? " is-active" : ""}`} aria-current={pathname === "/intake" ? "page" : undefined} onClick={() => setOpen(false)}>
+            NEW CLIENT INTAKE
+          </Link>
           <a href="#contact" onClick={() => contactClick("CONTACT")}>CONTACT</a>
           <AuthLink onNavigate={() => setOpen(false)} className="nav__auth" />
         </nav>
@@ -79,6 +82,9 @@ export default function Nav() {
         {active === "irl" && HOME_SECTIONS.map((s) => (
           <Link key={s.href} href={s.href} onClick={() => setOpen(false)}>{s.label}</Link>
         ))}
+        <Link href="/intake" className={`nav__intake${pathname === "/intake" ? " is-active" : ""}`} aria-current={pathname === "/intake" ? "page" : undefined} onClick={() => setOpen(false)}>
+          NEW CLIENT INTAKE
+        </Link>
         <a href="#contact" onClick={() => contactClick("CONTACT")}>CONTACT</a>
         <AuthLink onNavigate={() => setOpen(false)} />
         <a href="#contact" className="btn btn-ghost-lime" onClick={() => contactClick("JOIN THE MOVEMENT →")}>JOIN THE MOVEMENT →</a>

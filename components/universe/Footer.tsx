@@ -43,6 +43,7 @@ export default function Footer() {
         <nav className="footer__legal container" aria-label="Legal">
           <span>© {new Date().getFullYear()} EZE IRL · EZE-FIT private beta · Fitness made EZE</span>
           <span className="footer__legal-links">
+            <Link href="/intake">New Client Intake</Link>
             <Link href="/privacy">Privacy</Link>
             <Link href="/terms">Terms</Link>
             <Link href="/accessibility">Accessibility</Link>

@@ -8,6 +8,8 @@
 :where(.universe) .footer__legal-links{display:inline-flex;flex-wrap:wrap;gap:.25rem 1.25rem}
 :where(.universe) .footer__legal-links a{color:var(--muted);min-height:44px;display:inline-flex;align-items:center}
 :where(.universe) .footer__legal-links a:hover{color:var(--lime)}
+:where(.universe) .nav__links a.nav__intake,:where(.universe) .nav__drawer a.nav__intake{color:var(--lime)}
+@media (width<=1240px){:where(.universe) .nav__links a.nav__intake{display:none}}
 
 /* ---- Accessibility: WCAG AA text contrast (axe measured 3.4-4.05:1 on these; now >= 5:1 on the near-black backgrounds) ---- */
 :where(.universe) .nav__links a.nav__secondary,:where(.universe) .nav__drawer a.nav__secondary{color:#8a8b8b}
