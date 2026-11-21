@@ -5,7 +5,7 @@ const ga = process.env.NEXT_PUBLIC_GA_ID ? " https://www.googletagmanager.com" :
 const cspHeader = `
   default-src 'self';
   script-src 'self' 'unsafe-eval' 'unsafe-inline'${ga};
-  frame-src https://open.spotify.com;
+  frame-src https://open.spotify.com https://docs.google.com;
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
   font-src 'self' https://fonts.gstatic.com;
   img-src 'self' data: blob: https:;
